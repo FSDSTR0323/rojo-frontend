@@ -1,6 +1,8 @@
-# Food reporter 
+# Food reporter
+
 ## Devs:
-- Marc Maicas
+
+- Marc Maycas
 - Marisa Vicente
 - Marc Obiols
 - Enric Castelló
