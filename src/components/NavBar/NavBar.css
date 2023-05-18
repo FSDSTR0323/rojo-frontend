@@ -1,6 +1,6 @@
 nav {
     align-items: center;
-    background-color: greenyellow;
+    background-color: green;
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -19,13 +19,18 @@ nav {
 
 .buttons {
     background-color: white;
-    color: aqua;
+    color: rgb(53, 165, 239);
     width: 100px;
     padding: 10px;
     border-radius: 25px;
     border: 0;
+    font-weight:bolder ;
 }
 
 .logoName img {
     width: 100px;
+}
+
+.name {
+    color:  white;
 }
