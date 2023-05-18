@@ -1,0 +1,31 @@
+nav {
+    align-items: center;
+    background-color: greenyellow;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.logoName {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loginButtons {
+    display: flex;
+    gap: 10px
+}
+
+.buttons {
+    background-color: white;
+    color: aqua;
+    width: 100px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 0;
+}
+
+.logoName img {
+    width: 100px;
+}
