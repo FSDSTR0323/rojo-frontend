@@ -1,0 +1,10 @@
+export const HOME = '/'
+export const LOGIN ='/login'
+export const REGISTER ='/register'
+export const RECIPE ='/dashboard/recipes/recipes'
+export const DASHBOARD ='/dashboard'
+export const HACCP ='/dashboard/haccp'
+export const ADDRECIPE ='/dashboard/addrecipe'
+export const USERADMIN ='/dashboard/createuser'
+export const LOGOUT = '/logout'
+
