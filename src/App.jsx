@@ -10,9 +10,6 @@ import { PivateRoute } from './components/PivateRoute'
 import { UserAdmin } from './Pages/UserAdmin'
 import { Dashbord } from './Pages/Dashbord'
 
-
-
-
 function App() {  
 
   return (
