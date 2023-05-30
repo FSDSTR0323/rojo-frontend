@@ -6,7 +6,7 @@ import Recipes from './Pages/Recipes'
 import { NotFound } from './Pages/NotFound'
 import { ADDRECIPE, HACCP, HOME, LOGIN, REGISTER, USERADMIN, DASHBOARD, RECIPE } from './config/routes'
 import { Haccp } from './Pages/haccp'
-import { PivateRoute } from './components/PivateRoute'
+import { PivateRoute } from './components/Main/PrivateRoute/PivateRoute'
 import { UserAdmin } from './Pages/UserAdmin'
 import { Dashbord } from './Pages/Dashbord'
 

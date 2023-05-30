@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { ADDRECIPE, DASHBOARD, HOME } from '../config/routes'
-import roles, { currentRole } from '../config/roles'
+import { ADDRECIPE, DASHBOARD, HOME } from '../../../config/routes'
+import roles, { currentRole } from '../../../config/roles'
 
 export const PivateRoute = () => {
 

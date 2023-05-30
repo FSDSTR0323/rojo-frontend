@@ -1,11 +1,11 @@
-import React from 'react'
-import Menu from '../components/NavBar/Menu'
+import React from 'react';
+import Menu from '../components/NavBar/Menu';
 
 export const Home = () => {
-    return (
-        <div>
-            <Menu />
-            <h1>Home Page</h1>
-        </div>
-    )
-}
+	return (
+		<div>
+			<Menu />
+			<h1>Home Page</h1>
+		</div>
+	);
+};
