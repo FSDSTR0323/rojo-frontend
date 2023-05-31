@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export const AddRecipe = () => {
-    return (
-        <div>Hola quieres crear una nueva receta?</div>
-    )
-}
+  return <div>Hola quieres crear una nueva receta?</div>;
+};
