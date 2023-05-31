@@ -1,4 +1,4 @@
-import { Modal, Box } from '@mui/material'
+import { Modal, Box } from '@mui/material';
 
 const CustomModal = ({ children, open, onClose }) => {
   return (
@@ -8,7 +8,8 @@ const CustomModal = ({ children, open, onClose }) => {
         onClose={onClose}
         slotProps={{
           backdrop: { style: { backgroundColor: 'rgba(0, 0, 0, 0.8' } },
-        }}>
+        }}
+      >
         <Box
           sx={{
             position: 'absolute',
@@ -19,12 +20,13 @@ const CustomModal = ({ children, open, onClose }) => {
             bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
-          }}>
+          }}
+        >
           {children}
         </Box>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default CustomModal
+export default CustomModal;
