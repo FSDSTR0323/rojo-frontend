@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './Pages/Home';
 import { Login } from './Pages/Login';
 import { Register } from './Pages/Register';
-import Recipes from './Pages/Recipes';
+import { Recipes } from './Pages/Recipes';
 import { NotFound } from './Pages/NotFound';
 import {
   ADDRECIPE,
@@ -18,6 +18,7 @@ import { Haccp } from './Pages/haccp';
 import { PivateRoute } from './components/Main/PrivateRoute/PivateRoute';
 import { UserAdmin } from './Pages/UserAdmin';
 import { Dashbord } from './Pages/Dashbord';
+
 
 function App() {
   return (
