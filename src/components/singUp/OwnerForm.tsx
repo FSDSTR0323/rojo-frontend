@@ -1,18 +1,23 @@
 import { Container, Grid, Box, TextField, Button } from '@mui/material';
 import React from 'react';
+import axios from 'axios';
 
 type RegisterType={
     firstName: String;
     lastName: String;
+    customerEmail:  String;
     email:  String;
     phone: String;
-    address: String;
+    customerName: String;
+    customerAddress: String;
     cp: String;
     city: String;
     province: String;
+    customerCif: String;
     iban: String;
-    userName: String;
+    nickname: String;
     password: String;
+    role: String;
 }
 
 export const OwnerForm = () => {
@@ -20,15 +25,19 @@ export const OwnerForm = () => {
     const [registerData, setRegisterData]=React.useState<RegisterType>({
         firstName:"",
         lastName:"",
-        email:"",
+        customerEmail:"",
+        email:"",// TODO: Borrar duplicado
         phone:"",
-        address:"",
+        customerName:"",
+        customerAddress:"",
         cp:"",
         city:"",
         province:"",
+        customerCif:"",
         iban:"",
-        userName:"",
+        nickname:"",
         password:"",
+        role:"owner",
     })
     
     const dataRegister = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +46,7 @@ export const OwnerForm = () => {
 
     const handleSubmit = (e:React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        
+        axios.post('http://localhost:3000/user/register', registerData )
     }
 
     return (
@@ -74,7 +83,17 @@ export const OwnerForm = () => {
                         onChange={dataRegister}
                     />
                     <TextField 
-                        name="email"
+                        name="customerEmail"
+                        margin="normal"
+                        type="email"
+                        fullWidth
+                        label="Email"
+                        sx={{ mt:2, mb:1.5 }}
+                        required
+                        onChange={dataRegister}
+                    />
+                    <TextField // TODO: Borrar duplicado
+                        name="email" 
                         margin="normal"
                         type="email"
                         fullWidth
@@ -94,7 +113,17 @@ export const OwnerForm = () => {
                         onChange={dataRegister}
                     />
                     <TextField 
-                        name="address"
+                        name="customerName"
+                        margin="normal"
+                        type="text"
+                        fullWidth
+                        label="Nombre"
+                        sx={{ mt:2, mb:1.5 }}
+                        required
+                        onChange={dataRegister}
+                    />
+                    <TextField 
+                        name="customerAddress"
                         margin="normal"
                         type="text"
                         fullWidth
@@ -134,6 +163,16 @@ export const OwnerForm = () => {
                         onChange={dataRegister}
                     />
                     <TextField 
+                        name="customerCif"
+                        margin="normal"
+                        type="text"
+                        fullWidth
+                        label="CIF"
+                        sx={{ mt:2, mb:1.5 }}
+                        required
+                        onChange={dataRegister}
+                    />
+                    <TextField 
                         name="iban"
                         margin="normal"
                         type="text"
@@ -145,7 +184,7 @@ export const OwnerForm = () => {
                     /> 
                     <h2> Datos de usuario </h2>
                     <TextField 
-                        name="userName"
+                        name="nickname"
                         margin="normal"
                         type="text"
                         fullWidth
@@ -164,13 +203,14 @@ export const OwnerForm = () => {
                         required
                         onChange={dataRegister}
                     />
+                    
                     <Button 
                         fullWidth
                         type="submit"
                         sx={{ mt:1.5, mb:3 }}
                         variant="contained"
                         >
-                        Login
+                        Registrar
                     </Button>             
                 </Box>
             </Grid>
