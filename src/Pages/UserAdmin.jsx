@@ -1,9 +1,5 @@
-import React from 'react'
+import React from 'react';
 
 export const UserAdmin = () => {
-    return (
-        <div>
-            Yo creo usuarios
-        </div>
-    )
-}
+  return <div>Yo creo usuarios</div>;
+};

@@ -1,13 +1,17 @@
-const roles = [{
+const roles = [
+  {
     role: 'admin',
-},
-{
-    role: 'headchef'
-},
-{
-    role: 'chef'
-}]
+  },
+  {
+    role: 'headchef',
+  },
+  {
+    role: 'chef',
+  },
+];
+
 
 export const currentRole = 'admin'
 
-export default roles
+
+export default roles;
