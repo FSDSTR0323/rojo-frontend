@@ -49,7 +49,8 @@ export const OwnerForm = () => {
     const handleSubmit = async (e:React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3000/user/register', registerData )
+            const response = await axios.post('http://localhost:3000/user/register', registerData )
+            console.log ('', response.data)
         } catch (error){
             console.error(error);
             setFormErrors({});
