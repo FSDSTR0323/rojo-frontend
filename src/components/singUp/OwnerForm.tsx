@@ -44,9 +44,20 @@ export const OwnerForm = () => {
         setRegisterData ({...registerData, [e.target.name]: e.target.value})
     }
 
-    const handleSubmit = (e:React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        axios.post('http://localhost:3000/user/register', registerData )
+    const [formErrors, setFormErrors] = React.useState<any>({});
+
+    const handleSubmit = async (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:3000/user/register', registerData )
+        } catch (error){
+            console.error(error);
+            setFormErrors({});
+            if (error.response && error.response.data && error.response.data.errors) {
+                setFormErrors(error.response.data.errors);
+            }
+        }
+        
     }
 
     return (
@@ -90,6 +101,8 @@ export const OwnerForm = () => {
                         label="Email"
                         sx={{ mt:2, mb:1.5 }}
                         required
+                        error={!!formErrors.customerEmail}
+                        helperText={formErrors.customerEmail}
                         onChange={dataRegister}
                     />
                     <TextField // TODO: Borrar duplicado
@@ -117,9 +130,11 @@ export const OwnerForm = () => {
                         margin="normal"
                         type="text"
                         fullWidth
-                        label="Nombre"
+                        label="Nombre del restaurante"
                         sx={{ mt:2, mb:1.5 }}
                         required
+                        error={!!formErrors.customerName}
+                        helperText={formErrors.customerName}
                         onChange={dataRegister}
                     />
                     <TextField 
@@ -170,6 +185,8 @@ export const OwnerForm = () => {
                         label="CIF"
                         sx={{ mt:2, mb:1.5 }}
                         required
+                        error={!!formErrors.customerCif}
+                        helperText={formErrors.customerCif}
                         onChange={dataRegister}
                     />
                     <TextField 
@@ -191,6 +208,8 @@ export const OwnerForm = () => {
                         label="Nombre de usuario"
                         sx={{ mt:2, mb:1.5 }}
                         required
+                        error={!!formErrors.nickname}
+                        helperText={formErrors.nickname}
                         onChange={dataRegister}
                     />
                     <TextField 
@@ -217,81 +236,3 @@ export const OwnerForm = () => {
         </Container>
     )
 }
-
-
-
-/* 
-export class OwnerForm extends Component {
-    state = {
-        step: 1,
-        firstName:'',
-        lastName:'',
-        email:'',
-        telephone: '',
-        fullAdress:'',
-        cp:'',
-        city:'',
-        province:'',
-        iban:''
-            } 
-
-// Next step //
-    nextStep = () => {
-        const { step } = this.state;
-        this.setState({
-            step: step + 1
-        });
-    }
-
-// Go back to previous step //
-prevStep = () => {
-    const { step } = this.state;
-    this.setState({
-        step: step - 1
-        });
-    }
-
-// Handle fields change //
-    handleChange = input => e => {
-        this.setState({ [input]: e.target.value });
-    };
-
-// Depending on which step we're on, this will decide which component we want to display //
-  render() {
-const { step } = this.state;
-const { firstName, lastName, email, telephone, fullAdress, cp, city, province, iban } = this.state;
-const values = { firstName, lastName, email, telephone, fullAdress, cp, city, province, iban }
-    
-switch(step){
-    case 1:
-        return (
-        <FormOwnerDetails 
-        nextStep={this.nextStep}
-        handleChange={this.handleChange}
-        values={values}
-        />
-        );
-    case 2:
-        return (
-            <FormOwnerDetails
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            handleChange={this.handleChange}
-            values={values}
-            />
-            );
-    case 3:
-        return (
-            <FormOwnerConfirmation 
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            values={values}
-            />
-            );
-    case 4:
-        return <Success/>
-    }
-  }
-}
-
-export default OwnerForm*/
