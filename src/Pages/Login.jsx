@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { DASHBOARD, ADDRECIPE, HOME } from '../config/routes';
 import { currentRole } from '../config/roles';
+import { LoginForm } from '../components/LoginForm/LoginForm';
 export const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -20,10 +21,9 @@ export const Login = () => {
 
   const handleLoginButon = () => {};
   return (
-    <div>
-      <h1>Login</h1>
-      <p>Logeate por favor</p>
+    <>
+      <LoginForm />
       <NavLink to></NavLink>
-    </div>
+    </>
   );
 };

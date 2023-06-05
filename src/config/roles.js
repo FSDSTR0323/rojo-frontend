@@ -10,8 +10,4 @@ const roles = [
   },
 ];
 
-
-export const currentRole = 'admin'
-
-
 export default roles;
