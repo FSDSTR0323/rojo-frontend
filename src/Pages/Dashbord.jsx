@@ -12,7 +12,7 @@ export const Dashbord = () => {
         <button>HACCP</button>
       </Link>
       <Link to={USERADMIN}>
-        <button>Create User</button>
+        <button>Administrar Usuarios</button>
       </Link>
       <Link to={HOME}></Link>
     </div>

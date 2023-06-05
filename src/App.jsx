@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './Pages/Home';
 import { Login } from './Pages/Login';
@@ -18,9 +19,42 @@ import { Haccp } from './Pages/haccp';
 import { PivateRoute } from './components/Main/PrivateRoute/PivateRoute';
 import { UserAdmin } from './Pages/UserAdmin';
 import { Dashbord } from './Pages/Dashbord';
+import { CreateUser } from './Pages/CreateUser';
 
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Revisa si hi ha un token válid enmagatzemat al localStorage al carregar l'aplicación
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Log in i enmagatzematge del Token
+  const login = async (credentials) => {
+    try {
+      const response = await axios.post('http://localhost:3000/user/login', credentials);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      setToken(token);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // TODO: LogOut
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    setIsAuthenticated(false);
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -34,6 +68,7 @@ function App() {
             <Route path={HACCP} element={<Haccp />} />
             <Route path={ADDRECIPE} element={<Recipes />} />
             <Route path={USERADMIN} element={<UserAdmin />} />
+            <Route path={`${USERADMIN}/createuser`} element={<CreateUser token={token} isAuthenticated={isAuthenticated} />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
