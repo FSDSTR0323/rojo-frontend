@@ -7,13 +7,17 @@ import {
 } from '@mui/material';
 import React from 'react';
 import axios from 'axios'
+import { useUser } from '../../hooks/useUser'
 
 type LoginType = {
     nickname: String;
     password: String;
 }
-
+type ApiResponse = {
+    token: String;
+}
 export const LoginForm = () => {
+    //const {user, setUser} = useUser()
     const [loginData, setLoginData] = React.useState<LoginType>({
         nickname: "",
         password: ""
@@ -29,7 +33,12 @@ export const LoginForm = () => {
         e.preventDefault()
         console.log(loginData)
         try {
-            const response = await axios.post('http://localhost:3000/user/login', loginData)
+            const response:ApiResponse = await axios.post('http://localhost:3000/user/login', loginData)
+            //setUser({...user, token: response.token})
+            const responseUsersList = await axios.get('http://localhost:3000/user/list', {headers: {'Authorization': `Bearer ${response.token}`}
+        })
+           console.log(responseUsersList)
+
         } catch (error){
             setFormErrors({});
             console.log('login error: ', error)
