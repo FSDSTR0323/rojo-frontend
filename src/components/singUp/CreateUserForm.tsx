@@ -11,7 +11,7 @@ type RegisterType = {
   role: 'headchef' | 'chef';
 };
 
-export const CreateUserForm = ({ token, isAuthenticated }) => {
+export const CreateUserForm = ({ }) => {
   const [registerData, setRegisterData] = React.useState<RegisterType>({
     firstName: '',
     lastName: '',
@@ -55,7 +55,7 @@ export const CreateUserForm = ({ token, isAuthenticated }) => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="sm">
         <Grid 
         
         container 

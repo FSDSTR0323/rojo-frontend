@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CREATEUSER } from '../config/routes';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Search, Add } from '@mui/icons-material';
+import CustomModal from '../components/Main/CustomModal';
+import { CreateUserForm } from '../components/singUp/CreateUserForm';
 
 export const UserAdmin = () => {
+  const [isModalOpen, setIsModalOpen] = useState (false) 
+  const toggleAddUserModalHandler = () => {setIsModalOpen (!isModalOpen)}
   return (
+    <>
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography variant="h4" sx={{ mx: 3, mb: 4, textAlign: 'left' }}>
         Panel de gestión de usuarios
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
         <Button
-          component={Link}
-          to={CREATEUSER}
+          //component={Link}
+          //to={CREATEUSER}
+          onClick={toggleAddUserModalHandler}
           variant="contained"
           startIcon={<Add />}
           sx={{
@@ -55,6 +61,9 @@ export const UserAdmin = () => {
         </Box>
       </Box>
     </Box>
+
+    {isModalOpen && (<CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}><CreateUserForm/></CustomModal>)}
+    </>
   );
 };
 
