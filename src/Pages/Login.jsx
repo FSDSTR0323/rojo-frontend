@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { DASHBOARD, ADDRECIPE, HOME } from '../config/routes';
-import { currentRole } from '../config/roles';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 import Header from '../components/Header/Header';
+import { useUser } from '../hooks/useUser';
+
 export const Login = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    roles: currentRole,
-  });
+  const { user, setUser } = useUser();
 
   useEffect(() => {
-    if (user.roles == 'admin') {
+    if (user.isLoggedIn) {
       navigate(DASHBOARD);
-    } else if (user.roles == 'headchef') {
-      navigate(ADDRECIPE);
-    } else if (user.roles == 'chef') {
-      navigate(ADDRECIPE);
     }
+    //if (user.roles == 'admin') {
+    //navigate(DASHBOARD);
+    //} else if (user.roles == 'headchef') {
+    //navigate(ADDRECIPE);
+    // } else if (user.roles == 'chef') {
+    //navigate(ADDRECIPE);
   }, [user]);
 
   const handleLoginButon = () => {};

@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { LOGIN, REGISTER } from '../../config/routes';
 import { Login } from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 
 const pages = ['Register', 'Login'];
@@ -26,6 +26,7 @@ function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user, setUser } = useUser();
+  console.log(user);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -44,6 +45,10 @@ function Header() {
   };
 
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+  const isLoginPage = pathname == LOGIN;
+  const isRegisterPage = pathname == REGISTER;
 
   return (
     <AppBar position="static">
@@ -118,20 +123,26 @@ function Header() {
             >
               LOGO
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              <Button
-                onClick={() => navigate(REGISTER)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {'register'}
-              </Button>
-              <Button
-                onClick={() => navigate(LOGIN)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {'login'}
-              </Button>
-            </Box>
+            {user.isLoggedIn ? null : (
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                {isRegisterPage ? null : (
+                  <Button
+                    onClick={() => navigate(REGISTER)}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {'register'}
+                  </Button>
+                )}
+                {isLoginPage ? null : (
+                  <Button
+                    onClick={() => navigate(LOGIN)}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {'login'}
+                  </Button>
+                )}
+              </Box>
+            )}
             {user.isLoggedIn ? (
               <Box style={{ display: 'flex' }} sx={{ flexGrow: 0 }}>
                 <div>

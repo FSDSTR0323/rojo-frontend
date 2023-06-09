@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { ADDRECIPE, DASHBOARD, HOME } from '../../../config/routes';
-import { currentRole } from '../../../config/roles';
+import { useUser } from '../../../hooks/useUser';
 
 export const PrivateRoute = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    roles: currentRole,
-  });
+  const { user, setUser } = useUser();
 
   useEffect(() => {
-    user.roles; () => {} 
-    if (user.roles == 'admin') {
-    navigate(DASHBOARD);
-    } else if (user.roles == 'headchef') {
-    navigate(ADDRECIPE);
-    }else if (user.roles == 'chef') {
-    navigate(ADDRECIPE);
+    user.roles;
+    () => {};
+    if (user.info.role == 'admin') {
+      navigate(DASHBOARD);
+    } else if (user.info.role == 'headchef') {
+      navigate(ADDRECIPE);
+    } else if (user.info.role == 'chef') {
+      navigate(ADDRECIPE);
     } else {
-    navigate(HOME);
+      navigate(HOME);
     }
-
   }, [user]);
 
   return (
