@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './Pages/Home';
-import { Login } from './Pages/Login';
-import { Register } from './Pages/Register';
-import { Recipes } from './Pages/Recipes';
-import { NotFound } from './Pages/NotFound';
+import { Route, Routes } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Recipes } from './pages/Recipes';
+import { NotFound } from './pages/NotFound';
 import {
   ADDRECIPE,
   HACCP,
@@ -23,8 +23,7 @@ import { Dashbord } from './Pages/Dashbord';
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
+         <Routes>
           <Route path={HOME} element={<Home />} />
           <Route path={LOGIN} element={<Login />} />
           <Route path={REGISTER} element={<Register />} />
@@ -37,7 +36,6 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
     </>
   );
 }

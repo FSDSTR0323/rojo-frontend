@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { DASHBOARD, ADDRECIPE, HOME } from '../config/routes';
 import { currentRole } from '../config/roles';
 import { LoginForm } from '../components/LoginForm/LoginForm';
+import Header from '../components/Header/Header';
 export const Login = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -22,8 +23,8 @@ export const Login = () => {
   const handleLoginButon = () => {};
   return (
     <>
+      <Header />
       <LoginForm />
-      <NavLink to></NavLink>
     </>
   );
 };

@@ -12,15 +12,28 @@ import { useUser } from '../../hooks/useUser'
 type LoginType = {
     nickname: String;
     password: String;
-}
-type ApiResponse = {
     token: String;
 }
+type ApiResponse = {
+    data: {token: string};
+}
+
+type ApiResponseUser = {
+    data:{
+        email: String,
+        nikname: String,
+        permissions: [String],
+        role: String
+    }
+}
+
 export const LoginForm = () => {
-    //const {user, setUser} = useUser()
+    const data = useUser()
+    const {user, setUser} = data
     const [loginData, setLoginData] = React.useState<LoginType>({
         nickname: "",
-        password: ""
+        password: "",
+        token:""
     })
 
     const dataLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,15 +44,23 @@ export const LoginForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault()
-        console.log(loginData)
+        console.log('LoginForm, loginData:', loginData)
         try {
             const response:ApiResponse = await axios.post('http://localhost:3000/user/login', loginData)
-            //setUser({...user, token: response.token})
-            const responseUsersList = await axios.get('http://localhost:3000/user/list', {headers: {'Authorization': `Bearer ${response.token}`}
-        })
-           console.log(responseUsersList)
+            console.log('LoginForm response:' ,response)
+            const token = response.data.token
+            window.localStorage.setItem('token', token)
+            setUser({...user, token: response.data.token}) 
+            const responseUser:ApiResponseUser  = await axios.get('http://localhost:3000/user', {headers: {'Authorization': `Bearer ${response.data.token}`}})
+            setUser({...user, info:responseUser.data, isLoggedIn: true })
+            console.log('loginform, user', user)
+    
 
-        } catch (error){
+
+            console.log('LoginForm responseUsersList:', responseUser)
+            console.log('LoginForm response:', response)
+        }  
+        catch (error){
             setFormErrors({});
             console.log('login error: ', error)
             if (error.response && error.response.data && error.response.data.errors) {
@@ -57,6 +78,9 @@ export const LoginForm = () => {
                 justifyContent="center"
                 sx={{ minHeight: "100vh" }}
             >
+                <div>
+                  Hola {user?.info?.nickname}
+                </div>
                 <Box component="form" onSubmit={handleSubmit}>
                     <TextField 
                         name="nickname"
