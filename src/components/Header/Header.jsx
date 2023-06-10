@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-import { LOGIN, REGISTER } from '../../config/routes';
+import { DASHBOARD, LOGIN, REGISTER } from '../../config/routes';
 import { Login } from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -123,7 +123,9 @@ function Header() {
             >
               LOGO
             </Typography>
-            {user.isLoggedIn ? null : (
+            {user.isLoggedIn ? (
+              <Link to={DASHBOARD}>Dashboard</Link>
+            ) : (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {isRegisterPage ? null : (
                   <Button

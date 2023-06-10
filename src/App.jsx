@@ -27,12 +27,38 @@ function App() {
         <Route path={LOGIN} element={<Login />} />
         <Route path={REGISTER} element={<Register />} />
         <Route path={RECIPE} element={<Recipes />} />
-        <Route path={DASHBOARD} element={<PrivateRoute />}>
-          <Route index element={<Dashbord />} />
-          <Route path={HACCP} element={<Haccp />} />
-          <Route path={ADDRECIPE} element={<Recipes />} />
-          <Route path={USERADMIN} element={<UserAdmin />} />
-        </Route>
+        <Route
+          path={DASHBOARD}
+          element={
+            <PrivateRoute>
+              <Dashbord />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={HACCP}
+          element={
+            <PrivateRoute>
+              <Haccp />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={ADDRECIPE}
+          element={
+            <PrivateRoute>
+              <Recipes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={USERADMIN}
+          element={
+            <PrivateRoute>
+              <UserAdmin />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

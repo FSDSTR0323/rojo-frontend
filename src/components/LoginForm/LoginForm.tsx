@@ -49,16 +49,17 @@ export const LoginForm = () => {
             const response:ApiResponse = await axios.post('http://localhost:3000/user/login', loginData)
             console.log('LoginForm response:' ,response)
             const token = response.data.token
-            window.localStorage.setItem('token', token)
-            setUser({...user, token: response.data.token}) 
+            
             const responseUser:ApiResponseUser  = await axios.get('http://localhost:3000/user', {headers: {'Authorization': `Bearer ${response.data.token}`}})
-            setUser({...user, info:responseUser.data, isLoggedIn: true })
+            const userLocal = {token, info:responseUser.data, isLoggedIn: true }
+            setUser(userLocal)
             console.log('loginform, user', user)
     
 
 
             console.log('LoginForm responseUsersList:', responseUser)
             console.log('LoginForm response:', response)
+            window.localStorage.setItem('user', JSON.stringify(userLocal)) 
         }  
         catch (error){
             setFormErrors({});

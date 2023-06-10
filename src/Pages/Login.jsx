@@ -21,7 +21,6 @@ export const Login = () => {
     //navigate(ADDRECIPE);
   }, [user]);
 
-  const handleLoginButon = () => {};
   return (
     <>
       <Header />
