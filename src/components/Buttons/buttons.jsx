@@ -60,4 +60,5 @@ const Buttons = ({ toggleAddUserModalHandler, filterHandler, handleFilterChange,
   );
 };
 
+
 export default Buttons;
