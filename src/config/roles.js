@@ -1,6 +1,6 @@
 const roles = [
   {
-    role: 'admin',
+    role: 'owner',
   },
   {
     role: 'headchef',

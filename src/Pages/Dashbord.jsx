@@ -14,8 +14,6 @@ export const Dashbord = () => {
         navigate(ADDRECIPE);
       } else if (user.info.role == 'chef') {
         navigate(ADDRECIPE);
-      } else {
-        navigate(HOME);
       }
     }
   }, [user]);

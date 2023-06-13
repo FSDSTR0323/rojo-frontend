@@ -45,7 +45,6 @@ function Header() {
   };
 
   const navigate = useNavigate();
-
   const { pathname } = useLocation();
   const isLoginPage = pathname == LOGIN;
   const isRegisterPage = pathname == REGISTER;
@@ -124,7 +123,9 @@ function Header() {
               LOGO
             </Typography>
             {user.isLoggedIn ? (
-              <Link to={DASHBOARD}>Dashboard</Link>
+              <Button>
+                <Link to={DASHBOARD}>Dashboard</Link>
+              </Button>
             ) : (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {isRegisterPage ? null : (
@@ -147,11 +148,11 @@ function Header() {
             )}
             {user.isLoggedIn ? (
               <Box style={{ display: 'flex' }} sx={{ flexGrow: 0 }}>
-                <div>
+                <Button>
                   <p style={{ marginRight: '10px' }}>
                     Hola {user?.info?.nickname}{' '}
                   </p>
-                </div>
+                </Button>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
