@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-
+import Table from './Table';
 import React from 'react';
 
 const columns = [

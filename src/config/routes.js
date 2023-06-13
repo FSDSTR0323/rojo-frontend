@@ -5,5 +5,6 @@ export const RECIPE = '/dashboard/recipes/recipes';
 export const DASHBOARD = '/dashboard';
 export const HACCP = '/dashboard/haccp';
 export const ADDRECIPE = '/dashboard/addrecipe';
-export const USERADMIN = '/dashboard/createuser';
+export const USERADMIN = '/dashboard/useradmin';
+export const CREATEUSER = '/dashboard/useradmin/createuser';
 export const LOGOUT = '/logout';
