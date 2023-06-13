@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { LoginForm } from '../components/LoginForm/LoginForm';
+import { LoginForm } from './LoginForm';
 
 describe('should render a form to login', () => {
   test('should render a user name input', async () => {
