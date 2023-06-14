@@ -1,6 +1,6 @@
 const roles = [
   {
-    role: 'admin',
+    role: 'owner',
   },
   {
     role: 'headchef',
@@ -11,7 +11,7 @@ const roles = [
 ];
 
 
-export const currentRole = 'admin'
+//export const currentRole = 'headchef'
 
 
 export default roles;

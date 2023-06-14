@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './Pages/Home';
-import { Login } from './Pages/Login';
-import { Register } from './Pages/Register';
-import { Recipes } from './Pages/Recipes';
-import { NotFound } from './Pages/NotFound';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Recipes } from './pages/Recipes';
+import { NotFound } from './pages/NotFound';
 import {
   ADDRECIPE,
   HACCP,
@@ -16,63 +16,53 @@ import {
   RECIPE,
 } from './config/routes';
 import { Haccp } from './Pages/haccp';
-import { PivateRoute } from './components/Main/PrivateRoute/PivateRoute';
+import { PrivateRoute } from './components/Main/PrivateRoute/PrivateRoute';
 import { UserAdmin } from './Pages/UserAdmin';
 import { Dashbord } from './Pages/Dashbord';
 import { CreateUser } from './Pages/CreateUser';
 
-
-const App = () => {
-  const [token, setToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Revisa si hi ha un token válid enmagatzemat al localStorage al carregar l'aplicación
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-      setIsAuthenticated(true);
-    }
-  }, []);
-
-  // Log in i enmagatzematge del Token
-  const login = async (credentials) => {
-    try {
-      const response = await axios.post('http://localhost:3000/user/login', credentials);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      setToken(token);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // TODO: LogOut
-  const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setIsAuthenticated(false);
-  };
-
+function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path={HOME} element={<Home />} />
-          <Route path={LOGIN} element={<Login />} />
-          <Route path={REGISTER} element={<Register />} />
-          <Route path={RECIPE} element={<Recipes />} />
-          <Route path={DASHBOARD} element={<PivateRoute />}>
-            <Route index element={<Dashbord />} />
-            <Route path={HACCP} element={<Haccp />} />
-            <Route path={ADDRECIPE} element={<Recipes />} />
-            <Route path={USERADMIN} element={<UserAdmin />} />
-            <Route path={`${USERADMIN}/createuser`} element={<CreateUser token={token} isAuthenticated={isAuthenticated} />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path={HOME} element={<Home />} />
+        <Route path={LOGIN} element={<Login />} />
+        <Route path={REGISTER} element={<Register />} />
+        <Route path={RECIPE} element={<Recipes />} />
+        <Route
+          path={DASHBOARD}
+          element={
+            <PrivateRoute>
+              <Dashbord />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={HACCP}
+          element={
+            <PrivateRoute>
+              <Haccp />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={ADDRECIPE}
+          element={
+            <PrivateRoute>
+              <Recipes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={USERADMIN}
+          element={
+            <PrivateRoute>
+              <UserAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
