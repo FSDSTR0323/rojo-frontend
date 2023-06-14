@@ -1,9 +1,9 @@
 export const HOME = '/';
 export const LOGIN = '/login';
 export const REGISTER = '/register';
-export const RECIPE = '/recipes';
+export const RECIPES = '/recipes';
 export const DASHBOARD = '/dashboard';
 export const HACCP = '/haccp';
-export const ADDRECIPE = '/addrecipe';
-export const USERADMIN = '/createuser';
+export const ADDRECIPE = '/recipes/add'; 
+export const USERADMIN = '/usersadmin'; 
 export const LOGOUT = '/logout';

@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react';
-import { ADDRECIPE, HACCP, HOME, USERADMIN, DASHBOARD } from '../config/routes';
+import { RECIPES, HACCP, HOME, USERADMIN } from '../config/routes';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 
-export const Dashbord = () => {
+export const Dashboard = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
   //console.log('Dashboard.jsx, user:', user);
   useEffect(() => {
     if (user.isLoggedIn) {
       if (user.info.role == 'headchef') {
-        navigate(ADDRECIPE);
+        navigate(RECIPES);
       } else if (user.info.role == 'chef') {
-        navigate(ADDRECIPE);
+        navigate(RECIPES);
       }
     }
   }, [user]);
 
   return (
     <div>
-      <Link to={ADDRECIPE}>
-        <button>Add Recipe</button>
+      <Link to={RECIPES}>
+        <button>Recipes</button>
       </Link>
       <Link to={HACCP}>
         <button>HACCP</button>

@@ -6,20 +6,19 @@ import { Register } from './pages/Register';
 import { Recipes } from './pages/Recipes';
 import { NotFound } from './pages/NotFound';
 import {
-  ADDRECIPE,
   HACCP,
   HOME,
   LOGIN,
   REGISTER,
   USERADMIN,
   DASHBOARD,
-  RECIPE,
+  RECIPES,
 } from './config/routes';
 import { Haccp } from './Pages/haccp';
 import { PrivateRoute } from './components/Main/PrivateRoute/PrivateRoute';
 import { UserAdmin } from './Pages/UserAdmin';
-import { Dashbord } from './Pages/Dashbord';
-import { CreateUser } from './Pages/CreateUser';
+import { Dashboard } from './Pages/Dashboard';
+
 
 function App() {
   return (
@@ -28,12 +27,12 @@ function App() {
         <Route path={HOME} element={<Home />} />
         <Route path={LOGIN} element={<Login />} />
         <Route path={REGISTER} element={<Register />} />
-        <Route path={RECIPE} element={<Recipes />} />
+        <Route path={RECIPES} element={<Recipes />} />
         <Route
           path={DASHBOARD}
           element={
             <PrivateRoute>
-              <Dashbord />
+              <Dashboard />
             </PrivateRoute>
           }
         />
@@ -46,7 +45,7 @@ function App() {
           }
         />
         <Route
-          path={ADDRECIPE}
+          path={RECIPES}
           element={
             <PrivateRoute>
               <Recipes />
