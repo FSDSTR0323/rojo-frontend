@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import {
   Button,
-  Select,
-  MenuItem,
   TextField,
   Box,
   FormControl,
-  InputLabel,
-  FormHelperText,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
+import SelectRoles from './SelectRoles';
 
 const Buttons = ({
   toggleAddUserModalHandler,
   filterHandler,
-  handleFilterChange,
+  handleFilterRoleChange,
   filterValue,
+  filterRole,
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
@@ -43,32 +43,10 @@ const Buttons = ({
           Añadir Usuario
         </Button>
 
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel
-            id="select-rol-label"
-            sx={{ fontSize: '14px', alignItems: 'center' }}
-          >
-            Selecciona Rol
-          </InputLabel>
-          <Select
-            labelId="select-rol-label"
-            id="select-rol"
-            value={filterValue}
-            onChange={handleFilterChange}
-            sx={{
-              ml: 2,
-              '& .MuiSelect-select': {
-                height: 'auto',
-                padding: '8px',
-              },
-            }}
-          >
-            <MenuItem value="all">Todos</MenuItem>
-            <MenuItem value="admin">Administrador</MenuItem>
-            <MenuItem value="user">Usuario</MenuItem>
-          </Select>
+        <FormControl variant="outlined" sx={{ minWidth: 140 }}>
+          <SelectRoles value={filterRole} onChange={handleFilterRoleChange} />
         </FormControl>
-      </Box>
+      </Box> 
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <TextField
@@ -80,13 +58,33 @@ const Buttons = ({
           sx={{ borderRadius: '20px', width: '500px' }}
           InputProps={{
             endAdornment: (
-              <Search sx={{ color: 'grey.500', cursor: 'pointer' }} />
+              <InputAdornment position="end">
+                <IconButton>
+                  <Search sx={{ color: 'grey.500' }} />
+                </IconButton>
+              </InputAdornment>
             ),
           }}
         />
+        <Button
+          onClick={filterHandler}
+          variant="outlined"
+          startIcon={<Search />}
+          sx={{ textTransform: 'none', ml: 2 }}
+        >
+          Filtrar
+        </Button>
       </Box>
     </Box>
   );
 };
 
 export default Buttons;
+
+
+
+
+
+
+
+

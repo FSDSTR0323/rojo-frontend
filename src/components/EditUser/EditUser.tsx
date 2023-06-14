@@ -29,8 +29,6 @@ export const EditUserForm: React.FC = () => {
     nickname: '',
   });
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -79,9 +77,8 @@ export const EditUserForm: React.FC = () => {
       console.log(response.data);
     } catch (error) {
       console.error(error);
-      setFormErrors({});
       if (error.response && error.response.data && error.response.data.errors) {
-        setFormErrors(error.response.data.errors);
+        console.log('Form errors:', error.response.data.errors);
       }
     }
   };
@@ -163,3 +160,4 @@ export const EditUserForm: React.FC = () => {
     </Container>
   );
 };
+
