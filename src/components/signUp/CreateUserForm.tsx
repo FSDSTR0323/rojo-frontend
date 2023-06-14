@@ -9,67 +9,45 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 
-type UserType = {
-  id: string;
+type RegisterType = {
   firstName: string;
   lastName: string;
-  role: 'headchef' | 'chef';
   nickname: string;
+  password: string;
+  email: string;
+  role: 'headchef' | 'chef';
 };
 
-export const EditUserForm: React.FC = () => {
-  const [user, setUser] = React.useState<UserType>({
-    id: '',
+export const CreateUserForm = ({}) => {
+  const [registerData, setRegisterData] = React.useState<RegisterType>({
     firstName: '',
     lastName: '',
-    role: 'headchef',
     nickname: '',
+    password: '',
+    email: '',
+    role: 'headchef',
   });
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `http://localhost:3000/user/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  const handleChange = (
+  const dataRegister = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
+    setRegisterData({ ...registerData, [name]: value });
   };
+
+  const [formErrors, setFormErrors] = React.useState<any>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', token);
-      const response = await axios.put(
-        `http://localhost:3000/user/${user.id}`,
-        user,
+      const response = await axios.post(
+        'http://localhost:3000/user',
+        registerData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,10 +68,7 @@ export const EditUserForm: React.FC = () => {
     const value: 'headchef' | 'chef' = event.target.value as
       | 'headchef'
       | 'chef';
-    setUser((prevUser) => ({
-      ...prevUser,
-      role: value,
-    }));
+    setRegisterData({ ...registerData, role: value });
   };
 
   return (
@@ -106,7 +81,7 @@ export const EditUserForm: React.FC = () => {
         sx={{}}
       >
         <Box component="form" onSubmit={handleSubmit}>
-          <h2>Editar usuario</h2>
+          <h2>Crear nuevo usuario</h2>
           <TextField
             name="firstName"
             margin="normal"
@@ -115,8 +90,7 @@ export const EditUserForm: React.FC = () => {
             label="Nombre"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={user.firstName}
-            onChange={handleChange}
+            onChange={dataRegister}
           />
 
           <TextField
@@ -127,36 +101,65 @@ export const EditUserForm: React.FC = () => {
             label="Apellidos"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={user.lastName}
-            onChange={handleChange}
-          />
-          <TextField
-            id="Nombre de usuario"
-            label="Usuario"
-            sx={{ mt: 2, mb: 1.5 }}
-            value={user.nickname}
-            InputProps={{
-              readOnly: true,
-            }}
+            onChange={dataRegister}
           />
 
-          <InputLabel id="role-label" sx={{ mt: 2, mb: 1.5 }}>
-            Rol
-          </InputLabel>
+          <TextField
+            name="nickname"
+            margin="normal"
+            type="text"
+            fullWidth
+            label="Nombre de usuario"
+            sx={{ mt: 2, mb: 1.5 }}
+            required
+            error={!!formErrors.nickname}
+            helperText={formErrors.nickname}
+            onChange={dataRegister}
+          />
+
+          <TextField
+            name="password"
+            margin="normal"
+            type="password"
+            fullWidth
+            label="Contraseña"
+            sx={{ mt: 2, mb: 1.5 }}
+            required
+            onChange={dataRegister}
+          />
+
+          <TextField
+            name="email"
+            margin="normal"
+            type="email"
+            fullWidth
+            label="Email"
+            sx={{ mt: 2, mb: 1.5 }}
+            error={!!formErrors.email}
+            helperText={formErrors.email}
+            onChange={dataRegister}
+          />
+
+          <InputLabel id="role-label">Rol</InputLabel>
           <Select
+            labelId="role-label"
             name="role"
             margin="dense"
             fullWidth
-            labelId="role-label"
-            value={user.role}
+            value={registerData.role}
             onChange={handleRoleChange}
           >
-            <MenuItem value="headchef">Head Chef</MenuItem>
-            <MenuItem value="chef">Chef</MenuItem>
+            <MenuItem value="chef">Cocinero</MenuItem>
+            <MenuItem value="headchef">Jefe de Cocina</MenuItem>
           </Select>
 
-          <Button type="submit" variant="contained" color="primary">
-            Guardar
+          <Button
+            fullWidth
+            type="submit"
+            sx={{ mt: 1.5, mb: 3 }}
+            variant="contained"
+          >
+            Crear usuario
           </Button>
         </Box>
       </Grid>

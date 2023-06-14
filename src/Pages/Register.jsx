@@ -1,5 +1,5 @@
 import React from 'react';
-import { OwnerForm } from '../components/singUp/OwnerForm';
+import { OwnerForm } from '../components/SignUp/OwnerForm';
 import Header from '../components/Header/Header';
 
 export const Register = () => {
