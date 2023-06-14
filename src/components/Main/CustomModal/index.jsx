@@ -31,3 +31,4 @@ const CustomModal = ({ children, open, onClose }) => {
 };
 
 export default CustomModal;
+
