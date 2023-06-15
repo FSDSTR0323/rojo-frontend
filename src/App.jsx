@@ -19,7 +19,6 @@ import { PrivateRoute } from './components/Main/PrivateRoute/PrivateRoute';
 import { UserAdmin } from './Pages/UserAdmin';
 import { Dashboard } from './Pages/Dashboard';
 
-
 function App() {
   return (
     <>
