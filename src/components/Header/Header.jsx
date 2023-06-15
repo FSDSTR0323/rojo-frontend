@@ -18,6 +18,7 @@ import { Login } from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { colors } from '@mui/material';
 
 const pages = ['Register', 'Login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -44,10 +45,19 @@ function Header() {
     Navigate('./');
   };
 
+  const handleLogOut = () => {
+    window.localStorage.removeItem('user');
+    setUser({
+      isLoggedIn: false,
+      info: { role: 'guest' },
+    });
+  };
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isLoginPage = pathname == LOGIN;
   const isRegisterPage = pathname == REGISTER;
+  const isInDashboard = pathname == DASHBOARD;
 
   return (
     <AppBar position="static">
@@ -122,11 +132,7 @@ function Header() {
             >
               LOGO
             </Typography>
-            {user.isLoggedIn ? (
-              <Button>
-                <Link to={DASHBOARD}>Dashboard</Link>
-              </Button>
-            ) : (
+            {user.isLoggedIn ? null : (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {isRegisterPage ? null : (
                   <Button
@@ -148,8 +154,24 @@ function Header() {
             )}
             {user.isLoggedIn ? (
               <Box style={{ display: 'flex' }} sx={{ flexGrow: 0 }}>
+                {isInDashboard ? null : (
+                  <Button>
+                    <Link
+                      to={DASHBOARD}
+                      style={{ color: 'white', textDecoration: 'none' }}
+                    >
+                      Dashboard
+                    </Link>
+                  </Button>
+                )}
+                <Button
+                  onClick={handleLogOut}
+                  style={{ color: 'white', borderRight: 'solid 1px white' }}
+                >
+                  <span>Logout</span>
+                </Button>
                 <Button>
-                  <p style={{ marginRight: '10px' }}>
+                  <p style={{ marginRight: '10px', color: 'white' }}>
                     Hola {user?.info?.nickname}{' '}
                   </p>
                 </Button>

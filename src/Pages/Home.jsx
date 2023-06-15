@@ -1,5 +1,4 @@
 import React from 'react';
-import Menu from '../components/NavBar/Menu';
 import Header from '../components/Header/Header';
 
 export const Home = () => {
