@@ -8,24 +8,35 @@ import {
   Button,
 } from '@mui/material';
 
-const DeleteConfirmation = ({ open, onCancel, onConfirm, userToDelete, filteredUsers }) => {
+const DeleteConfirmation = ({ open, onCancel, onConfirm }) => {
   const cancelDeleteHandler = () => {
     onCancel();
+  };
+
+  const confirmDeleteHandler = () => {
+    onConfirm();
   };
 
   return (
     <Dialog open={open} onClose={cancelDeleteHandler}>
       <DialogTitle>Eliminar usuario</DialogTitle>
       <DialogContent>
-        <Typography>¿Estás seguro de querer eliminar el usuario {userToDelete.firstName} {userToDelete.lastName}?</Typography>
+        <Typography>
+          ¿Estás seguro de querer eliminar el usuario?
+        </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={cancelDeleteHandler}> Cancelar </Button>
-        <Button onClick={() => onConfirm(userToDelete, filteredUsers)} autoFocus> Confirmar </Button>
+        <Button onClick={cancelDeleteHandler}>Cancelar</Button>
+        <Button onClick={confirmDeleteHandler} autoFocus>
+          Confirmar
+        </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
 export default DeleteConfirmation;
+
+
+
 

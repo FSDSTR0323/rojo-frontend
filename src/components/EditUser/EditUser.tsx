@@ -16,34 +16,33 @@ type UserType = {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
   role: 'headchef' | 'chef';
   nickname: string;
+  modifiedBy: string;
 };
 
-export const EditUserForm: React.FC = () => {
+export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
   const [user, setUser] = React.useState<UserType>({
     id: '',
     firstName: '',
     lastName: '',
+    email: '',
     role: 'headchef',
     nickname: '',
+    modifiedBy: '',
   });
-
+  console.log('userid', userId)
   useEffect(() => {
+    console.log('l.37', userId)
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `http://localhost:3000/user/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
+        console.log('userid39', userId);
+        const response = await axios.get(`http://localhost:3000/user/${userId}`);
+        const userData = response.data;
+        setUser(userData);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user:', error);
       }
     };
 
@@ -62,11 +61,12 @@ export const EditUserForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("clic boton l.63", userId)
     try {
       const token = localStorage.getItem('token');
       console.log('Token:', token);
       const response = await axios.put(
-        `http://localhost:3000/user/${user.id}`,
+        `http://localhost:3000/user/${userId}`,
         user,
         {
           headers: {
@@ -128,6 +128,17 @@ export const EditUserForm: React.FC = () => {
             onChange={handleChange}
           />
           <TextField
+            name="email"
+            margin="normal"
+            type="email"
+            fullWidth
+            label="Email"
+            sx={{ mt: 2, mb: 1.5 }}
+            required
+            value={user.email}
+            onChange={handleChange}
+          />
+          <TextField
             id="Nombre de usuario"
             label="Usuario"
             sx={{ mt: 2, mb: 1.5 }}
@@ -160,4 +171,5 @@ export const EditUserForm: React.FC = () => {
     </Container>
   );
 };
+
 

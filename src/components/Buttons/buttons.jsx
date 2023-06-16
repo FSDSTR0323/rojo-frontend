@@ -6,16 +6,16 @@ import {
   FormControl,
   InputAdornment,
   IconButton,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
-import SelectRoles from './SelectRoles';
 
 const Buttons = ({
   toggleAddUserModalHandler,
   filterHandler,
-  handleFilterRoleChange,
+  handleFilterChange,
   filterValue,
-  filterRole,
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
@@ -44,9 +44,19 @@ const Buttons = ({
         </Button>
 
         <FormControl variant="outlined" sx={{ minWidth: 140 }}>
-          <SelectRoles value={filterRole} onChange={handleFilterRoleChange} />
+          <Select
+            value={filterValue}
+            onChange={(event) => filterHandler(event.target.value)}
+            displayEmpty
+            sx={{ minWidth: '150px', marginRight: '10px' }}
+          >
+            <MenuItem value="">Selecciona un rol</MenuItem>
+            <MenuItem value="Owner">Owner</MenuItem>
+            <MenuItem value="headchef">headchef</MenuItem>
+            <MenuItem value="chef">chef</MenuItem>
+          </Select>
         </FormControl>
-      </Box> 
+      </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <TextField
@@ -60,31 +70,17 @@ const Buttons = ({
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                  <Search sx={{ color: 'grey.500' }} />
+                  <Search sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }} />
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-        <Button
-          onClick={filterHandler}
-          variant="outlined"
-          startIcon={<Search />}
-          sx={{ textTransform: 'none', ml: 2 }}
-        >
-          Filtrar
-        </Button>
       </Box>
     </Box>
   );
 };
 
 export default Buttons;
-
-
-
-
-
-
 
 

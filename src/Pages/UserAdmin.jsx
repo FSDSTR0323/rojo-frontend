@@ -6,9 +6,8 @@ import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/EditUser/EditUser';
 import Buttons from '../components/Buttons/buttons';
-import SelectRoles from '../components/Buttons/SelectRoles';
-import DeleteConfirmation from '../components/Buttons/DeleteConfirmation';
 import { UserContext } from '../context/UserContext';
+import DeleteConfirmation from '../components/Buttons/Delete';
 
 export const UserAdmin = () => {
   const { user } = useContext(UserContext);
@@ -19,7 +18,6 @@ export const UserAdmin = () => {
   const [filter, setFilter] = useState('');
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [originalUserList, setOriginalUserList] = useState([]);
-  const [filterRole, setFilterRole] = useState('');
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -38,10 +36,15 @@ export const UserAdmin = () => {
     toggleAddUserModalHandler();
   };
 
-  const confirmDeleteUserHandler = (userToDelete, filteredUsers) => {
-    const updatedUserList = userList.filter((u) => u.id !== userToDelete.id);
-    setUserList(filteredUsers);
-    setOriginalUserList(filteredUsers);
+  const deleteUserHandler = (user) => {
+    setSelectedUser(user);
+    setDeleteConfirmationOpen(true);
+  };
+
+  const confirmDeleteUserHandler = () => {
+    const updatedUserList = userList.filter((u) => u.id !== selectedUser.id);
+    setUserList(updatedUserList);
+    setOriginalUserList(updatedUserList);
     setDeleteConfirmationOpen(false);
   };
 
@@ -49,20 +52,16 @@ export const UserAdmin = () => {
     setDeleteConfirmationOpen(false);
   };
 
-  const deleteUserHandler = (user) => {
-    setSelectedUser(user);
-    setDeleteConfirmationOpen(true);
+  const filterHandler = (value) => {
+    setFilter(value);
+    handleFilterChange(value);
   };
 
-  const handleFilterRoleChange = (event) => {
-    setFilterRole(event.target.value);
-  };
-
-  const handleFilterChange = () => {
-    if (filterRole === 'all') {
+  const handleFilterChange = (value) => {
+    if (value === 'all') {
       setUserList(originalUserList);
     } else {
-      const filteredUsers = originalUserList.filter((user) => user.role === filterRole);
+      const filteredUsers = originalUserList.filter((user) => user.role === value);
       setUserList(filteredUsers);
     }
   };
@@ -98,11 +97,6 @@ export const UserAdmin = () => {
           filterValue={filter}
         />
 
-        <SelectRoles
-          filterRole={filterRole}
-          handleFilterRoleChange={handleFilterRoleChange}
-        />
-
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0px 3%' }}>
           <TableContainer component={Paper} sx={{ marginTop: 20 }}>
             <Table sx={{ minWidth: 750 }}>
@@ -117,7 +111,7 @@ export const UserAdmin = () => {
               <TableBody>
                 {Array.isArray(userList) &&
                   userList.map((user) => (
-                    <TableRow key={user.id}>
+                    <TableRow key={user._id}>
                       <TableCell sx={{ textAlign: 'left' }}>
                         {user.firstName}
                       </TableCell>
@@ -146,6 +140,7 @@ export const UserAdmin = () => {
                     </TableRow>
                   ))}
               </TableBody>
+
             </Table>
           </TableContainer>
         </Box>
@@ -157,7 +152,7 @@ export const UserAdmin = () => {
 
       {selectedUser && (
         <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <EditUserForm user={selectedUser} />
+          <EditUserForm userId={selectedUser._id} />
         </CustomModal>
       )}
 
@@ -165,12 +160,16 @@ export const UserAdmin = () => {
         open={deleteConfirmationOpen}
         onCancel={cancelDeleteUserHandler}
         onConfirm={confirmDeleteUserHandler}
-        userToDelete={selectedUser}
-        filteredUsers={userList.filter((user) => user.role === filter)}
       />
     </>
   );
 };
+
+
+
+
+
+
 
 
 
