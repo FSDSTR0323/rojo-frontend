@@ -11,16 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { DASHBOARD, LOGIN, REGISTER } from '../../config/routes';
-import { Login } from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
+import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../Logo/Logo';
-import { colors } from '@mui/material';
 
-const pages = ['Register', 'Login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -42,7 +39,7 @@ function Header() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    Navigate('./');
+    navigate('./');
   };
 
   const handleLogOut = () => {
@@ -59,17 +56,21 @@ function Header() {
   const isRegisterPage = pathname == REGISTER;
   const isInDashboard = pathname == DASHBOARD;
 
+  // TODO: Show the burger icon in small screens also when the user has been logged in
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{ marginBottom: 4, backgroundColor: '#1c5a1c' }}
+    >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
           style={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <div>
+          <Box>
             <Logo />
-          </div>
-          <div>
+          </Box>
+          <Box>
             {user.isLoggedIn ? null : (
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
@@ -113,25 +114,6 @@ function Header() {
                 </Menu>
               </Box>
             )}
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
             {user.isLoggedIn ? null : (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {isRegisterPage ? null : (
@@ -207,7 +189,7 @@ function Header() {
                 </Menu>
               </Box>
             ) : null}
-          </div>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
