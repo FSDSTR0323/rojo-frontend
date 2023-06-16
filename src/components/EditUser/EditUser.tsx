@@ -63,7 +63,8 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
     e.preventDefault();
     console.log("clic boton l.63", userId)
     try {
-      const token = localStorage.getItem('token');
+      const a = localStorage.getItem('user');
+      const token = JSON.parse(a).token;
       console.log('Token:', token);
       const response = await axios.put(
         `http://localhost:3000/user/${userId}`,
