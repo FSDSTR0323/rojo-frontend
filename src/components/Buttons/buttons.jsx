@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Select,
@@ -7,13 +7,11 @@ import {
   Box,
   FormControl,
   InputLabel,
-  FormHelperText,
 } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 
 const Buttons = ({
   toggleAddUserModalHandler,
-  filterHandler,
   handleFilterChange,
   filterValue,
 }) => {
