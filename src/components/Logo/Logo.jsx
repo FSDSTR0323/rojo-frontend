@@ -1,11 +1,16 @@
-import React from 'react';
+import { Box } from '@mui/material';
 import logo from '../../assets/Logo.png';
+
+const styles = {
+  maxHeight: { xs: '5em' },
+  padding: '0.5em',
+  borderRadius: '1em',
+  marginTop: '2px',
+};
 
 const Logo = () => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <img src={logo} style={{ width: '100px' }} alt="Food Informer Logo" />
-    </div>
+    <Box component="img" alt="Food Informer Logo" sx={styles} src={logo} />
   );
 };
 

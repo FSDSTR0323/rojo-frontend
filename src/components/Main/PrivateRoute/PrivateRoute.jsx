@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HOME } from '../../../config/routes';
 import { useUser } from '../../../hooks/useUser';
-import Header from '../../Header/Header';
 
 export const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ export const PrivateRoute = ({ children }) => {
 
   return (
     <>
-      <Header />
       {children}
     </>
   );

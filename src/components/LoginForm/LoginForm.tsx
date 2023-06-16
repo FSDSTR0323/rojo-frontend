@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, TextField } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
@@ -74,9 +74,10 @@ export const LoginForm = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        sx={{ minHeight: '100vh' }}
+        pt={4}
+        sx={{ minHeight: '70vh' }}
       >
-        <div>Hola {user?.info?.nickname}</div>
+        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>Log in</Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             name="nickname"

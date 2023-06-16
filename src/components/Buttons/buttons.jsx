@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   TextField,
@@ -13,7 +13,6 @@ import { Add, Search } from '@mui/icons-material';
 
 const Buttons = ({
   toggleAddUserModalHandler,
-  filterHandler,
   handleFilterChange,
   filterValue,
 }) => {
