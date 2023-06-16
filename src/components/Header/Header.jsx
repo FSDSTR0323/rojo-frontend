@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { DASHBOARD, LOGIN, REGISTER } from '../../config/routes';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
-import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../Logo/Logo';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -24,7 +23,6 @@ function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user, setUser } = useUser();
-  console.log(user);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -161,7 +159,7 @@ function Header() {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
+                      src="/src/assets/Logo.png"
                     />
                   </IconButton>
                 </Tooltip>
