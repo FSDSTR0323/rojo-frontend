@@ -3,11 +3,11 @@ import { RECIPES, HACCP, HOME, USERADMIN } from '../config/routes';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
+import DashboardButtons from '../components/Buttons/DashboardButtons';
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
-  //console.log('Dashboard.jsx, user:', user);
   useEffect(() => {
     if (user.isLoggedIn) {
       if (user.info.role == 'headchef') {
@@ -20,7 +20,8 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <Link to={RECIPES}>
+      <DashboardButtons />
+      {/* <Link to={RECIPES}>
         <button>Recipes</button>
       </Link>
       <Link to={HACCP}>
@@ -29,7 +30,8 @@ export const Dashboard = () => {
       <Link to={USERADMIN}>
         <button>Administrar Usuarios</button>
       </Link>
-      <Link to={HOME}></Link>
+      <Link to={HOME}></Link> */}
+
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto quas
         perspiciatis laborum quasi vitae quae cumque temporibus voluptates,

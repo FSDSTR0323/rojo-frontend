@@ -13,12 +13,24 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-import { DASHBOARD, LOGIN, REGISTER } from '../../config/routes';
-import { Login } from '@mui/icons-material';
+import {
+  DASHBOARD,
+  HOME,
+  LOGIN,
+  RECIPES,
+  REGISTER,
+  USERADMIN,
+} from '../../config/routes';
+import {
+  AlignHorizontalCenter,
+  AlignVerticalCenter,
+  Login,
+} from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { colors } from '@mui/material';
+import { alignProperty } from '@mui/material/styles/cssUtils';
 
 const pages = ['Register', 'Login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -45,12 +57,13 @@ function Header() {
     Navigate('./');
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = (removeInfo, goHome) => {
     window.localStorage.removeItem('user');
     setUser({
       isLoggedIn: false,
       info: { role: 'guest' },
     });
+    navigate(HOME);
   };
 
   const navigate = useNavigate();
@@ -58,6 +71,8 @@ function Header() {
   const isLoginPage = pathname == LOGIN;
   const isRegisterPage = pathname == REGISTER;
   const isInDashboard = pathname == DASHBOARD;
+  const isInUsersAdmin = pathname == USERADMIN;
+  const isInRecipes = pathname == RECIPES;
 
   return (
     <AppBar position="static">
@@ -66,8 +81,9 @@ function Header() {
           disableGutters
           style={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <div>
+          <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
             <Logo />
+            <h1>Food Informer</h1>
           </div>
           <div>
             {user.isLoggedIn ? null : (
@@ -162,6 +178,22 @@ function Header() {
                     >
                       Dashboard
                     </Link>
+                  </Button>
+                )}
+                {isInUsersAdmin ? null : (
+                  <Button
+                    onClick={() => navigate(USERADMIN)}
+                    style={{ color: 'white' }}
+                  >
+                    Usuarios
+                  </Button>
+                )}
+                {isInRecipes ? null : (
+                  <Button
+                    onClick={() => navigate(RECIPES)}
+                    style={{ color: 'white' }}
+                  >
+                    Recetas
                   </Button>
                 )}
                 <Button
