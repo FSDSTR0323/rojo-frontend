@@ -11,35 +11,24 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import {
   DASHBOARD,
-  HOME,
   LOGIN,
-  RECIPES,
   REGISTER,
   USERADMIN,
+  RECIPES,
 } from '../../config/routes';
-import {
-  AlignHorizontalCenter,
-  AlignVerticalCenter,
-  Login,
-} from '@mui/icons-material';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import { colors } from '@mui/material';
-import { alignProperty } from '@mui/material/styles/cssUtils';
 
-const pages = ['Register', 'Login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user, setUser } = useUser();
-  console.log(user);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -54,7 +43,7 @@ function Header() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    Navigate('./');
+    navigate('./');
   };
 
   const handleLogOut = (removeInfo, goHome) => {
@@ -74,18 +63,21 @@ function Header() {
   const isInUsersAdmin = pathname == USERADMIN;
   const isInRecipes = pathname == RECIPES;
 
+  // TODO: Show the burger icon in small screens also when the user has been logged in
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{ marginBottom: 4, backgroundColor: '#1c5a1c' }}
+    >
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
           style={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+          <Box>
             <Logo />
-            <h1>Food Informer</h1>
-          </div>
-          <div>
+          </Box>
+          <Box>
             {user.isLoggedIn ? null : (
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
@@ -129,25 +121,6 @@ function Header() {
                 </Menu>
               </Box>
             )}
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
             {user.isLoggedIn ? null : (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {isRegisterPage ? null : (
@@ -209,10 +182,7 @@ function Header() {
                 </Button>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
-                    />
+                    <Avatar alt="Remy Sharp" src="/src/assets/Logo.png" />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -239,7 +209,7 @@ function Header() {
                 </Menu>
               </Box>
             ) : null}
-          </div>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>

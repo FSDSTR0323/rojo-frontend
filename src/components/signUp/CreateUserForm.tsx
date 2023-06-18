@@ -1,3 +1,5 @@
+import React from 'react';
+import axios from 'axios';
 import {
   Container,
   Grid,
@@ -8,9 +10,10 @@ import {
   InputLabel,
   Select,
   SelectChangeEvent,
+  Snackbar,
+  Alert
 } from '@mui/material';
-import React from 'react';
-import axios from 'axios';
+import { useUser } from '../../hooks/useUser';
 
 type RegisterType = {
   firstName: string;
@@ -21,7 +24,9 @@ type RegisterType = {
   role: 'headchef' | 'chef';
 };
 
-export const CreateUserForm = ({}) => {
+export const CreateUserForm = () => {
+  const { user } = useUser();
+
   const [registerData, setRegisterData] = React.useState<RegisterType>({
     firstName: '',
     lastName: '',
@@ -43,8 +48,7 @@ export const CreateUserForm = ({}) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      console.log('Token:', token);
+      const token = user.token;
       const response = await axios.post(
         'http://localhost:3000/user',
         registerData,
@@ -55,20 +59,39 @@ export const CreateUserForm = ({}) => {
         }
       );
       console.log(response.data);
+      setIsSnackbarOpen(true); 
+      handleCloseModal(); 
     } catch (error) {
       console.error(error);
       setFormErrors({});
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.errors
+      ) {
         setFormErrors(error.response.data.errors);
       }
     }
   };
 
-  const handleRoleChange = (event: SelectChangeEvent<'headchef' | 'chef'>) => {
+  const handleRoleChange = (
+    event: SelectChangeEvent<'headchef' | 'chef'>
+  ) => {
     const value: 'headchef' | 'chef' = event.target.value as
       | 'headchef'
       | 'chef';
     setRegisterData({ ...registerData, role: value });
+  };
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(true);
+
+  const handleSnackbarClose = () => {
+    setIsSnackbarOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -80,14 +103,22 @@ export const CreateUserForm = ({}) => {
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit}>
-          <h2>Crear nuevo usuario</h2>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          display={isModalOpen ? 'block' : 'none'}
+          bgcolor="background.paper"
+          p={3}
+          borderRadius={4}
+          boxShadow={1}
+        >
+          <h2>Create a new user</h2>
           <TextField
             name="firstName"
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre"
+            label="Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -98,7 +129,7 @@ export const CreateUserForm = ({}) => {
             margin="normal"
             type="text"
             fullWidth
-            label="Apellidos"
+            label="Surname"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -109,7 +140,7 @@ export const CreateUserForm = ({}) => {
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre de usuario"
+            label="User Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             error={!!formErrors.nickname}
@@ -149,8 +180,8 @@ export const CreateUserForm = ({}) => {
             value={registerData.role}
             onChange={handleRoleChange}
           >
-            <MenuItem value="chef">Cocinero</MenuItem>
-            <MenuItem value="headchef">Jefe de Cocina</MenuItem>
+            <MenuItem value="chef">Chef</MenuItem>
+            <MenuItem value="headchef">Head Chef</MenuItem>
           </Select>
 
           <Button
@@ -162,7 +193,23 @@ export const CreateUserForm = ({}) => {
             Crear usuario
           </Button>
         </Box>
+        
       </Grid>
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        sx={{ width: '300px', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)' }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          User succesfully created 
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
+

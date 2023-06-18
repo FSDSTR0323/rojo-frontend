@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
-  Select,
-  MenuItem,
   TextField,
   Box,
   FormControl,
-  InputLabel,
-  FormHelperText,
+  InputAdornment,
+  IconButton,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { Add, Search } from '@mui/icons-material';
 
 const Buttons = ({
   toggleAddUserModalHandler,
-  filterHandler,
   handleFilterChange,
   filterValue,
 }) => {
@@ -43,29 +42,17 @@ const Buttons = ({
           Añadir Usuario
         </Button>
 
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel
-            id="select-rol-label"
-            sx={{ fontSize: '14px', alignItems: 'center' }}
-          >
-            Selecciona Rol
-          </InputLabel>
+        <FormControl variant="outlined" sx={{ minWidth: 140 }}>
           <Select
-            labelId="select-rol-label"
-            id="select-rol"
             value={filterValue}
-            onChange={handleFilterChange}
-            sx={{
-              ml: 2,
-              '& .MuiSelect-select': {
-                height: 'auto',
-                padding: '8px',
-              },
-            }}
+            onChange={(event) => filterHandler(event.target.value)}
+            displayEmpty
+            sx={{ minWidth: '150px', marginRight: '10px' }}
           >
-            <MenuItem value="all">Todos</MenuItem>
-            <MenuItem value="admin">Administrador</MenuItem>
-            <MenuItem value="user">Usuario</MenuItem>
+            <MenuItem value="">Selecciona un rol</MenuItem>
+            <MenuItem value="Owner">Owner</MenuItem>
+            <MenuItem value="headchef">headchef</MenuItem>
+            <MenuItem value="chef">chef</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -80,7 +67,11 @@ const Buttons = ({
           sx={{ borderRadius: '20px', width: '500px' }}
           InputProps={{
             endAdornment: (
-              <Search sx={{ color: 'grey.500', cursor: 'pointer' }} />
+              <InputAdornment position="end">
+                <IconButton>
+                  <Search sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }} />
+                </IconButton>
+              </InputAdornment>
             ),
           }}
         />
@@ -90,3 +81,5 @@ const Buttons = ({
 };
 
 export default Buttons;
+
+

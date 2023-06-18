@@ -11,41 +11,39 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from '../../hooks/useUser';
 
 type UserType = {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
   role: 'headchef' | 'chef';
   nickname: string;
+  modifiedBy: string;
 };
 
-export const EditUserForm: React.FC = () => {
-  const [user, setUser] = React.useState<UserType>({
+export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
+  const { user } = useUser()
+
+  const [editedUser, setEditedUser] = React.useState<UserType>({
     id: '',
     firstName: '',
     lastName: '',
+    email: '',
     role: 'headchef',
     nickname: '',
+    modifiedBy: '',
   });
-
-  const [formErrors, setFormErrors] = React.useState<any>({});
-
   useEffect(() => {
+
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `http://localhost:3000/user/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
+        const response = await axios.get(`http://localhost:3000/user/${userId}`);
+        const userData = response.data;
+        setEditedUser(userData);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user:', error);
       }
     };
 
@@ -56,7 +54,7 @@ export const EditUserForm: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
+    setEditedUser((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
@@ -64,24 +62,22 @@ export const EditUserForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const token = localStorage.getItem('token');
-      console.log('Token:', token);
+      const token = user.token;
       const response = await axios.put(
-        `http://localhost:3000/user/${user.id}`,
-        user,
+        `http://localhost:3000/user/${userId}`,
+        editedUser,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(response.data);
+
     } catch (error) {
-      console.error(error);
-      setFormErrors({});
       if (error.response && error.response.data && error.response.data.errors) {
-        setFormErrors(error.response.data.errors);
+        console.log('Form errors:', error.response.data.errors);
       }
     }
   };
@@ -90,7 +86,7 @@ export const EditUserForm: React.FC = () => {
     const value: 'headchef' | 'chef' = event.target.value as
       | 'headchef'
       | 'chef';
-    setUser((prevUser) => ({
+      setEditedUser((prevUser) => ({
       ...prevUser,
       role: value,
     }));
@@ -115,7 +111,7 @@ export const EditUserForm: React.FC = () => {
             label="Nombre"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={user.firstName}
+            value={editedUser.firstName}
             onChange={handleChange}
           />
 
@@ -127,14 +123,25 @@ export const EditUserForm: React.FC = () => {
             label="Apellidos"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={user.lastName}
+            value={editedUser.lastName}
+            onChange={handleChange}
+          />
+          <TextField
+            name="email"
+            margin="normal"
+            type="email"
+            fullWidth
+            label="Email"
+            sx={{ mt: 2, mb: 1.5 }}
+            required
+            value={editedUser.email}
             onChange={handleChange}
           />
           <TextField
             id="Nombre de usuario"
             label="Usuario"
             sx={{ mt: 2, mb: 1.5 }}
-            value={user.nickname}
+            value={editedUser.nickname}
             InputProps={{
               readOnly: true,
             }}
@@ -148,7 +155,7 @@ export const EditUserForm: React.FC = () => {
             margin="dense"
             fullWidth
             labelId="role-label"
-            value={user.role}
+            value={editedUser.role}
             onChange={handleRoleChange}
           >
             <MenuItem value="headchef">Head Chef</MenuItem>
@@ -163,3 +170,5 @@ export const EditUserForm: React.FC = () => {
     </Container>
   );
 };
+
+
