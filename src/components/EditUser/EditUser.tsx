@@ -101,17 +101,17 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ backgroundColor: '#fff', padding: '20px', borderRadius: '4px' }}>
           <h2>Editar usuario</h2>
           <TextField
             name="firstName"
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre"
+            label="Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={editedUser.firstName}
+            defaultValue={editedUser.firstName}
             onChange={handleChange}
           />
 
@@ -120,10 +120,10 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
             margin="normal"
             type="text"
             fullWidth
-            label="Apellidos"
+            label="Surname"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            value={editedUser.lastName}
+            defaultValue={editedUser.lastName}
             onChange={handleChange}
           />
           <TextField
@@ -132,22 +132,23 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
             type="email"
             fullWidth
             label="Email"
-            sx={{ mt: 2, mb: 1.5 }}
-            required
-            value={editedUser.email}
-            onChange={handleChange}
+            sx={{ mt: 2, mb: 1.5 }}            
+            defaultValue={editedUser.email}
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
-            id="Nombre de usuario"
-            label="Usuario"
+            id="nickname"
+            label="User name"
             sx={{ mt: 2, mb: 1.5 }}
-            value={editedUser.nickname}
+            defaultValue={editedUser.nickname}
             InputProps={{
               readOnly: true,
             }}
           />
 
-          <InputLabel id="role-label" sx={{ mt: 2, mb: 1.5 }}>
+          <InputLabel id="role-label" sx={{ mt: 2, mb: 2 }}>
             Rol
           </InputLabel>
           <Select
@@ -161,9 +162,15 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
             <MenuItem value="headchef">Head Chef</MenuItem>
             <MenuItem value="chef">Chef</MenuItem>
           </Select>
+          
 
-          <Button type="submit" variant="contained" color="primary">
-            Guardar
+          <Button
+            fullWidth
+            type="submit"
+            sx={{ mt: 1.5 }}
+            variant="contained"
+          >
+            Save
           </Button>
         </Box>
       </Grid>

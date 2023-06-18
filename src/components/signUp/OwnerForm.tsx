@@ -72,13 +72,13 @@ export const OwnerForm = () => {
         sx={{}}
       >
         <Box component="form" onSubmit={handleSubmit}>
-          <h2> Indicanos tus datos fiscales </h2>
+          <h2> Complete your tax data </h2>
           <TextField
             name="firstName"
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre"
+            label="Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -89,7 +89,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Apellidos"
+            label="Surname"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -105,17 +105,7 @@ export const OwnerForm = () => {
             error={!!formErrors.customerEmail}
             helperText={formErrors.customerEmail}
             onChange={dataRegister}
-          />
-          <TextField // TODO: Borrar duplicado
-            name="email"
-            margin="normal"
-            type="email"
-            fullWidth
-            label="Email"
-            sx={{ mt: 2, mb: 1.5 }}
-            required
-            onChange={dataRegister}
-          />
+          />          
           <TextField
             name="phone"
             margin="normal"
@@ -143,7 +133,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Dirección completa"
+            label="Complete Address"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -163,7 +153,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Población"
+            label="City"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -173,7 +163,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Provincia"
+            label="Province"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -206,7 +196,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre de usuario"
+            label="User name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             error={!!formErrors.nickname}
@@ -230,7 +220,7 @@ export const OwnerForm = () => {
             sx={{ mt: 1.5, mb: 3 }}
             variant="contained"
           >
-            Registrar
+            Register
           </Button>
         </Box>
       </Grid>

@@ -8,6 +8,7 @@ import { EditUserForm } from '../components/EditUser/EditUser';
 import Buttons from '../components/Buttons/buttons';
 import { UserContext } from '../context/UserContext';
 import DeleteConfirmation from '../components/Buttons/Delete';
+import { UserDetails } from '../components/UserDetails/UserDetails';
 
 export const UserAdmin = () => {
   const { user } = useContext(UserContext);
@@ -23,26 +24,31 @@ export const UserAdmin = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const openEditModalHandler = (user) => {
-    if (user) {
-      setSelectedUser(user);
-      setIsEditModalOpen(true);
-    }
-  };
-
   const addUserHandler = (user) => {
     setUserList((prevUserList) => [...prevUserList, user]);
     setOriginalUserList((prevUserList) => [...prevUserList, user]);
     toggleAddUserModalHandler();
   };
 
+  const openUserDetailsModalHandler = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const openEditModalHandler = (user) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
+
   const deleteUserHandler = (user) => {
     setSelectedUser(user);
+    console.log('linea 45, ', user)
     setDeleteConfirmationOpen(true);
   };
 
   const confirmDeleteUserHandler = () => {
-    const updatedUserList = userList.filter((u) => u.id !== selectedUser.id);
+    const updatedUserList = userList.filter((u) => u._id !== selectedUser._id);
+    console.log('linea 51', updatedUserList)
     setUserList(updatedUserList);
     setOriginalUserList(updatedUserList);
     setDeleteConfirmationOpen(false);
@@ -83,12 +89,12 @@ export const UserAdmin = () => {
 
     fetchUsers();
   }, [user.token]);
-
+  console.log('linea 92', userList)
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography variant="h4" sx={{ mx: 3, mb: 4, textAlign: 'left' }}>
-          Panel de gestión de usuarios
+          User management
         </Typography>
         <Buttons
           toggleAddUserModalHandler={toggleAddUserModalHandler}
@@ -102,25 +108,19 @@ export const UserAdmin = () => {
             <Table sx={{ minWidth: 750 }}>
               <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Nombre</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Apellidos</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '250px' }}>Rol</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'right', width: '150px' }}>Acciones</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Name</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Surname</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '250px' }}>Role</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'right', width: '150px' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {Array.isArray(userList) &&
                   userList.map((user) => (
                     <TableRow key={user._id}>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.firstName}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.lastName}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.role}
-                      </TableCell>
+                      <TableCell sx={{ textAlign: 'left' }}>{user.firstName}</TableCell>
+                      <TableCell sx={{ textAlign: 'left' }}>{user.lastName}</TableCell>
+                      <TableCell sx={{ textAlign: 'left' }}>{user.role}</TableCell>
                       <TableCell sx={{ textAlign: 'right' }}>
                         <Button
                           variant="outlined"
@@ -129,18 +129,26 @@ export const UserAdmin = () => {
                         >
                           <Edit />
                         </Button>
+                        {user.role !== 'owner' && (
+                          <Button
+                            variant="outlined"
+                            sx={{ textTransform: 'none', border: 'none', maxWidth: '16px', minWidth: '16px' }}
+                            onClick={() => deleteUserHandler(user)}
+                          >
+                            <Delete />
+                          </Button>
+                        )}
                         <Button
-                          variant="outlined"
-                          sx={{ textTransform: 'none', border: 'none', maxWidth: '16px', minWidth: '16px' }}
-                          onClick={() => deleteUserHandler(user)}
+                          variant="text"
+                          sx={{ textTransform: 'none', border: 'none' }}
+                          onClick={() => openUserDetailsModalHandler(user)}
                         >
-                          <Delete />
+                          {user.role !== 'owner' ? 'View Details' : 'View Owner Details'}
                         </Button>
                       </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
-
             </Table>
           </TableContainer>
         </Box>
@@ -149,6 +157,14 @@ export const UserAdmin = () => {
       <CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}>
         <CreateUserForm onUserAdd={addUserHandler} />
       </CustomModal>
+
+      {selectedUser && (
+        <UserDetails
+          open={isUserDetailsModalOpen}
+          onClose={() => setIsUserDetailsModalOpen(false)}
+          user={selectedUser}
+        />
+      )}
 
       {selectedUser && (
         <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
@@ -164,6 +180,9 @@ export const UserAdmin = () => {
     </>
   );
 };
+
+export default UserAdmin;
+
 
 
 

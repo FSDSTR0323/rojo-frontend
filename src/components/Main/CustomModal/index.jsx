@@ -15,7 +15,6 @@ const CustomModal = ({ children, open, onClose }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          outline: 'none', // Agregar outline: 'none' para evitar el contorno en el cuadro del Modal
         }}
       >
         {children}

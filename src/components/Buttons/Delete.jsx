@@ -19,16 +19,16 @@ const DeleteConfirmation = ({ open, onCancel, onConfirm }) => {
 
   return (
     <Dialog open={open} onClose={cancelDeleteHandler}>
-      <DialogTitle>Eliminar usuario</DialogTitle>
+      <DialogTitle>Delete User</DialogTitle>
       <DialogContent>
         <Typography>
-          ¿Estás seguro de querer eliminar el usuario?
+          You are going to delete this user, are you sure?
         </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={cancelDeleteHandler}>Cancelar</Button>
         <Button onClick={confirmDeleteHandler} autoFocus>
-          Confirmar
+          Confirm
         </Button>
       </DialogActions>
     </Dialog>

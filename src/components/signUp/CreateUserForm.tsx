@@ -153,7 +153,7 @@ export const CreateUserForm = () => {
             margin="normal"
             type="password"
             fullWidth
-            label="Contraseña"
+            label="Password"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -190,7 +190,7 @@ export const CreateUserForm = () => {
             sx={{ mt: 1.5, mb: 3 }}
             variant="contained"
           >
-            Crear usuario
+            Create User
           </Button>
         </Box>
         
