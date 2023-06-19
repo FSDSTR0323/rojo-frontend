@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DASHBOARD } from '../config/routes';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 import { useUser } from '../hooks/useUser';
+import Header from '../components/Header/Header';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const Login = () => {
 
   return (
     <>
+      <Header />
       <LoginForm />
     </>
   );
