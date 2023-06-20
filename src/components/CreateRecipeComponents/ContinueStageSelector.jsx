@@ -4,26 +4,18 @@ const ContinueStageSelector = () => {
   return (
     <>
       {/* This box contains the Preparation list */}
-      <Box
-        component="form"
-        sx={{
-          '& > :not(style)': {
-            m: 1,
-            width: '100%',
-            height: '25%',
-            backgroundColor: 'f2fff2',
-          },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          sx={{ backgroundColor: '#f2fff2', width: '1000%', height: '500px' }}
-          id="standard-basic"
-          label="Preparations"
-          variant="standard"
-        />
-      </Box>
+      <FormControl>
+        <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue=""
+          name="radio-buttons-group"
+        >
+          <FormControlLabel value="Fresh" control={<Radio />} label="Fresh" />
+          <FormControlLabel value="Use" control={<Radio />} label="Use" />
+          <FormControlLabel value="Keep" control={<Radio />} label="Keep" />
+        </RadioGroup>
+      </FormControl>
     </>
   );
 };
