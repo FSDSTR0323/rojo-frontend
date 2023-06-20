@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../hooks/useUser';
 import DashboardButtons from '../components/Buttons/DashboardButtons';
+import Header from '../components/Header/Header';
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <DashboardButtons />
       {/* <Link to={RECIPES}>
         <button>Recipes</button>
       </Link>
