@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -7,7 +8,6 @@ import InfoIcon from '@mui/icons-material/Info';
 
 import { useParams, Link } from 'react-router-dom';
 import { ADDRECIPE } from '../../config/routes';
-import { WidthFull } from '@mui/icons-material';
 
 export const RecipeList = () => {
   //const classes = useStyles();
@@ -31,15 +31,16 @@ export const RecipeList = () => {
             key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
             >
               <Link to={ADDRECIPE}>
-              <img 
-                src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
-                srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt="Add Recipe"
-                loading="lazy"
-                width="100%"
-                height="100%"
-              /> 
-
+                <Box 
+                  component="img" 
+                  src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
+                  srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt="Add Recipe"
+                  loading="lazy"
+                  sx={{
+                    width:"100%"
+                  }}
+                />
               <ImageListItemBar
                   title="Add Recipe"
                   actionIcon={
@@ -63,13 +64,15 @@ export const RecipeList = () => {
                 key={item.id}
                 >
                   <Link to={`/recipe/${item.id}`}>
-                  <img
-                    src={`${item.img}?w=248&fit=crop&auto=format`}
-                    srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.title}
-                    loading="lazy"
-                    width="100%"
-                    height="100%"
+                    <Box 
+                      component="img"
+                      src={`${item.img}?w=248&fit=crop&auto=format`}
+                      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      alt={item.title}
+                      loading="lazy"
+                      sx={{
+                        width: "100%",
+                      }}
                     />
                   <ImageListItemBar
                       title={item.title}
