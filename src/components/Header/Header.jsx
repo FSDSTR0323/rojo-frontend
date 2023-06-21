@@ -18,6 +18,7 @@ import {
   REGISTER,
   USERADMIN,
   RECIPES,
+  HOME,
 } from '../../config/routes';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import Header from '../components/Header/Header';
 import { RecipeList } from '../components/RecipesList/RecipesList';
 import { Typography, Button, Container } from '@mui/material';
-import Header from '../components/Header/Header';
 
 export const Recipes = () => {
   
@@ -13,9 +13,9 @@ export const Recipes = () => {
       <Header />
       <Container
         maxWidth="lx"
-      >
-      <div>
-        <Button 
+        >
+        <div>
+          <Button 
             sx={{ mt: 1.5, mb: 3 }}
             variant='contained'
             >
@@ -31,9 +31,6 @@ export const Recipes = () => {
           <RecipeList />
         </div>
       </Container>
-      
     </>
   );
 };
-
-export default Recipes;

@@ -18,8 +18,7 @@ import { Haccp } from './Pages/haccp';
 import { PrivateRoute } from './components/Main/PrivateRoute/PrivateRoute';
 import { UserAdmin } from './pages/UserAdmin';
 import { Dashboard } from './pages/Dashboard';
-
-import { CreateRecipe } from './pages/CreateRecipe';
+import CreateRecipe from './pages/CreateRecipe';
 
 function App() {
   return (
