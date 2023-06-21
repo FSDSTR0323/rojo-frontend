@@ -4,58 +4,54 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
-/*
-const useStyles = makeStyles({
-  a: {
-    display: 'block',
-    height: '100%',
-  },
-  img: {
-    objectFit: 'cover',
-    width: '100%',
-    height: '100%',
-  },
-});
-*/
+
+import { useParams, Link } from 'react-router-dom';
+import { ADDRECIPE } from '../../config/routes';
+import { WidthFull } from '@mui/icons-material';
+
 export const RecipeList = () => {
   //const classes = useStyles();
 
   //const Recipes = await axios.get();
 
   return (
-      <ImageList sx={{ 
-              display: "flex",
-              flexWrap: "wrap",
-              width: "100%",
-              justifyContent: 'space-between'
-          }}
-          >
+      <ImageList 
+        sx={{ 
+          display: "flex",
+          flexWrap: "wrap",
+          width: "100%",
+          justifyContent: 'space-between'
+        }}
+        >
           <ImageListItem 
             sx={{ 
               width: '15%',
               mb: 1.5,
-              cursor: 'pointer'
             }}
             key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
             >
+              <Link to={ADDRECIPE}>
               <img 
                 src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
                 srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt="Add Recipe"
                 loading="lazy"
-              />
-              
+                width="100%"
+                height="100%"
+              /> 
+
               <ImageListItemBar
                   title="Add Recipe"
                   actionIcon={
                       <IconButton
-                          sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                          aria-label={`info about Add Recipe`}
+                        sx={{ color: 'rgba(255, 255, 255, 0.54)'}}
+                        aria-label={`info about Add Recipe`}
                       >
                           <InfoIcon />
                       </IconButton>
                   }
               />
+            </Link>
           </ImageListItem>
           
           {Recipes.map((item) => (
@@ -66,11 +62,14 @@ export const RecipeList = () => {
                 }}
                 key={item.id}
                 >
+                  <Link to={`/recipe/${item.id}`}>
                   <img
                     src={`${item.img}?w=248&fit=crop&auto=format`}
                     srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     alt={item.title}
                     loading="lazy"
+                    width="100%"
+                    height="100%"
                     />
                   <ImageListItemBar
                       title={item.title}
@@ -83,6 +82,7 @@ export const RecipeList = () => {
                           </IconButton>
                       }
                   />
+                  </Link>
               </ImageListItem>
           ))}
       </ImageList>
