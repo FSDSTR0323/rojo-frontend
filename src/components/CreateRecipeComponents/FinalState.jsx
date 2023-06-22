@@ -5,30 +5,30 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-export default function InitialStateSelector() {
+export default function FinalState() {
   return (
     <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+      <FormLabel id="demo-radio-buttons-group-label">Final state</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue=""
+        defaultValue="female"
         name="radio-buttons-group"
       >
-        <FormControlLabel value="Fresh" control={<Radio />} label="Fresh" />
         <FormControlLabel
-          value="Dry storage"
+          value="hotHolding"
           control={<Radio />}
-          label="Dry storage"
+          label="Hot holding"
         />
         <FormControlLabel
-          value="Cold storage"
+          value="coldDisplay"
           control={<Radio />}
-          label="Cold storage"
+          label="Cold display"
         />
+        <FormControlLabel value="cook" control={<Radio />} label="Cook" />
         <FormControlLabel
-          value="Defrosting"
+          value="rehating"
           control={<Radio />}
-          label="Defrosting"
+          label="Reheating"
         />
       </RadioGroup>
     </FormControl>
