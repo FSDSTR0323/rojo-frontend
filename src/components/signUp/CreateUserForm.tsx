@@ -106,11 +106,7 @@ export const CreateUserForm = () => {
         <Box
           component="form"
           onSubmit={handleSubmit}
-          display={isModalOpen ? 'block' : 'none'}
-          bgcolor="background.paper"
-          p={3}
-          borderRadius={4}
-          boxShadow={1}
+          display={isModalOpen ? 'block' : 'none'}          
         >
           <h2>Create a new user</h2>
           <TextField
@@ -171,7 +167,7 @@ export const CreateUserForm = () => {
             onChange={dataRegister}
           />
 
-          <InputLabel id="role-label">Rol</InputLabel>
+          <InputLabel id="role-label">Role</InputLabel>
           <Select
             labelId="role-label"
             name="role"
