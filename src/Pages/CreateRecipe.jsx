@@ -1,12 +1,22 @@
 import React from 'react';
-import TitleCreateRecipe from '../components/CreateRecipeComponents/TitleCreateRecipe';
-import Index from '../components/CreateRecipeComponents';
 
+import { Box, Container } from '@mui/material';
+import Title from '../components/CreateRecipeComponents/Title';
+import Index from '../components/CreateRecipeComponents/Index';
+import IndexTextField from '../components/CreateRecipeComponents/IndexTextField';
+import SaveButton from '../components/CreateRecipeComponents/SaveButton';
 const CreateRecipe = () => {
   return (
     <Container>
-      <TitleCreateRecipe />
-      <Index />
+      <h1>Add new elabroration</h1>
+      <Title />
+      <Box sx={{ display: 'flex' }}>
+        <Index />
+        <Box>
+          <IndexTextField />
+        </Box>
+      </Box>
+      <SaveButton />
     </Container>
   );
 };
