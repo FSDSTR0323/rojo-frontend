@@ -15,43 +15,22 @@ type UserType = {
   customerCif: string;
 };
 
-export const UserDetails: React.FC<{ userId: string }> = ({ userId }) => {
+export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser }) => {
   const { user } = useUser();
-
+  console.log ('selectedUser', selectedUser)
   const [userDetails, setUserDetails] = React.useState<UserType>({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    role: '',
-    nickname: '',
+    ...selectedUser,
+    customerCif: '',
     customerName: '',
     customerEmail: '',
-    customerCif: '',
   });
 
-  useEffect(() => {
-
-    const fetchUser = async () => {
-      try {
-    
-        const response = await axios.get(`http://localhost:3000/user/${userId}`);
-        const userData = response.data;
-        setUserDetails(userData);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const token = user.token;
-      const response = await axios.get(`http://localhost:3000/user/${userId}`, {
+      const token = user.token;      
+      const response = await axios.get(`http://localhost:3000/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,7 +44,7 @@ export const UserDetails: React.FC<{ userId: string }> = ({ userId }) => {
       }
     }
   };
-
+  console.log('userDetails:', userDetails);
   return (
     <Container maxWidth="sm">
       <Grid 
@@ -117,8 +96,7 @@ export const UserDetails: React.FC<{ userId: string }> = ({ userId }) => {
                 type="text"
                 fullWidth
                 label="Name"
-                sx={{ mt: 2, mb: 1.5 }}
-                required
+                sx={{ mt: 2, mb: 1.5 }}                
                 defaultValue={userDetails.firstName}
                 InputProps={{
                 readOnly: true,
@@ -131,8 +109,7 @@ export const UserDetails: React.FC<{ userId: string }> = ({ userId }) => {
                 type="text"
                 fullWidth
                 label="Surname"
-                sx={{ mt: 2, mb: 1.5 }}
-                required
+                sx={{ mt: 2, mb: 1.5 }}                
                 defaultValue={userDetails.lastName}
                 InputProps={{
                 readOnly: true,
@@ -145,8 +122,7 @@ export const UserDetails: React.FC<{ userId: string }> = ({ userId }) => {
                 type="email"
                 fullWidth
                 label="Email"
-                sx={{ mt: 2, mb: 1.5 }}
-                required
+                sx={{ mt: 2, mb: 1.5 }}                
                 defaultValue={userDetails.email}
                 InputProps={{
                 readOnly: true,

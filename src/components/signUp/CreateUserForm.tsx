@@ -45,6 +45,31 @@ export const CreateUserForm = () => {
 
   const [formErrors, setFormErrors] = React.useState<any>({});
 
+  /*const [file, setFile]= useState ();
+  const [url, SetUrl] = useState(type='file' onChange{})
+
+  const mediaType = 'image';
+
+  const upload = file => {
+
+    const data = new FormData ()
+    dataRegister.append('file',file)
+    dataRegister.append('upload_preset','Food_Informer')
+    dataRegister.append('cloud_name','dzfvt7rrp')
+
+    fetch(`https://api.cloudinary.com/v1_1/dzfvt7rrp/${mediatype}/upload`,{
+      method:'post',
+      body: data
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      console.log('url', data);
+      setUrl(prev => prev.concat(data.url))
+    })
+
+
+  }*/
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -82,7 +107,7 @@ export const CreateUserForm = () => {
       | 'chef';
     setRegisterData({ ...registerData, role: value });
   };
-
+  
   const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(true);
 

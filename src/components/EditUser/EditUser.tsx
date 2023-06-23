@@ -12,44 +12,26 @@ import {
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
+import { useRouteLoaderData } from 'react-router-dom';
 
-type UserType = {
+type UserType = {  
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: 'headchef' | 'chef';
+  role: 'headChef' | 'chef';
   nickname: string;
   modifiedBy: string;
 };
 
-export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
+export const EditUserForm: React.FC<{ selectedUser: UserType }> = ({ selectedUser }) => {
   const { user } = useUser()
-
+  console.log ('selectedUser', selectedUser)
   const [editedUser, setEditedUser] = React.useState<UserType>({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    role: 'headchef',
-    nickname: '',
-    modifiedBy: '',
+    ...selectedUser,
+    //modifiedBy: userId,
   });
-  useEffect(() => {
-
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/user/${userId}`);
-        const userData = response.data;
-        setEditedUser(userData);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
+  console.log('edit form', editedUser)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -82,9 +64,9 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
     }
   };
 
-  const handleRoleChange = (event: SelectChangeEvent<'headchef' | 'chef'>) => {
-    const value: 'headchef' | 'chef' = event.target.value as
-      | 'headchef'
+  const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
+    const value: 'headChef' | 'chef' = event.target.value as
+      | 'headChef'
       | 'chef';
       setEditedUser((prevUser) => ({
       ...prevUser,
@@ -102,7 +84,7 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
         sx={{}}
       >
         <Box component="form" onSubmit={handleSubmit} sx={{ backgroundColor: '#fff', padding: '20px', borderRadius: '4px' }}>
-          <h2>Editar usuario</h2>
+          <h2>Edit user</h2>
           <TextField
             name="firstName"
             margin="normal"
@@ -149,17 +131,17 @@ export const EditUserForm: React.FC<{ userId: string }> = ({ userId }) => {
           />
 
           <InputLabel id="role-label" sx={{ mt: 2, mb: 2 }}>
-            Rol
+            Role
           </InputLabel>
           <Select
             name="role"
             margin="dense"
             fullWidth
             labelId="role-label"
-            value={editedUser.role}
+            value={editedUser.role}            
             onChange={handleRoleChange}
           >
-            <MenuItem value="headchef">Head Chef</MenuItem>
+            <MenuItem value="headChef">Head Chef</MenuItem>
             <MenuItem value="chef">Chef</MenuItem>
           </Select>
           

@@ -16,6 +16,7 @@ export const UserAdmin = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isUserDetailsModalOpen, setIsUserDetailsModalOpen] = useState(false);
   const [filter, setFilter] = useState('');
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [originalUserList, setOriginalUserList] = useState([]);
@@ -32,23 +33,23 @@ export const UserAdmin = () => {
 
   const openUserDetailsModalHandler = (user) => {
     setSelectedUser(user);
-    setIsModalOpen(true);
+    setIsUserDetailsModalOpen(true);
   };
 
   const openEditModalHandler = (user) => {
+    console.log('este es el user qu estoy inyectando', user)
+
     setSelectedUser(user);
     setIsEditModalOpen(true);
   };
 
   const deleteUserHandler = (user) => {
     setSelectedUser(user);
-    console.log('linea 45, ', user)
     setDeleteConfirmationOpen(true);
   };
 
   const confirmDeleteUserHandler = () => {
     const updatedUserList = userList.filter((u) => u._id !== selectedUser._id);
-    console.log('linea 51', updatedUserList)
     setUserList(updatedUserList);
     setOriginalUserList(updatedUserList);
     setDeleteConfirmationOpen(false);
@@ -71,25 +72,26 @@ export const UserAdmin = () => {
       setUserList(filteredUsers);
     }
   };
-
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/user/list', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setUserList(response.data);
+      setOriginalUserList(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/user/list', {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        setUserList(response.data);
-        setOriginalUserList(response.data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
+    
 
     fetchUsers();
-  }, [user.token]);
-  console.log('linea 92', userList)
+  }, []);
+  console.log('linea 91', selectedUser)
+
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -122,13 +124,15 @@ export const UserAdmin = () => {
                       <TableCell sx={{ textAlign: 'left' }}>{user.lastName}</TableCell>
                       <TableCell sx={{ textAlign: 'left' }}>{user.role}</TableCell>
                       <TableCell sx={{ textAlign: 'right' }}>
-                        <Button
-                          variant="outlined"
-                          sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                          onClick={() => openEditModalHandler(user)}
-                        >
-                          <Edit />
-                        </Button>
+                        {user.role !== 'owner' && (
+                          <Button
+                            variant="outlined"
+                            sx={{ textTransform: 'none', mr: 1, border: 'none' }}
+                            onClick={() => openEditModalHandler(user)}
+                          >
+                            <Edit/>
+                          </Button>
+                        )}
                         {user.role !== 'owner' && (
                           <Button
                             variant="outlined"
@@ -159,16 +163,15 @@ export const UserAdmin = () => {
       </CustomModal>
 
       {selectedUser && (
-        <UserDetails
-          open={isUserDetailsModalOpen}
-          onClose={() => setIsUserDetailsModalOpen(false)}
-          user={selectedUser}
-        />
+        <CustomModal
+          open={isUserDetailsModalOpen} onClose={() => setIsUserDetailsModalOpen(false)}>
+            <UserDetails selectedUser={selectedUser} />
+         </CustomModal>
       )}
 
       {selectedUser && (
         <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <EditUserForm userId={selectedUser._id} />
+          <EditUserForm selectedUser={selectedUser} />
         </CustomModal>
       )}
 
@@ -182,19 +185,3 @@ export const UserAdmin = () => {
 };
 
 export default UserAdmin;
-
-
-
-
-
-
-
-
-
-
-
-
-//TODO: fer funcional el botó filtrar i el buscador
-
-
-
