@@ -1,18 +1,9 @@
-import {
-  Container,
-  Grid,
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
+import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { useUser } from '../../hooks/useUser';
-import { useRouteLoaderData } from 'react-router-dom';
+import { useUser } from '../../../hooks/useUser';
+
 
 type UserType = {  
   id: string;
@@ -24,7 +15,7 @@ type UserType = {
   modifiedBy: string;
 };
 
-export const EditUserForm: React.FC<{ selectedUser: UserType }> = ({ selectedUser }) => {
+export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> = ({ selectedUser, userId }) => {
   const { user } = useUser()
   console.log ('selectedUser', selectedUser)
   const [editedUser, setEditedUser] = React.useState<UserType>({
@@ -83,7 +74,7 @@ export const EditUserForm: React.FC<{ selectedUser: UserType }> = ({ selectedUse
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit} sx={{ backgroundColor: '#fff', padding: '20px', borderRadius: '4px' }}>
+        <Box component="form" onSubmit={handleSubmit} >
           <h2>Edit user</h2>
           <TextField
             name="firstName"

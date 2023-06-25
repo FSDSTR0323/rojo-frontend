@@ -1,7 +1,7 @@
 import { Container, Grid, Box, TextField } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
-import { useUser } from '../../hooks/useUser';
+import { useUser } from '../../../hooks/useUser';
 
 type UserType = {
   id: string;
@@ -53,7 +53,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser
         justifyContent="center" 
         sx={{}}
         >
-            <Box component="form" onSubmit={handleSubmit} sx={{ backgroundColor: '#fff', padding: '20px', borderRadius: '4px' }}>
+            <Box component="form" onSubmit={handleSubmit} >
             <h2>User details</h2>
 
             {user.role === 'owner' && (
@@ -148,7 +148,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser
                 readOnly: true,
                 }}
             />
-            </Box>
+          </Box>
       </Grid>
     </Container>
   );
