@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -11,9 +11,10 @@ import {
   Select,
   SelectChangeEvent,
   Snackbar,
-  Alert
+  Alert,
 } from '@mui/material';
 import { useUser } from '../../hooks/useUser';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 type RegisterType = {
   firstName: string;
@@ -24,10 +25,14 @@ type RegisterType = {
   role: 'headchef' | 'chef';
 };
 
-export const CreateUserForm = () => {
+type CreateUserFormProps = {
+  onUserAdd: (user: any) => void;
+};
+
+export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
   const { user } = useUser();
 
-  const [registerData, setRegisterData] = React.useState<RegisterType>({
+  const [registerData, setRegisterData] = useState<RegisterType>({
     firstName: '',
     lastName: '',
     nickname: '',
@@ -43,32 +48,45 @@ export const CreateUserForm = () => {
     setRegisterData({ ...registerData, [name]: value });
   };
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
+  const [formErrors, setFormErrors] = useState<any>({});
 
-  /*const [file, setFile]= useState ();
-  const [url, SetUrl] = useState(type='file' onChange{})
+  const [file, setFile] = useState<File | null>(null);
+  const [url, setUrl] = useState<string>('');
 
   const mediaType = 'image';
 
-  const upload = file => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+    }
+  };
 
-    const data = new FormData ()
-    dataRegister.append('file',file)
-    dataRegister.append('upload_preset','Food_Informer')
-    dataRegister.append('cloud_name','dzfvt7rrp')
+  const [buttonText, setButtonText] = useState('Upload Image');
 
-    fetch(`https://api.cloudinary.com/v1_1/dzfvt7rrp/${mediatype}/upload`,{
-      method:'post',
-      body: data
-    })
-    .then(resp => resp.json())
-    .then(data => {
-      console.log('url', data);
-      setUrl(prev => prev.concat(data.url))
-    })
+  const handleFileUpload = async () => {
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'Food_Informer');
+        formData.append('cloud_name', 'dzfvt7rrp');
 
+        const response = await axios.post(
+          `https://api.cloudinary.com/v1_1/dzfvt7rrp/${mediaType}/upload`,
+          formData
+        );
 
-  }*/
+        const imageUrl = response.data.url;
+        setUrl(imageUrl);
+        setIsImageUploaded(true);
+        setButtonText('Successful upload!');
+        console.log('Image uploaded:', imageUrl);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +94,7 @@ export const CreateUserForm = () => {
       const token = user.token;
       const response = await axios.post(
         'http://localhost:3000/user',
-        registerData,
+        { ...registerData, profileImageUrl: url },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,8 +102,9 @@ export const CreateUserForm = () => {
         }
       );
       console.log(response.data);
-      setIsSnackbarOpen(true); 
-      handleCloseModal(); 
+      setIsSnackbarOpen(true);
+      onUserAdd(response.data);
+      handleCloseModal();
     } catch (error) {
       console.error(error);
       setFormErrors({});
@@ -107,9 +126,9 @@ export const CreateUserForm = () => {
       | 'chef';
     setRegisterData({ ...registerData, role: value });
   };
-  
-  const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(true);
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -118,6 +137,8 @@ export const CreateUserForm = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   return (
     <Container maxWidth="sm">
@@ -131,7 +152,7 @@ export const CreateUserForm = () => {
         <Box
           component="form"
           onSubmit={handleSubmit}
-          display={isModalOpen ? 'block' : 'none'}          
+          display={isModalOpen ? 'block' : 'none'}
         >
           <h2>Create a new user</h2>
           <TextField
@@ -205,6 +226,27 @@ export const CreateUserForm = () => {
             <MenuItem value="headchef">Head Chef</MenuItem>
           </Select>
 
+          <InputLabel htmlFor="image-upload">
+            <Button
+              component="span"
+              variant="contained"
+              onClick={handleFileUpload}
+              sx={{ mt: 1, mb: 3 }}
+            >
+              {isImageUploaded ? (
+                <CheckCircleIcon sx={{ mr: 1 }} />
+              ) : null}
+              {buttonText}
+            </Button>
+          </InputLabel>
+          <input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+
           <Button
             fullWidth
             type="submit"
@@ -214,23 +256,25 @@ export const CreateUserForm = () => {
             Create User
           </Button>
         </Box>
-        
       </Grid>
       <Snackbar
         open={isSnackbarOpen}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        sx={{ width: '300px', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)' }}
+        sx={{
+          width: '300px',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+        }}
       >
         <Alert
           onClose={handleSnackbarClose}
           severity="success"
           sx={{ width: '100%' }}
         >
-          User succesfully created 
+          User successfully created
         </Alert>
       </Snackbar>
     </Container>
   );
 };
-

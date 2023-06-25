@@ -1,4 +1,4 @@
-import { Container, Grid, Box, TextField } from '@mui/material';
+import { Container, Grid, Box, TextField, Avatar } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
@@ -10,10 +10,11 @@ type UserType = {
   email: string;
   role: string;
   nickname: string;
+  profileImageUrl: string;
   customerName: string;
   customerEmail: string;
   customerCif: string;
-};
+  };
 
 export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser }) => {
   const { user } = useUser();
@@ -55,6 +56,8 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser
         >
             <Box component="form" onSubmit={handleSubmit} >
             <h2>User details</h2>
+
+            <Avatar alt="User Avatar" src={userDetails.profileImageUrl} sx={{ width: 100, height: 100 }} />
 
             {user.role === 'owner' && (
                 <>
@@ -142,7 +145,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({ selectedUser
             <TextField
                 id="role"
                 label="Role"
-                sx={{ mt: 2, mb: 1.5 }}
+                sx={{ mt: 2, mb: 1.5, ml: 8, alignItems: 'right' }}
                 defaultValue={userDetails.role}
                 InputProps={{
                 readOnly: true,

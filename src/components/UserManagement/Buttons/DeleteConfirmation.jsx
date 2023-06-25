@@ -9,16 +9,8 @@ import {
 } from '@mui/material';
 
 const DeleteConfirmation = ({ open, onCancel, onConfirm }) => {
-  const cancelDeleteHandler = () => {
-    onCancel();
-  };
-
-  const confirmDeleteHandler = () => {
-    onConfirm();
-  };
-
   return (
-    <Dialog open={open} onClose={cancelDeleteHandler}>
+    <Dialog open={open} onClose={onCancel}>
       <DialogTitle>Delete User</DialogTitle>
       <DialogContent>
         <Typography>
@@ -26,8 +18,8 @@ const DeleteConfirmation = ({ open, onCancel, onConfirm }) => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={cancelDeleteHandler}>Cancelar</Button>
-        <Button onClick={confirmDeleteHandler} autoFocus>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={onConfirm} autoFocus>
           Confirm
         </Button>
       </DialogActions>
@@ -36,7 +28,3 @@ const DeleteConfirmation = ({ open, onCancel, onConfirm }) => {
 };
 
 export default DeleteConfirmation;
-
-
-
-

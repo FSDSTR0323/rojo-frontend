@@ -6,7 +6,7 @@ import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import { UserContext } from '../context/UserContext';
-import DeleteConfirmation from '../components/UserManagement/Buttons/Delete';
+import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
 import UserTable from '../components/UserManagement/UserTable/UserTable';
 
@@ -19,6 +19,7 @@ export const UserAdmin = () => {
   const [isUserDetailsModalOpen, setIsUserDetailsModalOpen] = useState(false);
   const [filter, setFilter] = useState('');
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
 
   const toggleAddUserModalHandler = () => {
@@ -26,8 +27,8 @@ export const UserAdmin = () => {
   };
 
   const addUserHandler = (user) => {
-    setUserList((prevUserList) => [...prevUserList, user]);
-    setOriginalUserList((prevUserList) => [...prevUserList, user]);
+    setUserList(prevUserList => [...prevUserList, user]);
+    setOriginalUserList(prevUserList => [...prevUserList, user]);
     toggleAddUserModalHandler();
   };
 
@@ -37,26 +38,33 @@ export const UserAdmin = () => {
   };
 
   const openEditModalHandler = (user) => {
-    console.log('este es el user qu estoy inyectando', user)
-
     setSelectedUser(user);
     setIsEditModalOpen(true);
   };
 
   const deleteUserHandler = (user) => {
-    setSelectedUser(user);
+    setSelectedUserToDelete(user);
     setDeleteConfirmationOpen(true);
-  };
-
-  const confirmDeleteUserHandler = () => {
-    const updatedUserList = userList.filter((u) => u._id !== selectedUser._id);
-    setUserList(updatedUserList);
-    setOriginalUserList(updatedUserList);
-    setDeleteConfirmationOpen(false);
   };
 
   const cancelDeleteUserHandler = () => {
     setDeleteConfirmationOpen(false);
+    setSelectedUserToDelete(null);
+  };
+
+  const confirmDeleteUserHandler = async () => {
+    try {
+      await axios.delete(`http://localhost:3000/user/${selectedUserToDelete._id}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setDeleteConfirmationOpen(false);
+      setSelectedUserToDelete(null);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
   const filterHandler = (value) => {
@@ -82,6 +90,7 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
+      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -91,7 +100,7 @@ export const UserAdmin = () => {
     fetchUsers();
   }, []);
 
-  console.log('linea 91', selectedUser);
+  console.log('selected user', selectedUser);
 
   return (
     <>
@@ -119,6 +128,7 @@ export const UserAdmin = () => {
       <CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}>
         <CreateUserForm onUserAdd={addUserHandler} />
       </CustomModal>
+
 
       {selectedUser && (
         <CustomModal

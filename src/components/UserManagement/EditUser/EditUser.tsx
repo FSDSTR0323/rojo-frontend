@@ -1,35 +1,29 @@
-import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent,
-} from '@mui/material';
+import { Container, Grid, Box, TextField, Avatar, Button } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 
-
-type UserType = {  
+type UserType = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: 'headChef' | 'chef';
+  role: string;
   nickname: string;
-  modifiedBy: string;
+  profileImageUrl: string;  
 };
-
 export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> = ({ selectedUser, userId }) => {
-  const { user } = useUser()
-  console.log ('selectedUser', selectedUser)
-  const [editedUser, setEditedUser] = React.useState<UserType>({
+  const { user } = useUser();
+  console.log('selectedUser', selectedUser);
+  const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
-    //modifiedBy: userId,
+    
   });
-  console.log('edit form', editedUser)
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setEditedUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDetails((prevUserDetails) => ({
+      ...prevUserDetails,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -38,44 +32,30 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
 
     try {
       const token = user.token;
-      const response = await axios.put(
-        `http://localhost:3000/user/${userId}`,
-        editedUser,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.put(`http://localhost:3000/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
+      const updatedUserDetails  = response.data;
+      setUserDetails(updatedUserDetails);
+      console.log('Updated userDetails:', updatedUserDetails);
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         console.log('Form errors:', error.response.data.errors);
       }
     }
   };
-
-  const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
-    const value: 'headChef' | 'chef' = event.target.value as
-      | 'headChef'
-      | 'chef';
-      setEditedUser((prevUser) => ({
-      ...prevUser,
-      role: value,
-    }));
-  };
-
+  console.log('userDetails:', userDetails);
   return (
     <Container maxWidth="sm">
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{}}
-      >
-        <Box component="form" onSubmit={handleSubmit} >
-          <h2>Edit user</h2>
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{}}>
+        <Box component="form" onSubmit={handleSubmit}>
+          <h2>User details</h2>
+
+          <Avatar alt="User Avatar" src={userDetails.profileImageUrl} sx={{ width: 100, height: 100 }} />
+
           <TextField
             name="firstName"
             margin="normal"
@@ -83,8 +63,7 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
             fullWidth
             label="Name"
             sx={{ mt: 2, mb: 1.5 }}
-            required
-            defaultValue={editedUser.firstName}
+            value={userDetails.firstName}
             onChange={handleChange}
           />
 
@@ -95,55 +74,44 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
             fullWidth
             label="Surname"
             sx={{ mt: 2, mb: 1.5 }}
-            required
-            defaultValue={editedUser.lastName}
+            value={userDetails.lastName}
             onChange={handleChange}
           />
+
           <TextField
             name="email"
             margin="normal"
             type="email"
             fullWidth
             label="Email"
-            sx={{ mt: 2, mb: 1.5 }}            
-            defaultValue={editedUser.email}
-            InputProps={{
-              readOnly: true,
-            }}
+            sx={{ mt: 2, mb: 1.5 }}
+            value={userDetails.email}
+            onChange={handleChange}
           />
+
           <TextField
             id="nickname"
             label="User name"
             sx={{ mt: 2, mb: 1.5 }}
-            defaultValue={editedUser.nickname}
-            InputProps={{
-              readOnly: true,
-            }}
+            value={userDetails.nickname}
+            onChange={handleChange}
           />
 
-          <InputLabel id="role-label" sx={{ mt: 2, mb: 2 }}>
-            Role
-          </InputLabel>
-          <Select
-            name="role"
-            margin="dense"
-            fullWidth
-            labelId="role-label"
-            value={editedUser.role}            
-            onChange={handleRoleChange}
-          >
-            <MenuItem value="headChef">Head Chef</MenuItem>
-            <MenuItem value="chef">Chef</MenuItem>
-          </Select>
-          
+          <TextField
+            id="role"
+            label="Role"
+            sx={{ mt: 2, mb: 1.5, ml: 8, alignItems: 'right' }}
+            value={userDetails.role}
+            onChange={handleChange}
+          />
 
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: 1.5 }}
+            sx={{ mt: 1.5, mb: 3 }}
             variant="contained"
           >
-            Save
+            Confirm
           </Button>
         </Box>
       </Grid>
@@ -151,4 +119,4 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
   );
 };
 
-
+//Dona error 401 (Unauthorized) falta incloure id al token per sol·lucionar-ho
