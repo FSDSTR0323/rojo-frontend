@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
-import { EditUserForm } from '../components/EditUser/EditUser';
-import Buttons from '../components/Buttons/buttons';
+import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
+import Buttons from '../components/UserManagement/Buttons/buttons';
 import { UserContext } from '../context/UserContext';
-import DeleteConfirmation from '../components/Buttons/Delete';
-import { UserDetails } from '../components/UserDetails/UserDetails';
+import DeleteConfirmation from '../components/UserManagement/Buttons/Delete';
+import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
+import UserTable from '../components/UserManagement/UserTable/UserTable';
 
 export const UserAdmin = () => {
   const { user } = useContext(UserContext);
@@ -72,6 +72,7 @@ export const UserAdmin = () => {
       setUserList(filteredUsers);
     }
   };
+
   const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:3000/user/list', {
@@ -85,12 +86,12 @@ export const UserAdmin = () => {
       console.error('Error fetching users:', error);
     }
   };
-  useEffect(() => {
-    
 
+  useEffect(() => {
     fetchUsers();
   }, []);
-  console.log('linea 91', selectedUser)
+
+  console.log('linea 91', selectedUser);
 
   return (
     <>
@@ -106,55 +107,12 @@ export const UserAdmin = () => {
         />
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0px 3%' }}>
-          <TableContainer component={Paper} sx={{ marginTop: 20 }}>
-            <Table sx={{ minWidth: 750 }}>
-              <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Name</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Surname</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '250px' }}>Role</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'right', width: '150px' }}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Array.isArray(userList) &&
-                  userList.map((user) => (
-                    <TableRow key={user._id}>
-                      <TableCell sx={{ textAlign: 'left' }}>{user.firstName}</TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>{user.lastName}</TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>{user.role}</TableCell>
-                      <TableCell sx={{ textAlign: 'right' }}>
-                        {user.role !== 'owner' && (
-                          <Button
-                            variant="outlined"
-                            sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                            onClick={() => openEditModalHandler(user)}
-                          >
-                            <Edit/>
-                          </Button>
-                        )}
-                        {user.role !== 'owner' && (
-                          <Button
-                            variant="outlined"
-                            sx={{ textTransform: 'none', border: 'none', maxWidth: '16px', minWidth: '16px' }}
-                            onClick={() => deleteUserHandler(user)}
-                          >
-                            <Delete />
-                          </Button>
-                        )}
-                        <Button
-                          variant="text"
-                          sx={{ textTransform: 'none', border: 'none' }}
-                          onClick={() => openUserDetailsModalHandler(user)}
-                        >
-                          {user.role !== 'owner' ? 'View Details' : 'View Owner Details'}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <UserTable
+            userList={userList}
+            openUserDetailsModalHandler={openUserDetailsModalHandler}
+            deleteUserHandler={deleteUserHandler}
+            openEditModalHandler={openEditModalHandler}
+          />
         </Box>
       </Box>
 
@@ -164,14 +122,16 @@ export const UserAdmin = () => {
 
       {selectedUser && (
         <CustomModal
-          open={isUserDetailsModalOpen} onClose={() => setIsUserDetailsModalOpen(false)}>
-            <UserDetails selectedUser={selectedUser} />
-         </CustomModal>
+          open={isUserDetailsModalOpen}
+          onClose={() => setIsUserDetailsModalOpen(false)}
+        >
+          <UserDetails selectedUser={selectedUser} />
+        </CustomModal>
       )}
 
       {selectedUser && (
         <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <EditUserForm selectedUser={selectedUser} />
+          <EditUserForm selectedUser={selectedUser} userId={selectedUser._id} />
         </CustomModal>
       )}
 
