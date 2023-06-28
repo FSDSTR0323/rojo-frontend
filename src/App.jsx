@@ -3,6 +3,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Recipes } from './pages/Recipes';
+import { Recipe } from './pages/Recipe';
 import { NotFound } from './pages/NotFound';
 import {
   HACCP,
@@ -12,6 +13,7 @@ import {
   USERADMIN,
   DASHBOARD,
   RECIPES,
+  RECIPE,
   ADDRECIPE,
 } from './config/routes';
 import { Haccp } from './Pages/haccp';
@@ -49,6 +51,14 @@ function App() {
           element={
             <PrivateRoute>
               <Recipes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={RECIPE}
+          element={
+            <PrivateRoute>
+              <Recipe />
             </PrivateRoute>
           }
         />
