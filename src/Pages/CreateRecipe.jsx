@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Box, Container } from '@mui/material';
-import Title from '../components/CreateRecipeComponents/Title';
-import Index from '../components/CreateRecipeComponents/Index';
-import IndexTextField from '../components/CreateRecipeComponents/IndexTextField';
-import SaveButton from '../components/CreateRecipeComponents/SaveButton';
+import Title from '../components/CreateRecipe/Title';
+import Index from '../components/CreateRecipe/Index';
+import IndexTextField from '../components/CreateRecipe/IndexTextField';
+import SaveButton from '../components/CreateRecipe/SaveButton';
 const CreateRecipe = () => {
   return (
     <Container>
