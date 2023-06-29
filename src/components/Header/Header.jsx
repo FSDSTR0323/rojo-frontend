@@ -66,10 +66,7 @@ function Header() {
 
   // TODO: Show the burger icon in small screens also when the user has been logged in
   return (
-    <AppBar
-      position="static"
-      sx={{ marginBottom: 4, backgroundColor: '#1c5a1c' }}
-    >
+    <AppBar position="static" sx={{ marginBottom: 4, backgroundColor: '#0b0' }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters

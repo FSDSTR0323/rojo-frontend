@@ -27,7 +27,7 @@ function App() {
         <Route path={HOME} element={<Home />} />
         <Route path={LOGIN} element={<Login />} />
         <Route path={REGISTER} element={<Register />} />
-        <Route path={RECIPES} element={<Recipes />} />
+
         <Route
           path={DASHBOARD}
           element={
@@ -68,6 +68,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

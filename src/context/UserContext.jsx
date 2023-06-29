@@ -23,7 +23,6 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    //Tornem el context gloval de l' usuari
     <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
