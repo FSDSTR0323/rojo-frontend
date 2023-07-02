@@ -49,11 +49,8 @@ function Header() {
 
   const handleLogOut = () => {
     window.localStorage.removeItem('user');
-    console.log('removing user info')
-    setUser({
-      isLoggedIn: false,
-      info: { role: 'guest' },
-    });
+    console.log('removing user info');
+    setUser({});
     navigate(HOME);
   };
 

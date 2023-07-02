@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Button, TextField, Box, InputAdornment, IconButton, Select, MenuItem } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Box,
+  InputAdornment,
+  IconButton,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { Add, Search, Sort } from '@mui/icons-material';
 
 const Buttons = ({
@@ -16,7 +24,6 @@ const Buttons = ({
     setSearchValue(value);
     onSearchChange(value);
   };
-  
 
   return (
     <Box
@@ -68,13 +75,15 @@ const Buttons = ({
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                  <Search sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }} />
+                  <Search
+                    sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }}
+                  />
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-        
+
         <IconButton onClick={onSortChange}>
           <Sort />
         </IconButton>

@@ -1,7 +1,6 @@
 import { Modal, Box } from '@mui/material';
 
 const CustomModal = ({ children, open, onClose }) => {
-  console.log('Modal open:', open);
   return (
     <>
       <Modal

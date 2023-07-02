@@ -5,7 +5,5 @@ import { LoginForm } from '../components/LoginForm/LoginForm';
 import { useUser } from '../hooks/useUser';
 
 export const Login = () => {
-  console.log('rendering loginform');
-
   return <LoginForm />;
 };

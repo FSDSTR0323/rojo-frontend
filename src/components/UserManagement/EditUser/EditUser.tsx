@@ -10,14 +10,16 @@ type UserType = {
   email: string;
   role: string;
   nickname: string;
-  profileImageUrl: string;  
+  profileImageUrl: string;
 };
-export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> = ({ selectedUser, userId }) => {
+export const EditUserForm: React.FC<{
+  selectedUser: UserType;
+  userId: string;
+}> = ({ selectedUser, userId }) => {
   const { user } = useUser();
   console.log('selectedUser', selectedUser);
   const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
-    
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +40,7 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
         },
       });
 
-      const updatedUserDetails  = response.data;
+      const updatedUserDetails = response.data;
       setUserDetails(updatedUserDetails);
       console.log('Updated userDetails:', updatedUserDetails);
     } catch (error) {
@@ -50,11 +52,21 @@ export const EditUserForm: React.FC<{ selectedUser: UserType, userId: string }> 
   console.log('userDetails:', userDetails);
   return (
     <Container maxWidth="sm">
-      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{}}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{}}
+      >
         <Box component="form" onSubmit={handleSubmit}>
           <h2>User details</h2>
 
-          <Avatar alt="User Avatar" src={userDetails.profileImageUrl} sx={{ width: 100, height: 100 }} />
+          <Avatar
+            alt="User Avatar"
+            src={userDetails.profileImageUrl}
+            sx={{ width: 100, height: 100 }}
+          />
 
           <TextField
             name="firstName"
