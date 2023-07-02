@@ -24,7 +24,10 @@ export const RecipeList = () => {
   const { user } = useUser();
   const [RecipeList, setRecipeList] = useState([]);
 
+  console.log('27', user)
+
   const fetchRecipe = async () => {
+    console.log('try -30', user.token)
     try {
       const response = await axios.get('http://localhost:3000/recipe', {
         headers: {
@@ -38,8 +41,9 @@ export const RecipeList = () => {
   };
 
   useEffect(() => {
+    console.log('calling use effect')
     fetchRecipe();
-  },[]);
+  },[user]);
 
   return (
       <ImageList 
