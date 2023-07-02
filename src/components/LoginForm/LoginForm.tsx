@@ -41,13 +41,13 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    // console.log('LoginForm, loginData:', loginData);
+    console.log('LoginForm, loginData:', loginData);
     try {
       const response: ApiResponse = await axios.post(
         'http://localhost:3000/user/login',
         loginData
       );
-      // console.log('LoginForm response:', response);
+      console.log('LoginForm response:', response);
       const token = response.data.token;
 
       const responseUser: ApiResponseUser = await axios.get(

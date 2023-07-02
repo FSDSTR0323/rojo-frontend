@@ -8,9 +8,9 @@ import { LOGIN } from '../../../../config/routes';
 
 export const PrivateRoutes = ({ children }) => {
   const { user } = useUser();
-  const isAuth = user.isLoggedIn;
+  //const isAuth = user.isLoggedIn;
 
-  // const isAuth = window.localStorage.getItem("user")
+  const isAuth = window.localStorage.getItem("user")
 
 
   console.log('privateRoutes isAuth', isAuth);

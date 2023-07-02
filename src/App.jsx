@@ -23,8 +23,6 @@ import Header from './components/Header/Header';
 import { useUser } from './hooks/useUser';
 
 function App() {
-  const { user } = useUser();
-  console.log('user', user);
   return (
     <>
       <Header />
