@@ -1,4 +1,3 @@
-import React from 'react';
 import { CreateUserForm } from '../components/SignUp/CreateUserForm';
 
 export const CreateUser = () => {

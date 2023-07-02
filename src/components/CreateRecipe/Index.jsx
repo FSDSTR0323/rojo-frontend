@@ -1,5 +1,4 @@
 import { Container } from '@mui/material';
-import React from 'react';
 import InitialState from './InitialState';
 import Action from './Action';
 import FinalState from './FinalState';

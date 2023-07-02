@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
-import { RECIPES } from '../config/routes';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../hooks/useUser';
+// import { useNavigate } from 'react-router-dom';
+// import { useUser } from '../hooks/useUser';
 
 export const Dashboard = () => {
-  const navigate = useNavigate();
-  const { user, setUser } = useUser();
+  // const navigate = useNavigate();
+  // const { user, setUser } = useUser();
   // useEffect(() => {
   //   if (user.isLoggedIn) {
   //     if (user.info.role == 'headchef') {

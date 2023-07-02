@@ -1,5 +1,4 @@
 import { Container } from '@mui/material';
-import React from 'react';
 
 import Elabroration from './Elaboration';
 import Finishing from './Finishing';
