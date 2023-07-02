@@ -95,7 +95,7 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      console.log('Updated user list:', response.data);
+      // console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -105,7 +105,7 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  console.log('selected user', selectedUser);
+  // console.log('selected user', selectedUser);
 
   return (
     <>

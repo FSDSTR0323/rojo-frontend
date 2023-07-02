@@ -108,19 +108,13 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     } catch (error) {
       console.error(error);
       setFormErrors({});
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.errors
-      ) {
+      if (error.response && error.response.data && error.response.data.errors) {
         setFormErrors(error.response.data.errors);
       }
     }
   };
 
-  const handleRoleChange = (
-    event: SelectChangeEvent<'headchef' | 'chef'>
-  ) => {
+  const handleRoleChange = (event: SelectChangeEvent<'headchef' | 'chef'>) => {
     const value: 'headchef' | 'chef' = event.target.value as
       | 'headchef'
       | 'chef';
@@ -233,9 +227,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
               onClick={handleFileUpload}
               sx={{ mt: 1, mb: 3 }}
             >
-              {isImageUploaded ? (
-                <CheckCircleIcon sx={{ mr: 1 }} />
-              ) : null}
+              {isImageUploaded ? <CheckCircleIcon sx={{ mr: 1 }} /> : null}
               {buttonText}
             </Button>
           </InputLabel>

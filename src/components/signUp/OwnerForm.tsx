@@ -105,7 +105,7 @@ export const OwnerForm = () => {
             error={!!formErrors.customerEmail}
             helperText={formErrors.customerEmail}
             onChange={dataRegister}
-          />          
+          />
           <TextField
             name="phone"
             margin="normal"

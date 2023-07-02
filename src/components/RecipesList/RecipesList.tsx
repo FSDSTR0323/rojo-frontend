@@ -38,82 +38,82 @@ export const RecipeList = () => {
 
   useEffect(() => {
     fetchRecipe();
-  },[user]);
+  }, [user]);
 
   return (
-      <ImageList 
-        sx={{ 
-          display: "flex",
-          flexWrap: "wrap",
-          width: "100%",
-          justifyContent: 'space-between'
+    <ImageList
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        width: '100%',
+        justifyContent: 'space-between',
+      }}
+    >
+      <ImageListItem
+        sx={{
+          width: '15%',
+          mb: 1.5,
         }}
-        >
-          <ImageListItem 
-            sx={{ 
-              width: '15%',
-              mb: 1.5,
+        key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
+      >
+        <Link to={ADDRECIPE}>
+          <Box
+            component="img"
+            src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
+            srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
+            alt="Create New Recipe"
+            loading="lazy"
+            sx={{
+              width: '100%',
             }}
-            key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
-            >
-              <Link to={ADDRECIPE}>
-                <Box 
-                  component="img" 
-                  src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
-                  srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt="Create New Recipe"
-                  loading="lazy"
-                  sx={{
-                    width:"100%"
-                  }}
-                />
-              <ImageListItemBar
-                  title="Create New Recipe"
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: 'rgba(255, 255, 255, 0.54)'}}
-                      aria-label={`info about Add Recipe`}
-                    >
-                        <InfoIcon />
-                    </IconButton>
-                  }
-              />
-            </Link>
-          </ImageListItem>
-          
-          {RecipeList.map((item:RecipeListType) => ( 
-              <ImageListItem 
-                sx={{ 
-                  width: '15%',
-                  mb: 1.5,
-                }}
-                key={item._id}
+          />
+          <ImageListItemBar
+            title="Create New Recipe"
+            actionIcon={
+              <IconButton
+                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                aria-label={`info about Add Recipe`}
+              >
+                <InfoIcon />
+              </IconButton>
+            }
+          />
+        </Link>
+      </ImageListItem>
+
+      {RecipeList.map((item: RecipeListType) => (
+        <ImageListItem
+          sx={{
+            width: '15%',
+            mb: 1.5,
+          }}
+          key={item._id}
+        >
+          <Link to={`/recipe/${item._id}`}>
+            <Box
+              component="img"
+              src={`${item.imageUrl}?w=248&fit=crop&auto=format`}
+              srcSet={`${item.imageUrl}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.name}
+              loading="lazy"
+              sx={{
+                width: '100%',
+              }}
+            />
+            <ImageListItemBar
+              title={item.name}
+              actionIcon={
+                <IconButton
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about ${item.name}`}
                 >
-                  <Link to={`/recipe/${item._id}`}>
-                    <Box 
-                      component="img"
-                      src={`${item.imageUrl}?w=248&fit=crop&auto=format`}
-                      srcSet={`${item.imageUrl}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                      alt={item.name}
-                      loading="lazy"
-                      sx={{
-                        width: "100%",
-                      }}
-                    />
-                  <ImageListItemBar
-                      title={item.name}
-                      actionIcon={
-                        <IconButton
-                          sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                          aria-label={`info about ${item.name}`}
-                          >
-                          <InfoIcon />
-                        </IconButton>
-                      }
-                  />
-                  </Link>
-              </ImageListItem>
-          ))}
-      </ImageList>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </Link>
+        </ImageListItem>
+      ))}
+    </ImageList>
   );
-}
+};

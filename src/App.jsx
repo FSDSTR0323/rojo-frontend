@@ -20,7 +20,6 @@ import { UserAdmin } from './pages/UserAdmin';
 import { Dashboard } from './pages/Dashboard';
 import CreateRecipe from './pages/CreateRecipe';
 import Header from './components/Header/Header';
-import { useUser } from './hooks/useUser';
 
 function App() {
   return (
