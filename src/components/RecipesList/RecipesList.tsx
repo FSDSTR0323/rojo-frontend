@@ -20,7 +20,6 @@ type RecipeListType = {
 };
 
 export const RecipeList = () => {
-
   const { user } = useUser();
   const [RecipeList, setRecipeList] = useState([]);
 
@@ -39,7 +38,7 @@ export const RecipeList = () => {
 
   useEffect(() => {
     fetchRecipe();
-  },[]);
+  },[user]);
 
   return (
       <ImageList 

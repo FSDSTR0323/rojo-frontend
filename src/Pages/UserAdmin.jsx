@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
-import { UserContext } from '../context/UserContext';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
 import UserTable from '../components/UserManagement/UserTable/UserTable';
+import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
@@ -27,8 +27,8 @@ export const UserAdmin = () => {
   };
 
   const addUserHandler = (user) => {
-    setUserList(prevUserList => [...prevUserList, user]);
-    setOriginalUserList(prevUserList => [...prevUserList, user]);
+    setUserList((prevUserList) => [...prevUserList, user]);
+    setOriginalUserList((prevUserList) => [...prevUserList, user]);
     toggleAddUserModalHandler();
   };
 
@@ -54,11 +54,14 @@ export const UserAdmin = () => {
 
   const confirmDeleteUserHandler = async () => {
     try {
-      await axios.delete(`http://localhost:3000/user/${selectedUserToDelete._id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      await axios.delete(
+        `http://localhost:3000/user/${selectedUserToDelete._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       setDeleteConfirmationOpen(false);
       setSelectedUserToDelete(null);
       fetchUsers();
@@ -76,7 +79,9 @@ export const UserAdmin = () => {
     if (value === 'all') {
       setUserList(originalUserList);
     } else {
-      const filteredUsers = originalUserList.filter((user) => user.role === value);
+      const filteredUsers = originalUserList.filter(
+        (user) => user.role === value
+      );
       setUserList(filteredUsers);
     }
   };
@@ -98,7 +103,7 @@ export const UserAdmin = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [user]);
 
   console.log('selected user', selectedUser);
 
@@ -115,7 +120,14 @@ export const UserAdmin = () => {
           filterValue={filter}
         />
 
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0px 3%' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: '0px 3%',
+          }}
+        >
           <UserTable
             userList={userList}
             openUserDetailsModalHandler={openUserDetailsModalHandler}
@@ -129,7 +141,6 @@ export const UserAdmin = () => {
         <CreateUserForm onUserAdd={addUserHandler} />
       </CustomModal>
 
-
       {selectedUser && (
         <CustomModal
           open={isUserDetailsModalOpen}
@@ -140,7 +151,10 @@ export const UserAdmin = () => {
       )}
 
       {selectedUser && (
-        <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
+        <CustomModal
+          open={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+        >
           <EditUserForm selectedUser={selectedUser} userId={selectedUser._id} />
         </CustomModal>
       )}

@@ -1,29 +1,33 @@
 import { createContext, useEffect, useState } from 'react';
-
-import React from 'react';
-
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isLoggedIn: true,
-    info: { role: 'guest' },
+    // isLoggedIn: false,
+    // info: { role: 'guest' },
   });
 
   useEffect(() => {
-    if (user.token == undefined) {
-      const userLocal = JSON.parse(localStorage.getItem('user')) || null;
-      if (userLocal) {
-        setUser(userLocal);
-      } else {
-        window.localStorage.removeItem('user');
-        setUser((previousState) => ({ ...previousState, isLoggedIn: false }));
-      }
+    const storedUserData = JSON.parse(localStorage.getItem('user'));
+
+    if (storedUserData) {
+      console.log('getting user from localStorage');
+      console.log('local storage user', storedUserData);
+      setUser(storedUserData);
     }
+
+    // if (user.token == undefined) {
+    //   const userLocal = JSON.parse(localStorage.getItem('user')) || null;
+    //   if (userLocal) {
+    //     setUser(userLocal);
+    //   } else {
+    //     window.localStorage.removeItem('user');
+    //     setUser((previousState) => ({ ...previousState, isLoggedIn: false }));
+    //   }
+    // }
   }, []);
 
   return (
-    //Tornem el context gloval de l' usuari
     <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>

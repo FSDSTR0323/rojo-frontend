@@ -2,6 +2,8 @@ import { Box, Button, Container, Grid, TextField, Typography } from '@mui/materi
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
+import { useNavigate } from 'react-router-dom';
+import { DASHBOARD } from '../../config/routes';
 
 type LoginType = {
   nickname: String;
@@ -23,6 +25,7 @@ type ApiResponseUser = {
 
 export const LoginForm = () => {
   const data = useUser();
+  const navigate = useNavigate()
   const { user, setUser } = data;
   const [loginData, setLoginData] = React.useState<LoginType>({
     nickname: '',
@@ -53,11 +56,12 @@ export const LoginForm = () => {
       );
       const userLocal = { token, info: responseUser.data, isLoggedIn: true };
       setUser(userLocal);
-      console.log('loginform, user', user);
+      // console.log('loginform, user', user);
 
-      console.log('LoginForm responseUsersList:', responseUser);
-      console.log('LoginForm response:', response);
+      // console.log('LoginForm responseUsersList:', responseUser);
+      // console.log('LoginForm response:', response);
       window.localStorage.setItem('user', JSON.stringify(userLocal));
+      navigate(DASHBOARD)
     } catch (error) {
       setFormErrors({});
       console.log('login error: ', error);
