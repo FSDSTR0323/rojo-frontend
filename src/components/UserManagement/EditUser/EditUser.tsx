@@ -1,7 +1,8 @@
 import { Container, Grid, Box, TextField, Avatar, Button } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
+import ImageUploader from '../../Images/ImageUploader';
 
 type UserType = {
   id: string;
@@ -12,6 +13,7 @@ type UserType = {
   nickname: string;
   profileImageUrl: string;
 };
+
 export const EditUserForm: React.FC<{
   selectedUser: UserType;
   userId: string;
@@ -21,6 +23,12 @@ export const EditUserForm: React.FC<{
   const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
   });
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const handleUserImageSelect = (image: File) => {
+    setImageUrl(URL.createObjectURL(image));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserDetails((prevUserDetails) => ({
@@ -34,11 +42,15 @@ export const EditUserForm: React.FC<{
 
     try {
       const token = user.token;
-      const response = await axios.put(`http://localhost:3000/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.put(
+        `http://localhost:3000/user/${userId}`,
+        { ...userDetails, profileImageUrl: imageUrl },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const updatedUserDetails = response.data;
       setUserDetails(updatedUserDetails);
@@ -49,7 +61,9 @@ export const EditUserForm: React.FC<{
       }
     }
   };
+
   console.log('userDetails:', userDetails);
+
   return (
     <Container maxWidth="sm">
       <Grid
@@ -61,6 +75,10 @@ export const EditUserForm: React.FC<{
       >
         <Box component="form" onSubmit={handleSubmit}>
           <h2>User details</h2>
+
+          <div>
+            <ImageUploader onImageSelect={handleUserImageSelect} />
+          </div>
 
           <Avatar
             alt="User Avatar"
@@ -117,12 +135,7 @@ export const EditUserForm: React.FC<{
             onChange={handleChange}
           />
 
-          <Button
-            fullWidth
-            type="submit"
-            sx={{ mt: 1.5, mb: 3 }}
-            variant="contained"
-          >
+          <Button fullWidth type="submit" sx={{ mt: 1.5, mb: 3 }} variant="contained">
             Confirm
           </Button>
         </Box>
@@ -130,5 +143,3 @@ export const EditUserForm: React.FC<{
     </Container>
   );
 };
-
-//Dona error 401 (Unauthorized) falta incloure id al token per sol·lucionar-ho

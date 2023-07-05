@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  Container,
-  Grid,
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
-  Snackbar,
-  Alert,
-} from '@mui/material';
+import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Snackbar, Alert } from '@mui/material';
 import { useUser } from '../../hooks/useUser';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ImageUploader from '../Images/ImageUploader';
 
 type RegisterType = {
   firstName: string;
@@ -23,6 +11,7 @@ type RegisterType = {
   password: string;
   email: string;
   role: 'headchef' | 'chef';
+  profileImage: string;
 };
 
 type CreateUserFormProps = {
@@ -39,6 +28,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     password: '',
     email: '',
     role: 'headchef',
+    profileImage: '',
   });
 
   const dataRegister = (
@@ -49,43 +39,10 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
   };
 
   const [formErrors, setFormErrors] = useState<any>({});
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const [file, setFile] = useState<File | null>(null);
-  const [url, setUrl] = useState<string>('');
-
-  const mediaType = 'image';
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      setFile(selectedFile);
-    }
-  };
-
-  const [buttonText, setButtonText] = useState('Upload Image');
-
-  const handleFileUpload = async () => {
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'Food_Informer');
-        formData.append('cloud_name', 'dzfvt7rrp');
-
-        const response = await axios.post(
-          `https://api.cloudinary.com/v1_1/dzfvt7rrp/${mediaType}/upload`,
-          formData
-        );
-
-        const imageUrl = response.data.url;
-        setUrl(imageUrl);
-        setIsImageUploaded(true);
-        setButtonText('Successful upload!');
-        console.log('Image uploaded:', imageUrl);
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
-    }
+  const handleUserImageSelect = (image: File) => { 
+    setImageUrl(URL.createObjectURL(image));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,7 +51,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
       const token = user.token;
       const response = await axios.post(
         'http://localhost:3000/user',
-        { ...registerData, profileImageUrl: url },
+        { ...registerData, profileImageUrl: imageUrl },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -132,8 +89,6 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     setIsModalOpen(false);
   };
 
-  const [isImageUploaded, setIsImageUploaded] = useState(false);
-
   return (
     <Container maxWidth="sm">
       <Grid
@@ -149,6 +104,11 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           display={isModalOpen ? 'block' : 'none'}
         >
           <h2>Create a new user</h2>
+
+          <div>          
+            <ImageUploader onImageSelect={handleUserImageSelect} />          
+          </div>
+
           <TextField
             name="firstName"
             margin="normal"
@@ -219,25 +179,6 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             <MenuItem value="chef">Chef</MenuItem>
             <MenuItem value="headchef">Head Chef</MenuItem>
           </Select>
-
-          <InputLabel htmlFor="image-upload">
-            <Button
-              component="span"
-              variant="contained"
-              onClick={handleFileUpload}
-              sx={{ mt: 1, mb: 3 }}
-            >
-              {isImageUploaded ? <CheckCircleIcon sx={{ mr: 1 }} /> : null}
-              {buttonText}
-            </Button>
-          </InputLabel>
-          <input
-            type="file"
-            id="image-upload"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-          />
 
           <Button
             fullWidth

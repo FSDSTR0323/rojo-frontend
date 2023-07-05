@@ -181,7 +181,7 @@ function Header() {
                 </Button>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/src/assets/Logo.png" />
+                    <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
                   </IconButton>
                 </Tooltip>
                 <Menu
