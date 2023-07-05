@@ -72,13 +72,14 @@ class UserTable extends Component {
                         textTransform: 'none',
                         border: 'none',
                         justifyContent: 'space-around',
+                        fontSize: '0.8rem',
                       }}
                       onClick={() => openUserDetailsModalHandler(user)}
                     >
                       {user.role === 'owner' && (
                         <>
                           <Visibility sx={{ marginRight: '0.5rem' }} />
-                          See your own details
+                          Your details
                         </>
                       )}
                       {user.role !== 'owner' && <Visibility />}
@@ -94,15 +95,15 @@ class UserTable extends Component {
                       </Button>
                     )}
 
-                    {user.role !== 'owner' && (
-                      <Button
-                        variant="outlined"
-                        sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                        onClick={() => openEditModalHandler(user)}
-                      >
-                        <Edit />
-                      </Button>
-                    )}
+                  
+                    <Button
+                      variant="outlined"
+                      sx={{ textTransform: 'none', mr: 1, border: 'none' }}
+                      onClick={() => openEditModalHandler(user)}
+                    >
+                      <Edit />
+                    </Button>
+                    
                   </TableCell>
                 </TableRow>
               ))}
