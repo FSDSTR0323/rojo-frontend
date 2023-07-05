@@ -16,10 +16,10 @@ import {
   ADDRECIPE,
 } from './config/routes';
 import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes/PrivateRoutes';
-import { UserAdmin } from './pages/UserAdmin';
 import { Dashboard } from './pages/Dashboard';
 import CreateRecipe from './pages/CreateRecipe';
 import Header from './components/Header/Header';
+import UserAdmin from './Pages/UserAdmin';
 
 function App() {
   return (
