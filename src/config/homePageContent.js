@@ -1,6 +1,6 @@
-import servingFood from '../assets/homePageImages/serving_food.jpeg'
-import happyChef from '../assets/homePageImages/happy_chef.jpeg'
-import ingredients from '../assets/homePageImages/ingredients.jpeg'
+import servingFood from '../assets/homePageImages/serving_food.jpeg';
+import happyChef from '../assets/homePageImages/happy_chef.jpeg';
+import ingredients from '../assets/homePageImages/ingredients.jpeg';
 
 const carouselContent = [
   {
@@ -8,18 +8,21 @@ const carouselContent = [
     subtitle:
       'Our app ensures that your restaurant follows all necessary sanitary rules, providing peace of mind to both your staff and customers. Cook safe, serve safe, and watch your business thrive!',
     image: servingFood,
+    textPosition: 'left',
   },
   {
     title: 'Enhance Your Culinary Confidence',
     description:
       "Gain culinary confidence with our app's comprehensive guidelines, temperature monitoring, and allergen management. Elevate your dishes to new heights and delight your customers every time",
     image: happyChef,
+    textPosition: 'right',
   },
   {
     title: 'Food Safety Made Simple',
     description:
       'Simplify food safety protocols with our intuitive app. From ingredient handling to cross-contamination prevention, our tool streamlines the process, allowing you to focus on what you do best: creating exceptional dining experiences.',
     image: ingredients,
+    textPosition: 'left',
   },
 ];
 

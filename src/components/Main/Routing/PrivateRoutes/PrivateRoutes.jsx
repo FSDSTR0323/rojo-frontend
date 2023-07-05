@@ -7,7 +7,5 @@ export const PrivateRoutes = () => {
   console.log('privateRoutes user', user);
   const isAuth = user.isLoggedIn;
 
-  //const isAuth = window.localStorage.getItem('user');
-
   return isAuth ? <Outlet /> : <Navigate to={LOGIN} />;
 };

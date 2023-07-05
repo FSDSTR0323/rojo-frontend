@@ -1,0 +1,15 @@
+footer {
+  background-color: 'red';
+  color: 'black';
+  padding: '4rem 0';
+}
+
+div {
+  margin-top: '3rem'; 
+  margin-bottom: '2rem';
+}
+
+ul {
+  list-style: 'none'; 
+  padding: 0;
+}
