@@ -23,25 +23,32 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { Box } from '@mui/material';
 
+const styles = {
+  pageArea: {
+    minHeight: '75vh',
+    mb: 10,
+  },
+};
+
 function App() {
   return (
     <>
       <Header />
-      <Box sx={{ minHeight: '60vh', mb: 10 }}>
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route path={DASHBOARD} element={<Dashboard />} exact />
-            <Route path={RECIPES} element={<Recipes />} />
-            <Route path={RECIPE} element={<Recipe />} />
-            <Route path={ADDRECIPE} element={<CreateRecipe />} exact />
-            <Route path={USERADMIN} element={<UserAdmin />} exact />
-          </Route>
-          <Route path={HOME} element={<Home />} exact />
-          <Route path={LOGIN} element={<Login />} exact />
-          <Route path={REGISTER} element={<Register />} exact />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Box>
+      {/* <Box sx={styles.pageArea}> */}
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route path={DASHBOARD} element={<Dashboard />} exact />
+          <Route path={RECIPES} element={<Recipes />} />
+          <Route path={RECIPE} element={<Recipe />} />
+          <Route path={ADDRECIPE} element={<CreateRecipe />} exact />
+          <Route path={USERADMIN} element={<UserAdmin />} exact />
+        </Route>
+        <Route path={HOME} element={<Home />} exact />
+        <Route path={LOGIN} element={<Login />} exact />
+        <Route path={REGISTER} element={<Register />} exact />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {/* </Box> */}
       <Footer />
     </>
   );

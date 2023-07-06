@@ -84,7 +84,6 @@ export const LoginForm = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        pt={4}
         sx={{ minHeight: '70vh' }}
       >
         <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
