@@ -1,5 +1,5 @@
 import { Container, Grid, Box, TextField, Avatar, Button } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
@@ -17,7 +17,8 @@ type UserType = {
 export const EditUserForm: React.FC<{
   selectedUser: UserType;
   userId: string;
-}> = ({ selectedUser, userId }) => {
+  onClose: () => void; 
+}> = ({ selectedUser, userId, onClose }) => {
   const { user } = useUser();
   console.log('selectedUser', selectedUser);
   const [userDetails, setUserDetails] = React.useState<UserType>({
@@ -35,7 +36,12 @@ export const EditUserForm: React.FC<{
       ...prevUserDetails,
       [e.target.name]: e.target.value,
     }));
+    console.log('userDetails', userDetails);
   };
+
+  useEffect(() => {
+    setUserDetails({ ...selectedUser });
+  }, [selectedUser]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,9 +58,11 @@ export const EditUserForm: React.FC<{
         }
       );
 
-      const updatedUserDetails = response.data;
+      const updatedUserDetails = { ...selectedUser, ...response.data };
       setUserDetails(updatedUserDetails);
       console.log('Updated userDetails:', updatedUserDetails);
+
+      onClose(); 
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         console.log('Form errors:', error.response.data.errors);

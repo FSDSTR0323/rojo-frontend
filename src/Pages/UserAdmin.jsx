@@ -54,21 +54,34 @@ export const UserAdmin = () => {
 
   const confirmDeleteUserHandler = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/user/${selectedUserToDelete._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      setDeleteConfirmationOpen(false);
-      setSelectedUserToDelete(null);
-      fetchUsers();
+      if (selectedUserToDelete) {
+        console.log('selected user to delete', selectedUserToDelete);
+        await axios.delete(
+          `http://localhost:3000/user/${selectedUserToDelete._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
+        .then(response => {
+          console.log('User deleted:', response);
+          setDeleteConfirmationOpen(false);
+          setSelectedUserToDelete(null);
+          fetchUsers();
+        })
+        .catch(error => {
+          console.error('Error deleting user:', error);
+        });
+      } else {
+        console.error('No user selected for deletion');
+      }
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   };
+  
+  
 
   const filterHandler = (value) => {
     setFilter(value);
@@ -95,7 +108,7 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      // console.log('Updated user list:', response.data);
+      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -105,12 +118,12 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  // console.log('selected user', selectedUser);
+  console.log('selected user', selectedUser);
 
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h4" sx={{ mx: 3, mb: 4, textAlign: 'left' }}>
+        <Typography variant="h4" sx={{ mx: 6, mb: 4, textAlign: 'left' }}>
           User management
         </Typography>
         <Buttons
@@ -152,11 +165,15 @@ export const UserAdmin = () => {
 
       {selectedUser && (
         <CustomModal
-          open={isEditModalOpen}
+        open={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      >
+        <EditUserForm
+          selectedUser={selectedUser}
+          userId={selectedUser._id}
           onClose={() => setIsEditModalOpen(false)}
-        >
-          <EditUserForm selectedUser={selectedUser} userId={selectedUser._id} />
-        </CustomModal>
+        />
+      </CustomModal>
       )}
 
       <DeleteConfirmation

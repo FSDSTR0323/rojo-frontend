@@ -30,7 +30,6 @@ const Buttons = ({
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        mb: 2,
         paddingLeft: '3%',
         paddingRight: '3%',
       }}
@@ -53,7 +52,7 @@ const Buttons = ({
               onFilterChange(value);
             }}
             displayEmpty
-            sx={{ textTransform: 'none', mr: 2 }}
+            sx={{ textTransform: 'none', mr: 2, maxHeight: '35px' }}
           >
             <MenuItem value="">Select a role</MenuItem>
             <MenuItem value="Owner">Owner</MenuItem>
