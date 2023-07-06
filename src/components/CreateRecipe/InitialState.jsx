@@ -8,25 +8,25 @@ import axios from 'axios';
 import { useHaccp } from '../../hooks/useHaccp';
 
 const inputNames = [
-  'Defrost',
+  'Defrosting',
   'Chilled storage',
   'Frozen storage',
-  'Dry Storage',
+  'Dry goods storage',
 ];
 
 const ingredientsStatus = {
-  Defrost: 'frozen',
+  Defrosting: 'frozen',
   'Chilled storage': 'chilled',
   'Frozen storage': 'frozen',
-  'Dry Storage': 'dry',
+  'Dry goods storage': 'dry',
 };
 
 export default function InitialState() {
   const userLocal = JSON.parse(window.localStorage.getItem('user'));
-  const { setPrePreparation } = useHaccp();
-
+  const { setPrePreparation, setValuePrepreparation } = useHaccp();
   const handleState = async (e) => {
     const { value } = e.target;
+    setValuePrepreparation(value);
     const status = ingredientsStatus[value];
     console.log('Initial State status', status);
     const data = await axios.get(

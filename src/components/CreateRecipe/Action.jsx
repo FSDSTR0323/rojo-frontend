@@ -4,12 +4,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useHaccp } from '../../hooks/useHaccp';
 
 export default function BasicSelect() {
-  const [age, setAge] = React.useState('');
-
+  const { action, setAction, valuePrepreparation, valuePreparation } =
+    useHaccp();
+  const previousValues = [valuePrepreparation, valuePreparation];
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setAction(event.target.value);
   };
 
   return (
@@ -30,13 +32,13 @@ export default function BasicSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
+          value={action}
+          label="What you'll do?"
           onChange={handleChange}
           sx={{ backgroundColor: 'white' }}
         >
-          <MenuItem value={10}>Use</MenuItem>
-          <MenuItem value={20}>Keep</MenuItem>
+          <MenuItem value={'use'}>Use</MenuItem>
+          <MenuItem value={'keep'}>Keep</MenuItem>
         </Select>
       </FormControl>
     </Box>
