@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,16 +18,17 @@ import {
   USERADMIN,
   RECIPES,
   HOME,
-} from '../../config/routes';
-import { useUser } from '../../hooks/useUser';
+} from '../../../config/routes';
+import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { useState } from 'react';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, setUser } = useUser();
 
   const handleOpenNavMenu = (event) => {

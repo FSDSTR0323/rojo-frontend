@@ -1,4 +1,5 @@
-import { Box, Container, Typography } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, Typography } from '@mui/material';
 
 const styles = {
   footer: {

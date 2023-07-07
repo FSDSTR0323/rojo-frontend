@@ -12,14 +12,14 @@ const carouselContent = [
   },
   {
     title: 'Enhance Your Culinary Confidence',
-    description:
+    subtitle:
       "Gain culinary confidence with our app's comprehensive guidelines, temperature monitoring, and allergen management. Elevate your dishes to new heights and delight your customers every time",
     image: happyChef,
     textPosition: 'right',
   },
   {
     title: 'Food Safety Made Simple',
-    description:
+    subtitle:
       'Simplify food safety protocols with our intuitive app. From ingredient handling to cross-contamination prevention, our tool streamlines the process, allowing you to focus on what you do best: creating exceptional dining experiences.',
     image: ingredients,
     textPosition: 'left',

@@ -15,26 +15,17 @@ import {
   RECIPE,
   ADDRECIPE,
 } from './config/routes';
-import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes/PrivateRoutes';
+import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes';
 import { UserAdmin } from './pages/UserAdmin';
 import { Dashboard } from './pages/Dashboard';
 import CreateRecipe from './pages/CreateRecipe';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import { Box } from '@mui/material';
-
-const styles = {
-  pageArea: {
-    minHeight: '75vh',
-    mb: 10,
-  },
-};
+import Header from './components/Main/Header/Header';
+import Footer from './components/Main/Footer/Footer';
 
 function App() {
   return (
     <>
       <Header />
-      {/* <Box sx={styles.pageArea}> */}
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path={DASHBOARD} element={<Dashboard />} exact />
@@ -48,7 +39,6 @@ function App() {
         <Route path={REGISTER} element={<Register />} exact />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* </Box> */}
       <Footer />
     </>
   );
