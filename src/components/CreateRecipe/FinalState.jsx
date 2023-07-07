@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,17 +7,23 @@ import FormLabel from '@mui/material/FormLabel';
 import { useHaccp } from '../../hooks/useHaccp';
 
 export default function FinalState() {
-  const { valuePrepreparation, valuePreparation, prePreparation } = useHaccp();
-  const previousValues = [valuePrepreparation, valuePreparation];
+  const { valuePrepreparation, valuePreparation, prePreparation, action } =
+    useHaccp();
+  const [previousValues, setPreviousValues] = useState([]);
+  const [finalState, setFinalState] = useState([]);
 
-  function finalStateFilter(previousValues, prePreparation) {
+  useEffect(() => {
+    setPreviousValues([valuePreparation, valuePrepreparation]);
+    setFinalState(finalStateFilter());
+  }, [valuePrepreparation, valuePreparation, action]);
+
+  function finalStateFilter() {
     const filtredNames = prePreparation
       .map((haccp) => haccp.name)
-      .filter((element, index) => {
+      .filter((element, index, self) => {
         console.log('log de element', element);
-        return prePreparation.indexOf(element) === index;
+        return self.indexOf(element) === index;
       })
-
       .filter((name) => {
         console.log('name', name);
         return !previousValues.includes(name);
@@ -26,6 +32,7 @@ export default function FinalState() {
   }
 
   console.log('use value final state', previousValues);
+  console.log('Final State', finalState);
 
   return (
     <FormControl>
@@ -35,16 +42,14 @@ export default function FinalState() {
         defaultValue="female"
         name="radio-buttons-group"
       >
-        {finalStateFilter(previousValues, prePreparation).map(
-          (haccp, index) => (
-            <FormControlLabel
-              value={haccp}
-              key={index}
-              control={<Radio />}
-              label={haccp}
-            />
-          )
-        )}
+        {finalState.map((haccp, index) => (
+          <FormControlLabel
+            value={haccp}
+            key={index}
+            control={<Radio />}
+            label={haccp}
+          />
+        ))}
       </RadioGroup>
     </FormControl>
   );
