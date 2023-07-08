@@ -11,8 +11,6 @@ export const PrivateRoutes = () => {
   const permissions = user.info.permissions;
   const intentPath = location.pathname;
 
-  console.log('intent', intentPath);
-
   return isAuth ? (
     <Redirect permissions={permissions} intentPath={intentPath} />
   ) : (
