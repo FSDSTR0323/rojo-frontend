@@ -9,10 +9,16 @@ const Reroute = ({ path }) => (
   </>
 );
 
-export const Redirect = ({ permissions }) => {
-  if (permissions.includes(PERMISSIONS.DASHBOARD_READ)) {
+export const Redirect = ({ permissions, intentPath }) => {
+  if (
+    intentPath === DASHBOARD &&
+    permissions.includes(PERMISSIONS.DASHBOARD_READ)
+  ) {
     return <Reroute path={DASHBOARD} />;
-  } else if (permissions.includes(PERMISSIONS.USER_READ)) {
+  } else if (
+    intentPath === USERADMIN &&
+    permissions.includes(PERMISSIONS.USER_READ)
+  ) {
     return <Reroute path={USERADMIN} />;
   } else {
     return <Reroute path={RECIPES} />;
