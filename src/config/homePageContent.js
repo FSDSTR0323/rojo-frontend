@@ -32,7 +32,7 @@ const carouselContent = [
   },
 ];
 
-const valueProposition = [
+const valuePropositionContent = [
   {
     title: 'Effortless compliance',
     description:
@@ -50,4 +50,4 @@ const valueProposition = [
   },
 ];
 
-export { carouselContent, valueProposition };
+export { carouselContent, valuePropositionContent };
