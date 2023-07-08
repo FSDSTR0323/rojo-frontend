@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import logo from '../../assets/Logo.png';
+import logo from '../../../assets/Logo.png';
 
 const styles = {
   maxHeight: { xs: '5em' },

@@ -15,11 +15,12 @@ import {
   RECIPE,
   ADDRECIPE,
 } from './config/routes';
-import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes/PrivateRoutes';
+import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes';
+import { UserAdmin } from './pages/UserAdmin';
 import { Dashboard } from './pages/Dashboard';
 import CreateRecipe from './pages/CreateRecipe';
-import Header from './components/Header/Header';
-import UserAdmin from './Pages/UserAdmin';
+import Header from './components/Main/Header/Header';
+import Footer from './components/Main/Footer/Footer';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path={REGISTER} element={<Register />} exact />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </>
   );
 }

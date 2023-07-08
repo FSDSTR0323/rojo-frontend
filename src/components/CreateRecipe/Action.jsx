@@ -24,7 +24,7 @@ export default function BasicSelect() {
     >
       <h3>Choose the actions</h3>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">What you'll do?</InputLabel>
+        <InputLabel id="demo-simple-select-label">What will you do?</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

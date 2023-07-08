@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
