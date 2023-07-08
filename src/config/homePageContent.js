@@ -11,7 +11,6 @@ const carouselContent = [
       src: servingFood,
       alt: 'A waiter serving food',
     },
-    textPosition: 'left',
   },
   {
     title: 'Enhance Your Culinary Confidence',
@@ -21,7 +20,6 @@ const carouselContent = [
       src: happyChef,
       alt: 'A happy chef',
     },
-    textPosition: 'right',
   },
   {
     title: 'Food Safety Made Simple',
@@ -31,7 +29,6 @@ const carouselContent = [
       src: ingredients,
       alt: 'Food ingredients',
     },
-    textPosition: 'left',
   },
 ];
 
