@@ -1,30 +1,13 @@
 import Carousel from 'react-material-ui-carousel';
 import { CarouselItem } from '../components/Home/CarouselItem/CarouselItem';
+import { ValuePropItem } from '../components/Home/valuePropItem/valuePropItem';
 import {
   carouselContent,
   valuePropositionContent,
 } from '../config/homePageContent';
-import { Box, Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 
-const ValuePropItem = ({ content }) => {
-  const styles = {
-    width: '33%',
-    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
-    padding: '40px 35px',
-    textAlign: 'center',
-    h3: {
-      fontSize: '1.5em',
-      marginBottom: '0.75em',
-    },
-  };
-
-  return (
-    <Box sx={styles}>
-      <Typography variant="h3">{content.title}</Typography>
-      <Typography variant="subtitle1">{content.description}</Typography>
-    </Box>
-  );
-};
+ValuePropItem
 
 export const Home = () => {
   const styles = {
