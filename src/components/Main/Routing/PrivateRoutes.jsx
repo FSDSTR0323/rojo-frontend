@@ -1,11 +1,16 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useUser } from '../../../hooks/useUser';
 import { LOGIN } from '../../../config/routes';
+import { Redirect } from './Redirect';
 
 export const PrivateRoutes = () => {
   const { user } = useUser();
-  console.log('privateRoutes user', user);
   const isAuth = user.isLoggedIn;
+  const permissions = user.info.permissions;
 
-  return isAuth ? <Outlet /> : <Navigate to={LOGIN} />;
+  return isAuth ? (
+    <Redirect permissions={permissions} />
+  ) : (
+    <Navigate to={LOGIN} />
+  );
 };
