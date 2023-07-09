@@ -21,6 +21,6 @@ export const Redirect = ({ permissions, intentPath }) => {
   ) {
     return <Reroute path={USERADMIN} />;
   } else {
-    return <Reroute path={RECIPES} />;
+    return <Reroute path={intentPath} />;
   }
 };
