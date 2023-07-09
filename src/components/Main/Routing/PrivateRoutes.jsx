@@ -1,7 +1,20 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useUser } from '../../../hooks/useUser';
 import { LOGIN } from '../../../config/routes';
-import { Redirect } from './Redirect';
+import { PERMISSIONS_CONFIG } from '../../../config/routes';
+import { DEFAULT_LOGGED_IN_URL } from '../../../config/routes';
+
+const Redirect = ({ path }) => (
+  <>
+    <Navigate to={path} />
+    <Outlet />
+  </>
+);
+
+const hasPermission = (permissions, path) => {
+  const permission = PERMISSIONS_CONFIG[path];
+  return permission ? permissions.includes(permission) : false;
+};
 
 export const PrivateRoutes = () => {
   const { user } = useUser();
@@ -12,7 +25,11 @@ export const PrivateRoutes = () => {
   const intentPath = location.pathname;
 
   return isAuth ? (
-    <Redirect permissions={permissions} intentPath={intentPath} />
+    hasPermission(permissions, intentPath) ? (
+      <Redirect path={intentPath} />
+    ) : (
+      <Navigate to={DEFAULT_LOGGED_IN_URL} />
+    )
   ) : (
     <Navigate to={LOGIN} />
   );
