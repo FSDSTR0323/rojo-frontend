@@ -17,7 +17,7 @@ export const CarouselItem = ({ content }) => {
     h1: {
       fontSize: '3em',
       fontWeight: 'bold',
-      margin: '0.25em',
+      margin: '0.25em 0 1em 0',
     },
     h2: {
       fontSize: '1.25em',

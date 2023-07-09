@@ -7,8 +7,6 @@ import {
 } from '../config/homePageContent';
 import { Container } from '@mui/material';
 
-ValuePropItem
-
 export const Home = () => {
   const styles = {
     carousel: {
@@ -33,7 +31,7 @@ export const Home = () => {
           <CarouselItem key={index} content={content} />
         ))}
       </Carousel>
-      <Container maxWidth="2xl" sx={styles.valueProps}>
+      <Container maxWidth="xl" sx={styles.valueProps}>
         {valuePropositionContent.map((content, index) => (
           <ValuePropItem key={index} content={content} />
         ))}
