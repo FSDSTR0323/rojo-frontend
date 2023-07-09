@@ -1,14 +1,8 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useUser } from '../../../hooks/useUser';
-import {
-  LOGIN,
-  RECIPES,
-  DASHBOARD,
-  USERADMIN,
-  RECIPE,
-} from '../../../config/routes';
-
-import { PERMISSIONS } from '../../../config/permissions';
+import { LOGIN } from '../../../config/routes';
+import { PERMISSIONS_CONFIG } from '../../../config/routes';
+import { DEFAULT_LOGGED_IN_URL } from '../../../config/routes';
 
 const Redirect = ({ path }) => (
   <>
@@ -16,6 +10,13 @@ const Redirect = ({ path }) => (
     <Outlet />
   </>
 );
+
+const permissionChecker = {
+  hasPermission: (permissions, path) => {
+    const permission = PERMISSIONS_CONFIG[path];
+    return permission ? permissions.includes(permission) : false;
+  },
+};
 
 export const PrivateRoutes = () => {
   const { user } = useUser();
@@ -25,26 +26,11 @@ export const PrivateRoutes = () => {
   const permissions = user.info.permissions;
   const intentPath = location.pathname;
 
-  const hasPermission = (path) => {
-    switch (path) {
-      case DASHBOARD:
-        return permissions.includes(PERMISSIONS.DASHBOARD_READ);
-      case USERADMIN:
-        return permissions.includes(PERMISSIONS.USER_READ);
-      case RECIPES:
-        return permissions.includes(PERMISSIONS.RECIPE_READ);
-      case RECIPE:
-        return permissions.includes(PERMISSIONS.RECIPE_READ);
-      default:
-        return false;
-    }
-  };
-
   return isAuth ? (
-    hasPermission(intentPath) ? (
+    permissionChecker.hasPermission(permissions, intentPath) ? (
       <Redirect path={intentPath} />
     ) : (
-      <Navigate to={RECIPES} />
+      <Navigate to={DEFAULT_LOGGED_IN_URL} />
     )
   ) : (
     <Navigate to={LOGIN} />
