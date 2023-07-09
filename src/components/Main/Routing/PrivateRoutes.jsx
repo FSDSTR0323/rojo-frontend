@@ -11,11 +11,9 @@ const Redirect = ({ path }) => (
   </>
 );
 
-const permissionChecker = {
-  hasPermission: (permissions, path) => {
-    const permission = PERMISSIONS_CONFIG[path];
-    return permission ? permissions.includes(permission) : false;
-  },
+const hasPermission = (permissions, path) => {
+  const permission = PERMISSIONS_CONFIG[path];
+  return permission ? permissions.includes(permission) : false;
 };
 
 export const PrivateRoutes = () => {
@@ -27,7 +25,7 @@ export const PrivateRoutes = () => {
   const intentPath = location.pathname;
 
   return isAuth ? (
-    permissionChecker.hasPermission(permissions, intentPath) ? (
+    hasPermission(permissions, intentPath) ? (
       <Redirect path={intentPath} />
     ) : (
       <Navigate to={DEFAULT_LOGGED_IN_URL} />
