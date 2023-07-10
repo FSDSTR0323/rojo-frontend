@@ -15,7 +15,7 @@ import {
   DASHBOARD,
   LOGIN,
   REGISTER,
-  USERADMIN,
+  USERS,
   RECIPES,
   HOME,
 } from '../../../config/routes';
@@ -23,8 +23,6 @@ import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { useState } from 'react';
-
-const dropdownSettings = ['Logout'];
 
 const styles = {
   appBar: {
@@ -56,17 +54,23 @@ const styles = {
   },
 };
 
-function Header() {
+const Header = () => {
+  const { user, setUser } = useUser();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { user, setUser } = useUser();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
+
   const isLoginPage = pathname === LOGIN;
   const isRegisterPage = pathname === REGISTER;
   const isInDashboard = pathname === DASHBOARD;
-  const isInUsersAdmin = pathname === USERADMIN;
+  const isInUsersAdmin = pathname === USERS;
   const isInRecipes = pathname === RECIPES;
+
+  const dropdownSettings = ['LOGOUT'];
+  const notLoggedInLinks = ['LOGIN', 'REGISTER'];
+  const loggedInLinks = ['DASHBOARD', 'RECIPES', 'USERS'];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -105,7 +109,7 @@ function Header() {
               )}
               {!isInUsersAdmin && (
                 <Button
-                  onClick={() => navigate(USERADMIN)}
+                  onClick={() => navigate(USERS)}
                   sx={styles.userButtons}
                 >
                   Users
@@ -243,6 +247,6 @@ function Header() {
       </Container>
     </AppBar>
   );
-}
+};
 
 export default Header;
