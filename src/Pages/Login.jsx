@@ -1,24 +1,13 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { DASHBOARD } from '../config/routes';
+import { Navigate } from 'react-router-dom';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 import { useUser } from '../hooks/useUser';
-import Header from '../components/Header/Header';
+import { DASHBOARD } from '../config/routes';
 
 export const Login = () => {
-  const navigate = useNavigate();
   const { user } = useUser();
+  const isAuth = user.isLoggedIn;
 
-  useEffect(() => {
-    if (user.isLoggedIn) {
-      navigate(DASHBOARD);
-    }
-  }, [user]);
-
-  return (
-    <>
-      <Header />
-      <LoginForm />
-    </>
-  );
+  return isAuth ? <Navigate to={DASHBOARD} /> : <LoginForm />;
 };
+
+

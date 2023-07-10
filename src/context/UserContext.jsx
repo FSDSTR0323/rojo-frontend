@@ -1,26 +1,13 @@
-import { createContext, useEffect, useState } from 'react';
-
-import React from 'react';
-
+import { createContext, useState } from 'react';
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    isLoggedIn: true,
-    info: { role: 'guest' },
+  const [user, setUser] = useState(() => {
+    const storedUserData = localStorage.getItem('user');
+    return storedUserData
+      ? JSON.parse(storedUserData)
+      : { isLoggedIn: false, info: { role: 'guest' } };
   });
-
-  useEffect(() => {
-    if (user.token == undefined) {
-      const userLocal = JSON.parse(localStorage.getItem('user')) || null;
-      if (userLocal) {
-        setUser(userLocal);
-      } else {
-        window.localStorage.removeItem('user');
-        setUser((previousState) => ({ ...previousState, isLoggedIn: false }));
-      }
-    }
-  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

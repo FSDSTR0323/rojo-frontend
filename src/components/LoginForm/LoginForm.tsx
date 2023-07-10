@@ -1,7 +1,16 @@
-import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
+import { useNavigate } from 'react-router-dom';
+import { DASHBOARD } from '../../config/routes';
 
 type LoginType = {
   nickname: String;
@@ -23,6 +32,7 @@ type ApiResponseUser = {
 
 export const LoginForm = () => {
   const data = useUser();
+  const navigate = useNavigate();
   const { user, setUser } = data;
   const [loginData, setLoginData] = React.useState<LoginType>({
     nickname: '',
@@ -38,13 +48,13 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    console.log('LoginForm, loginData:', loginData);
+    // console.log('LoginForm, loginData:', loginData);
     try {
       const response: ApiResponse = await axios.post(
         'http://localhost:3000/user/login',
         loginData
       );
-      console.log('LoginForm response:', response);
+      // console.log('LoginForm response:', response);
       const token = response.data.token;
 
       const responseUser: ApiResponseUser = await axios.get(
@@ -53,14 +63,14 @@ export const LoginForm = () => {
       );
       const userLocal = { token, info: responseUser.data, isLoggedIn: true };
       setUser(userLocal);
-      console.log('loginform, user', user);
-
-      console.log('LoginForm responseUsersList:', responseUser);
-      console.log('LoginForm response:', response);
+      // console.log('loginform, user', user);
+      // console.log('LoginForm responseUsersList:', responseUser);
+      // console.log('LoginForm response:', response);
       window.localStorage.setItem('user', JSON.stringify(userLocal));
+      navigate(DASHBOARD);
     } catch (error) {
       setFormErrors({});
-      console.log('login error: ', error);
+      // console.log('login error: ', error);
       if (error.response && error.response.data && error.response.data.errors) {
         setFormErrors(error.response.data.errors);
       }
@@ -74,10 +84,11 @@ export const LoginForm = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        pt={4}
         sx={{ minHeight: '70vh' }}
       >
-        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>Log in</Typography>
+        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+          Log in
+        </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             name="nickname"

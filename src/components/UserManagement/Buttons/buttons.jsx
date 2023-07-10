@@ -3,23 +3,26 @@ import {
   Button,
   TextField,
   Box,
-  FormControl,
   InputAdornment,
   IconButton,
   Select,
   MenuItem,
 } from '@mui/material';
-import { Add, Search } from '@mui/icons-material';
+import { Add, Search, Sort } from '@mui/icons-material';
 
 const Buttons = ({
   toggleAddUserModalHandler,
-  handleFilterChange,
   filterValue,
+  onSortChange,
+  onFilterChange,
+  onSearchChange,
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
+    onSearchChange(value);
   };
 
   return (
@@ -39,22 +42,25 @@ const Buttons = ({
           startIcon={<Add />}
           sx={{ textTransform: 'none', mr: 2 }}
         >
-          Añadir Usuario
+          Add new user
         </Button>
 
-        <FormControl variant="outlined" sx={{ minWidth: 140 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Select
             value={filterValue}
-            onChange={(event) => filterHandler(event.target.value)}
+            onChange={(event) => {
+              const value = event.target.value;
+              onFilterChange(value);
+            }}
             displayEmpty
-            sx={{ minWidth: '150px', marginRight: '10px' }}
+            sx={{ textTransform: 'none', mr: 2 }}
           >
-            <MenuItem value="">Selecciona un rol</MenuItem>
+            <MenuItem value="">Select a role</MenuItem>
             <MenuItem value="Owner">Owner</MenuItem>
-            <MenuItem value="headchef">headchef</MenuItem>
-            <MenuItem value="chef">chef</MenuItem>
+            <MenuItem value="headchef">Head Chef</MenuItem>
+            <MenuItem value="chef">Chef</MenuItem>
           </Select>
-        </FormControl>
+        </Box>
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -69,17 +75,21 @@ const Buttons = ({
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                  <Search sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }} />
+                  <Search
+                    sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }}
+                  />
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
+
+        <IconButton onClick={onSortChange}>
+          <Sort />
+        </IconButton>
       </Box>
     </Box>
   );
 };
 
 export default Buttons;
-
-

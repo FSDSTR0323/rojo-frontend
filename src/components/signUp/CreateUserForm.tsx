@@ -1,19 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  Container,
-  Grid,
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
-  Snackbar,
-  Alert
-} from '@mui/material';
+import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Snackbar, Alert } from '@mui/material';
 import { useUser } from '../../hooks/useUser';
+import ImageUploader from '../Images/ImageUploader';
 
 type RegisterType = {
   firstName: string;
@@ -22,18 +11,24 @@ type RegisterType = {
   password: string;
   email: string;
   role: 'headchef' | 'chef';
+  profileImage: string;
 };
 
-export const CreateUserForm = () => {
+type CreateUserFormProps = {
+  onUserAdd: (user: any) => void;
+};
+
+export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
   const { user } = useUser();
 
-  const [registerData, setRegisterData] = React.useState<RegisterType>({
+  const [registerData, setRegisterData] = useState<RegisterType>({
     firstName: '',
     lastName: '',
     nickname: '',
     password: '',
     email: '',
     role: 'headchef',
+    profileImage: '',
   });
 
   const dataRegister = (
@@ -43,7 +38,12 @@ export const CreateUserForm = () => {
     setRegisterData({ ...registerData, [name]: value });
   };
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
+  const [formErrors, setFormErrors] = useState<any>({});
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const handleUserImageSelect = (image: File) => { 
+    setImageUrl(URL.createObjectURL(image));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ export const CreateUserForm = () => {
       const token = user.token;
       const response = await axios.post(
         'http://localhost:3000/user',
-        registerData,
+        { ...registerData, profileImageUrl: imageUrl },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -59,32 +59,27 @@ export const CreateUserForm = () => {
         }
       );
       console.log(response.data);
-      setIsSnackbarOpen(true); 
-      handleCloseModal(); 
+      setIsSnackbarOpen(true);
+      onUserAdd(response.data);
+      handleCloseModal();
     } catch (error) {
       console.error(error);
       setFormErrors({});
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.errors
-      ) {
+      if (error.response && error.response.data && error.response.data.errors) {
         setFormErrors(error.response.data.errors);
       }
     }
   };
 
-  const handleRoleChange = (
-    event: SelectChangeEvent<'headchef' | 'chef'>
-  ) => {
+  const handleRoleChange = (event: SelectChangeEvent<'headchef' | 'chef'>) => {
     const value: 'headchef' | 'chef' = event.target.value as
       | 'headchef'
       | 'chef';
     setRegisterData({ ...registerData, role: value });
   };
 
-  const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(true);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
@@ -107,12 +102,13 @@ export const CreateUserForm = () => {
           component="form"
           onSubmit={handleSubmit}
           display={isModalOpen ? 'block' : 'none'}
-          bgcolor="background.paper"
-          p={3}
-          borderRadius={4}
-          boxShadow={1}
         >
           <h2>Create a new user</h2>
+
+          <div>          
+            <ImageUploader onImageSelect={handleUserImageSelect} />          
+          </div>
+
           <TextField
             name="firstName"
             margin="normal"
@@ -153,7 +149,7 @@ export const CreateUserForm = () => {
             margin="normal"
             type="password"
             fullWidth
-            label="Contraseña"
+            label="Password"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -171,7 +167,7 @@ export const CreateUserForm = () => {
             onChange={dataRegister}
           />
 
-          <InputLabel id="role-label">Rol</InputLabel>
+          <InputLabel id="role-label">Role</InputLabel>
           <Select
             labelId="role-label"
             name="role"
@@ -190,26 +186,28 @@ export const CreateUserForm = () => {
             sx={{ mt: 1.5, mb: 3 }}
             variant="contained"
           >
-            Crear usuario
+            Create User
           </Button>
         </Box>
-        
       </Grid>
       <Snackbar
         open={isSnackbarOpen}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        sx={{ width: '300px', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)' }}
+        sx={{
+          width: '300px',
+          borderRadius: '8px',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+        }}
       >
         <Alert
           onClose={handleSnackbarClose}
           severity="success"
           sx={{ width: '100%' }}
         >
-          User succesfully created 
+          User successfully created
         </Alert>
       </Snackbar>
     </Container>
   );
 };
-

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,16 +18,17 @@ import {
   USERADMIN,
   RECIPES,
   HOME,
-} from '../../config/routes';
-import { useUser } from '../../hooks/useUser';
+} from '../../../config/routes';
+import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { useState } from 'react';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const { user, setUser } = useUser();
 
   const handleOpenNavMenu = (event) => {
@@ -47,12 +47,10 @@ function Header() {
     navigate('./');
   };
 
-  const handleLogOut = (removeInfo, goHome) => {
+  const handleLogOut = () => {
     window.localStorage.removeItem('user');
-    setUser({
-      isLoggedIn: false,
-      info: { role: 'guest' },
-    });
+    console.log('removing user info');
+    setUser({});
     navigate(HOME);
   };
 
@@ -180,7 +178,7 @@ function Header() {
                 </Button>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/src/assets/Logo.png" />
+                    <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
                   </IconButton>
                 </Tooltip>
                 <Menu

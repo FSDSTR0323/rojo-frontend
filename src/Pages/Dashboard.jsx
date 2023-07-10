@@ -1,23 +1,18 @@
-import React, { useEffect } from 'react';
-import { RECIPES, HACCP, HOME, USERADMIN } from '../config/routes';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '../hooks/useUser';
-import DashboardButtons from '../components/Buttons/DashboardButtons';
-import Header from '../components/Header/Header';
+// import { useNavigate } from 'react-router-dom';
+// import { useUser } from '../hooks/useUser';
 
 export const Dashboard = () => {
-  const navigate = useNavigate();
-  const { user, setUser } = useUser();
-  useEffect(() => {
-    if (user.isLoggedIn) {
-      if (user.info.role == 'headchef') {
-        navigate(RECIPES);
-      } else if (user.info.role == 'chef') {
-        navigate(RECIPES);
-      }
-    }
-  }, [user]);
+  // const navigate = useNavigate();
+  // const { user, setUser } = useUser();
+  // useEffect(() => {
+  //   if (user.isLoggedIn) {
+  //     if (user.info.role == 'headchef') {
+  //       navigate(RECIPES);
+  //     } else if (user.info.role == 'chef') {
+  //       navigate(RECIPES);
+  //     }
+  //   }
+  // }, [user]);
 
   return (
     <div>

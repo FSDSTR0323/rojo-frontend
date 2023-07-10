@@ -1,33 +1,29 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
-import { EditUserForm } from '../components/EditUser/EditUser';
-import Buttons from '../components/Buttons/buttons';
-import { UserContext } from '../context/UserContext';
-import DeleteConfirmation from '../components/Buttons/Delete';
+import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
+import Buttons from '../components/UserManagement/Buttons/buttons';
+import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
+import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
+import UserTable from '../components/UserManagement/UserTable/UserTable';
+import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isUserDetailsModalOpen, setIsUserDetailsModalOpen] = useState(false);
   const [filter, setFilter] = useState('');
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+  const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
-  };
-
-  const openEditModalHandler = (user) => {
-    if (user) {
-      setSelectedUser(user);
-      setIsEditModalOpen(true);
-    }
   };
 
   const addUserHandler = (user) => {
@@ -36,20 +32,42 @@ export const UserAdmin = () => {
     toggleAddUserModalHandler();
   };
 
-  const deleteUserHandler = (user) => {
+  const openUserDetailsModalHandler = (user) => {
     setSelectedUser(user);
-    setDeleteConfirmationOpen(true);
+    setIsUserDetailsModalOpen(true);
   };
 
-  const confirmDeleteUserHandler = () => {
-    const updatedUserList = userList.filter((u) => u.id !== selectedUser.id);
-    setUserList(updatedUserList);
-    setOriginalUserList(updatedUserList);
-    setDeleteConfirmationOpen(false);
+  const openEditModalHandler = (user) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
+
+  const deleteUserHandler = (user) => {
+    setSelectedUserToDelete(user);
+    setDeleteConfirmationOpen(true);
   };
 
   const cancelDeleteUserHandler = () => {
     setDeleteConfirmationOpen(false);
+    setSelectedUserToDelete(null);
+  };
+
+  const confirmDeleteUserHandler = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/user/${selectedUserToDelete._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setDeleteConfirmationOpen(false);
+      setSelectedUserToDelete(null);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
   const filterHandler = (value) => {
@@ -61,34 +79,39 @@ export const UserAdmin = () => {
     if (value === 'all') {
       setUserList(originalUserList);
     } else {
-      const filteredUsers = originalUserList.filter((user) => user.role === value);
+      const filteredUsers = originalUserList.filter(
+        (user) => user.role === value
+      );
       setUserList(filteredUsers);
     }
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/user/list', {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        setUserList(response.data);
-        setOriginalUserList(response.data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/user/list', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setUserList(response.data);
+      setOriginalUserList(response.data);
+      // console.log('Updated user list:', response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
-  }, [user.token]);
+  }, [user]);
+
+  // console.log('selected user', selectedUser);
 
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography variant="h4" sx={{ mx: 3, mb: 4, textAlign: 'left' }}>
-          Panel de gestión de usuarios
+          User management
         </Typography>
         <Buttons
           toggleAddUserModalHandler={toggleAddUserModalHandler}
@@ -97,52 +120,20 @@ export const UserAdmin = () => {
           filterValue={filter}
         />
 
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '0px 3%' }}>
-          <TableContainer component={Paper} sx={{ marginTop: 20 }}>
-            <Table sx={{ minWidth: 750 }}>
-              <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Nombre</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}>Apellidos</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'left', width: '250px' }}>Rol</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', textAlign: 'right', width: '150px' }}>Acciones</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Array.isArray(userList) &&
-                  userList.map((user) => (
-                    <TableRow key={user._id}>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.firstName}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.lastName}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: 'left' }}>
-                        {user.role}
-                      </TableCell>
-                      <TableCell sx={{ textAlign: 'right' }}>
-                        <Button
-                          variant="outlined"
-                          sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                          onClick={() => openEditModalHandler(user)}
-                        >
-                          <Edit />
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          sx={{ textTransform: 'none', border: 'none', maxWidth: '16px', minWidth: '16px' }}
-                          onClick={() => deleteUserHandler(user)}
-                        >
-                          <Delete />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-
-            </Table>
-          </TableContainer>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: '0px 3%',
+          }}
+        >
+          <UserTable
+            userList={userList}
+            openUserDetailsModalHandler={openUserDetailsModalHandler}
+            deleteUserHandler={deleteUserHandler}
+            openEditModalHandler={openEditModalHandler}
+          />
         </Box>
       </Box>
 
@@ -151,8 +142,20 @@ export const UserAdmin = () => {
       </CustomModal>
 
       {selectedUser && (
-        <CustomModal open={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <EditUserForm userId={selectedUser._id} />
+        <CustomModal
+          open={isUserDetailsModalOpen}
+          onClose={() => setIsUserDetailsModalOpen(false)}
+        >
+          <UserDetails selectedUser={selectedUser} />
+        </CustomModal>
+      )}
+
+      {selectedUser && (
+        <CustomModal
+          open={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+        >
+          <EditUserForm selectedUser={selectedUser} userId={selectedUser._id} />
         </CustomModal>
       )}
 
@@ -165,17 +168,4 @@ export const UserAdmin = () => {
   );
 };
 
-
-
-
-
-
-
-
-
-
-
-//TODO: fer funcional el botó filtrar i el buscador
-
-
-
+export default UserAdmin;

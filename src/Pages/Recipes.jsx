@@ -1,12 +1,7 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import Header from '../components/Header/Header';
 import { RecipeList } from '../components/RecipesList/RecipesList';
 import { Typography, Button, Container } from '@mui/material';
 
 export const Recipes = () => {
-  const { slug } = useParams();
-
   return (
     <>
       <Container maxWidth="lx">
