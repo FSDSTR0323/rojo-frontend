@@ -3,28 +3,30 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import {
-  DASHBOARD,
+  HOME,
   LOGIN,
   REGISTER,
-  USERS,
   RECIPES,
-  HOME,
+  RECIPE,
+  DASHBOARD,
+  ADDRECIPE,
+  USERS,
 } from '../../../config/routes';
 import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import { useState } from 'react';
 
 const styles = {
+  navLinksContainer: {
+    display: 'flex',
+    gap: '5px',
+  },
   appBar: {
     marginBottom: 4,
     backgroundColor: '#1c5a1c',
@@ -42,8 +44,11 @@ const styles = {
   },
   userButtons: {
     color: 'white',
-    display: 'block',
     my: 2,
+    borderRadius: '4px',
+    ':hover': {
+      backgroundColor: '#277527',
+    },
   },
   userInfo: {
     marginRight: '10px',
@@ -52,42 +57,43 @@ const styles = {
   avatarButton: {
     p: 0,
   },
+  selectedLink: {
+    backgroundColor: '#277527',
+    fontWeight: 'bolder',
+  },
+  welcome: {
+    borderLeft: 'solid 2px white',
+    marginLeft: '2px',
+    borderRadius: '0px',
+  },
+  clickless: {
+    pointerEvents: 'none',
+  },
+  logoutIcon: {
+    fontSize: '2em',
+  },
 };
+
+const pages = [
+  HOME,
+  LOGIN,
+  REGISTER,
+  RECIPES,
+  RECIPE,
+  DASHBOARD,
+  ADDRECIPE,
+  USERS,
+];
 
 const Header = () => {
   const { user, setUser } = useUser();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const permissions = user.info?.permissions;
 
-  const isLoginPage = pathname === LOGIN;
-  const isRegisterPage = pathname === REGISTER;
-  const isInDashboard = pathname === DASHBOARD;
-  const isInUsersAdmin = pathname === USERS;
-  const isInRecipes = pathname === RECIPES;
-
-  const dropdownSettings = ['LOGOUT'];
-  const notLoggedInLinks = ['LOGIN', 'REGISTER'];
-  const loggedInLinks = ['DASHBOARD', 'RECIPES', 'USERS'];
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-    navigate('./');
-  };
+  const notLoggedInLinks = [LOGIN, REGISTER];
+  const loggedInLinks = [DASHBOARD, RECIPES, USERS];
 
   const handleLogOut = () => {
     window.localStorage.removeItem('user');
@@ -95,153 +101,63 @@ const Header = () => {
     navigate(HOME);
   };
 
+  //TODO: Function to get the proper default URL depending on user's permissions
+  const getByDefaultLink = () => {
+    return DASHBOARD;
+  };
+
+  const NavLinks = ({ links, isLoggedIn }) => {
+    return (
+      <Box sx={styles.navLinksContainer}>
+        {links.map((link, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => navigate(link)}
+            sx={
+              pathname === link
+                ? { ...styles.userButtons, ...styles.selectedLink }
+                : styles.userButtons
+            }
+          >
+            <Typography>{link.slice(1).toUpperCase()}</Typography>
+          </MenuItem>
+        ))}
+        {isLoggedIn && (
+          <>
+            <MenuItem sx={{ ...styles.clickless, ...styles.welcome }}>
+              <Typography sx={{ ...styles.userInfo }}>
+                Hi, {user?.info?.nickname}
+              </Typography>
+            </MenuItem>
+            <IconButton sx={{ ...styles.avatarButton, ...styles.clickless }}>
+              <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
+            </IconButton>
+            <MenuItem
+              onClick={handleLogOut}
+              sx={{
+                ...styles.userButtons,
+              }}
+            >
+              <LogoutIcon sx={styles.logoutIcon} />
+            </MenuItem>
+          </>
+        )}
+      </Box>
+    );
+  };
+
   return (
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={styles.toolbar}>
-          <Logo />
+          <Link to={user.isLoggedIn ? getByDefaultLink() : HOME}>
+            <Logo />
+          </Link>
           {user.isLoggedIn && (
-            <Box style={{ display: 'flex' }}>
-              {!isInDashboard && (
-                <Button component={Link} to={DASHBOARD} sx={styles.userButtons}>
-                  Dashboard
-                </Button>
-              )}
-              {!isInUsersAdmin && (
-                <Button
-                  onClick={() => navigate(USERS)}
-                  sx={styles.userButtons}
-                >
-                  Users
-                </Button>
-              )}
-              {!isInRecipes && (
-                <Button
-                  onClick={() => navigate(RECIPES)}
-                  sx={styles.userButtons}
-                >
-                  Recipes
-                </Button>
-              )}
-              <Button
-                onClick={handleLogOut}
-                style={{
-                  ...styles.userButtons,
-                  borderRight: 'solid 1px white',
-                }}
-              >
-                <span>Logout</span>
-              </Button>
-              <Button>
-                <p style={styles.userInfo}>Hi, {user?.info?.nickname} </p>
-              </Button>
-              <Tooltip title="Open settings">
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={styles.avatarButton}
-                >
-                  <Avatar
-                    alt="Profile Picture"
-                    src={user.info.profileImageUrl}
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {dropdownSettings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={handleCloseUserMenu}
-                    sx={styles.menuItem}
-                  >
-                    {setting}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+            <NavLinks links={loggedInLinks} isLoggedIn={user.isLoggedIn} />
           )}
           {!user.isLoggedIn && (
-            <Box>
-              <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
-                  sx={{
-                    display: { xs: 'block', md: 'none' },
-                  }}
-                >
-                  <MenuItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to={LOGIN}
-                    sx={styles.menuItem}
-                  >
-                    Login
-                  </MenuItem>
-                  <MenuItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    to={REGISTER}
-                    sx={styles.menuItem}
-                  >
-                    Register
-                  </MenuItem>
-                </Menu>
-              </Box>
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {!isRegisterPage && (
-                  <Button
-                    onClick={() => navigate(REGISTER)}
-                    sx={{ ...styles.userButtons, display: 'block' }}
-                  >
-                    register
-                  </Button>
-                )}
-                {!isLoginPage && (
-                  <Button
-                    onClick={() => navigate(LOGIN)}
-                    sx={{ ...styles.userButtons, display: 'block' }}
-                  >
-                    login
-                  </Button>
-                )}
-              </Box>
-            </Box>
+            <NavLinks links={notLoggedInLinks} isLoggedIn={user.isLoggedIn} />
           )}
         </Toolbar>
       </Container>

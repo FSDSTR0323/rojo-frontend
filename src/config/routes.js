@@ -5,7 +5,7 @@ export const RECIPES = '/recipes';
 export const RECIPE = '/recipe/:recipeId';
 export const DASHBOARD = '/dashboard';
 export const ADDRECIPE = '/recipes/add';
-export const USERS = '/usersadmin';
+export const USERS = '/users';
 
 export const PERMISSIONS = {
   DASHBOARD_READ: 'dashboard.read',
@@ -30,7 +30,7 @@ export const PERMISSIONS_CONFIG = {
   [USERS]: PERMISSIONS.USER_READ,
   [RECIPES]: PERMISSIONS.RECIPE_READ,
   [RECIPE]: PERMISSIONS.RECIPE_READ,
-  [ADDRECIPE]: PERMISSIONS.RECIPE_ADD,
+  [ADDRECIPE]: PERMISSIONS.RECIPE_CREATE,
 };
 
 export const DEFAULT_LOGGED_IN_URL = RECIPES
