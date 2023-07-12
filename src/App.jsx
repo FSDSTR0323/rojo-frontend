@@ -9,7 +9,7 @@ import {
   HOME,
   LOGIN,
   REGISTER,
-  USERADMIN,
+  USERS,
   DASHBOARD,
   RECIPES,
   RECIPE,
@@ -32,7 +32,7 @@ function App() {
           <Route path={RECIPES} element={<Recipes />} />
           <Route path={RECIPE} element={<Recipe />} />
           <Route path={ADDRECIPE} element={<CreateRecipe />} exact />
-          <Route path={USERADMIN} element={<UserAdmin />} exact />
+          <Route path={USERS} element={<UserAdmin />} exact />
         </Route>
         <Route path={HOME} element={<Home />} exact />
         <Route path={LOGIN} element={<Login />} exact />

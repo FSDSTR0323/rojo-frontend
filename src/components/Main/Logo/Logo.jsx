@@ -6,6 +6,7 @@ const styles = {
   padding: '0.5em',
   borderRadius: '1em',
   marginTop: '2px',
+  width: '4em',
 };
 
 const Logo = () => {
