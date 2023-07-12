@@ -1,4 +1,4 @@
-import { Container, Grid, Box, TextField, Button } from '@mui/material';
+import { Container, Grid, Box, TextField, Button, Typography } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 
@@ -39,6 +39,12 @@ export const OwnerForm = () => {
     role: 'owner',
   });
 
+  const styles = {
+    '> h2':{ 
+      fontSize: '2em'
+    }
+  }
+
   const dataRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
@@ -71,8 +77,8 @@ export const OwnerForm = () => {
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit}>
-          <h2> Complete your tax data </h2>
+        <Box component="form" onSubmit={handleSubmit} sx={styles}>         
+          <Typography variant="h2">Tax data</Typography>
           <TextField
             name="firstName"
             margin="normal"
@@ -83,13 +89,12 @@ export const OwnerForm = () => {
             required
             onChange={dataRegister}
           />
-
           <TextField
             name="lastName"
             margin="normal"
             type="text"
             fullWidth
-            label="Surname"
+            label="Last Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -111,7 +116,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Teléfono"
+            label="Phone Number"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -121,7 +126,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="Nombre del restaurante"
+            label="Restaurant Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
             error={!!formErrors.customerName}
@@ -143,7 +148,7 @@ export const OwnerForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="C.P."
+            label="Postal Code"
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
@@ -190,13 +195,13 @@ export const OwnerForm = () => {
             required
             onChange={dataRegister}
           />
-          <h2> Datos de usuario </h2>
+          <Typography variant="h2" sx={{ mt: '1em'}}>User Data</Typography>
           <TextField
             name="nickname"
             margin="normal"
             type="text"
             fullWidth
-            label="User name"
+            label="Username"
             sx={{ mt: 2, mb: 1.5 }}
             required
             error={!!formErrors.nickname}
@@ -213,16 +218,16 @@ export const OwnerForm = () => {
             required
             onChange={dataRegister}
           />
+        </Box>
 
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: 1.5, mb: 3 }}
+            sx={{ mt: '1.5em', mb: 3 }}
             variant="contained"
           >
             Register
           </Button>
-        </Box>
       </Grid>
     </Container>
   );

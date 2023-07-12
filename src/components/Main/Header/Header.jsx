@@ -5,11 +5,6 @@ import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import {
   HOME,
-  LOGIN,
-  REGISTER,
-  RECIPES,
-  DASHBOARD,
-  USERS,
 } from '../../../config/routes';
 import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -65,7 +60,7 @@ const Header = () => {
 
   return (
     <AppBar position="static" sx={styles.appBar}>
-      <Container maxWidth="xl">
+      <Container maxWidth="2xl">
         <Toolbar disableGutters sx={styles.toolbar}>
           <Link to={user.isLoggedIn ? allowedPages(PRIVATE_PAGES)[0] : HOME}>
             <Logo />
