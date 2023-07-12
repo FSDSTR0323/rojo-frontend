@@ -4,7 +4,7 @@ import { useUser } from '../hooks/useUser';
 export const RecipeContext = createContext();
 
 const RecipeProvider = ({ children }) => {
-  const [action, setAction] = React.useState('');
+  const [action, setAction] = React.useState('use');
   const [elaboration, setElaboration] = React.useState();
   // const [recipeContext, setrecipeContext] = useState({
   //   defrost: '',
@@ -21,7 +21,7 @@ const RecipeProvider = ({ children }) => {
   // });
   const [prePreparation, setPrePreparation] = useState([]);
   const [preparation, setPreparation] = useState([]);
-  const [finalitzation, setFinalitzation] = useState([]);
+  const [finalization, setFinalization] = useState([]);
   const [valuePrepreparation, setValuePrepreparation] = useState('');
   const [valuePreparation, setValuePreparation] = useState('');
   return (
@@ -31,8 +31,8 @@ const RecipeProvider = ({ children }) => {
         setPrePreparation,
         preparation,
         setPreparation,
-        finalitzation,
-        setFinalitzation,
+        finalization,
+        setFinalization,
         action,
         setAction,
         elaboration,

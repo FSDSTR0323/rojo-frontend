@@ -15,14 +15,8 @@ const ingredientsStatus = {
 };
 
 export default function BasicSelect() {
-  const {
-    action,
-    setAction,
-    valuePrepreparation,
-    valuePreparation,
-    setPrePreparation,
-  } = useHaccp();
-  const previousValues = [valuePrepreparation, valuePreparation];
+  const { action, setAction, valuePrepreparation, setPrePreparation } =
+    useHaccp();
   const handleChange = async (event) => {
     const userLocal = JSON.parse(window.localStorage.getItem('user'));
     setAction(event.target.value);

@@ -27,19 +27,39 @@ export default function PrePreparation() {
                     {haccp?.name},
                     <hr />
                     <strong>Control: </strong>
-                    {haccp?.control}
+                    <ul>
+                      {haccp?.control.map((element) => (
+                        <li key={element}>{element}</li>
+                      ))}
+                    </ul>
                     <hr />
                     <strong>Procedure: </strong>
-                    {haccp?.procedure}
+                    <ul>
+                      {haccp?.procedure.map((element) => (
+                        <li key={element}>{element}</li>
+                      ))}
+                    </ul>
                     <hr />
                     <strong>Frequency: </strong>
-                    {haccp?.frequency}
+                    <ul>
+                      {haccp?.frequency.map((element) => (
+                        <li key={element}>{element}</li>
+                      ))}
+                    </ul>
                     <hr />
                     <strong>Critical limits: </strong>
-                    {haccp?.limits}
+                    <ul>
+                      {haccp?.limits.map((element) => (
+                        <li key={element}>{element}</li>
+                      ))}
+                    </ul>
                     <hr />
                     <strong>Corrective actions: </strong>
-                    {haccp?.correctiveActions}
+                    <ul>
+                      {haccp?.correctiveActions.map((element) => (
+                        <li key={element}>{element}</li>
+                      ))}
+                    </ul>
                   </li>
                 );
               })}

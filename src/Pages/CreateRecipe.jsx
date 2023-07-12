@@ -4,9 +4,7 @@ import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
 import IndexTextField from '../components/CreateRecipe/IndexTextField';
 import SaveButton from '../components/CreateRecipe/SaveButton';
-import { useHaccp } from '../hooks/useHaccp';
 const CreateRecipe = () => {
-  const { dataHaccp } = useHaccp();
   const [recipeData, setRecipeData] = useState({
     title: '',
     ingredientStatus: '',
