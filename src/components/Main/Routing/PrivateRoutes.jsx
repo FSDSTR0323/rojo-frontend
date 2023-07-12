@@ -12,9 +12,20 @@ const Redirect = ({ path }) => (
 );
 
 const hasPermission = (permissions, path) => {
-  const permission = PERMISSIONS_CONFIG[path];
-  return permission ? permissions.includes(permission) : false;
+  const permissionKeys = Object.keys(PERMISSIONS_CONFIG);
+
+  for (const key of permissionKeys) {
+    const regex = new RegExp(`^${key.replace(/:\w+/g, '\\w+')}$`);
+
+    if (regex.test(path)) {
+      const permission = PERMISSIONS_CONFIG[key];
+      return permission ? permissions.includes(permission) : false;
+    }
+  }
+
+  return false;
 };
+
 
 export const PrivateRoutes = () => {
   const { user } = useUser();
