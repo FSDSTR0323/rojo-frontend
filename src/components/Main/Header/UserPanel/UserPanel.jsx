@@ -4,9 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
 
-const UserPanel = ({ nickname, profileImageUrl, buttonStyles, handleLogout }) => {
+const UserPanel = ({
+  nickname,
+  profileImageUrl,
+  buttonStyles,
+  handleLogout,
+}) => {
   const styles = {
-    ...buttonStyles,
+    userButtons: { ...buttonStyles },
     avatarButton: {
       p: 0,
     },
