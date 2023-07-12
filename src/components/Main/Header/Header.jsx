@@ -21,11 +21,12 @@ import {
 import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { PERMISSIONS_CONFIG } from '../../../config/routes';
 
 const styles = {
   navLinksContainer: {
     display: 'flex',
-    gap: '5px',
+    gap: '0.75em',
   },
   appBar: {
     marginBottom: 4,
@@ -50,10 +51,6 @@ const styles = {
       backgroundColor: '#277527',
     },
   },
-  userInfo: {
-    marginRight: '10px',
-    color: 'white',
-  },
   avatarButton: {
     p: 0,
   },
@@ -70,20 +67,11 @@ const styles = {
     pointerEvents: 'none',
   },
   logoutIcon: {
-    fontSize: '2em',
+    '> *': {
+      fontSize: '2em',
+    },
   },
 };
-
-const pages = [
-  HOME,
-  LOGIN,
-  REGISTER,
-  RECIPES,
-  RECIPE,
-  DASHBOARD,
-  ADDRECIPE,
-  USERS,
-];
 
 const Header = () => {
   const { user, setUser } = useUser();
@@ -92,10 +80,18 @@ const Header = () => {
 
   const permissions = user.info?.permissions;
 
-  const notLoggedInLinks = [LOGIN, REGISTER];
-  const loggedInLinks = [DASHBOARD, RECIPES, USERS];
+  const privatePages = [DASHBOARD, RECIPES, USERS];
+  const publicPages = [REGISTER, LOGIN];
 
-  const handleLogOut = () => {
+  const allowedPages = (pages) => {
+    return pages.filter((page) => {
+      return permissions.includes(PERMISSIONS_CONFIG[page]);
+    });
+  };
+
+  // const pages = isLoggedIn ? allowedPages(privatePages) : publicPages;
+
+  const handleLogout = () => {
     window.localStorage.removeItem('user');
     setUser({});
     navigate(HOME);
@@ -106,43 +102,40 @@ const Header = () => {
     return DASHBOARD;
   };
 
-  const NavLinks = ({ links, isLoggedIn }) => {
+  const UserPanel = () => (
+    <>
+      <MenuItem sx={{ ...styles.clickless, ...styles.welcome }}>
+        <Typography>Hi, {user?.info?.nickname}</Typography>
+      </MenuItem>
+      <IconButton sx={{ ...styles.avatarButton, ...styles.clickless }}>
+        <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
+      </IconButton>
+      <MenuItem
+        onClick={handleLogout}
+        sx={{ ...styles.userButtons, ...styles.logoutIcon }}
+      >
+        <LogoutIcon />
+      </MenuItem>
+    </>
+  );
+
+  const NavLinks = ({ pages }) => {
     return (
-      <Box sx={styles.navLinksContainer}>
-        {links.map((link, index) => (
+      <>
+        {pages.map((page, index) => (
           <MenuItem
             key={index}
-            onClick={() => navigate(link)}
+            onClick={() => navigate(page)}
             sx={
-              pathname === link
+              pathname === page
                 ? { ...styles.userButtons, ...styles.selectedLink }
                 : styles.userButtons
             }
           >
-            <Typography>{link.slice(1).toUpperCase()}</Typography>
+            <Typography>{page.slice(1).toUpperCase()}</Typography>
           </MenuItem>
         ))}
-        {isLoggedIn && (
-          <>
-            <MenuItem sx={{ ...styles.clickless, ...styles.welcome }}>
-              <Typography sx={{ ...styles.userInfo }}>
-                Hi, {user?.info?.nickname}
-              </Typography>
-            </MenuItem>
-            <IconButton sx={{ ...styles.avatarButton, ...styles.clickless }}>
-              <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
-            </IconButton>
-            <MenuItem
-              onClick={handleLogOut}
-              sx={{
-                ...styles.userButtons,
-              }}
-            >
-              <LogoutIcon sx={styles.logoutIcon} />
-            </MenuItem>
-          </>
-        )}
-      </Box>
+      </>
     );
   };
 
@@ -153,12 +146,14 @@ const Header = () => {
           <Link to={user.isLoggedIn ? getByDefaultLink() : HOME}>
             <Logo />
           </Link>
-          {user.isLoggedIn && (
-            <NavLinks links={loggedInLinks} isLoggedIn={user.isLoggedIn} />
-          )}
-          {!user.isLoggedIn && (
-            <NavLinks links={notLoggedInLinks} isLoggedIn={user.isLoggedIn} />
-          )}
+          <Box sx={styles.navLinksContainer}>
+            {user.isLoggedIn ? (
+              <NavLinks pages={allowedPages(privatePages)} />
+            ) : (
+              <NavLinks pages={publicPages} />
+            )}
+            {user.isLoggedIn && <UserPanel></UserPanel>}
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
