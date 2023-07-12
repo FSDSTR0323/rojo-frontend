@@ -4,16 +4,9 @@ import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
 
-const UserPanel = ({ nickname, profileImageUrl, handleLogout }) => {
+const UserPanel = ({ nickname, profileImageUrl, buttonStyles, handleLogout }) => {
   const styles = {
-    userButtons: {
-      color: 'white',
-      my: 2,
-      borderRadius: '4px',
-      ':hover': {
-        backgroundColor: '#277527',
-      },
-    },
+    ...buttonStyles,
     avatarButton: {
       p: 0,
     },

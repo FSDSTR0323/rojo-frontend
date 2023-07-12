@@ -2,18 +2,11 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 
-const NavLinks = ({ pages, activePage }) => {
+const NavLinks = ({ pages, activePage, buttonStyles }) => {
   const navigate = useNavigate();
 
   const styles = {
-    userButtons: {
-      color: 'white',
-      my: 2,
-      borderRadius: '4px',
-      ':hover': {
-        backgroundColor: '#277527',
-      },
-    },
+    ...buttonStyles,
     selectedLink: {
       backgroundColor: '#277527',
       fontWeight: 'bolder',

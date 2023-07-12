@@ -1,21 +1,14 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import LogoutIcon from '@mui/icons-material/Logout';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import {
   HOME,
   LOGIN,
   REGISTER,
   RECIPES,
-  RECIPE,
   DASHBOARD,
-  ADDRECIPE,
   USERS,
 } from '../../../config/routes';
 import { useUser } from '../../../hooks/useUser';
@@ -25,65 +18,15 @@ import { PERMISSIONS_CONFIG } from '../../../config/routes';
 import NavLinks from './NavLinks/NavLinks';
 import UserPanel from './UserPanel/UserPanel';
 
-const styles = {
-  navLinksContainer: {
-    display: 'flex',
-    gap: '0.75em',
-  },
-  appBar: {
-    marginBottom: 4,
-    backgroundColor: '#1c5a1c',
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  menuItem: {
-    textAlign: 'center',
-  },
-  logoButton: {
-    textDecoration: 'none',
-    color: 'white',
-  },
-  userButtons: {
-    color: 'white',
-    my: 2,
-    borderRadius: '4px',
-    ':hover': {
-      backgroundColor: '#277527',
-    },
-  },
-  avatarButton: {
-    p: 0,
-  },
-  selectedLink: {
-    backgroundColor: '#277527',
-    fontWeight: 'bolder',
-  },
-  welcome: {
-    borderLeft: 'solid 2px white',
-    marginLeft: '2px',
-    borderRadius: '0px',
-  },
-  clickless: {
-    pointerEvents: 'none',
-  },
-  logoutIcon: {
-    '> *': {
-      fontSize: '2em',
-    },
-  },
-};
-
 const Header = () => {
   const { user, setUser } = useUser();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  const permissions = user.info?.permissions;
-
   const privatePages = [DASHBOARD, RECIPES, USERS];
   const publicPages = [REGISTER, LOGIN];
+
+  const permissions = user.info?.permissions;
 
   const allowedPages = (pages) => {
     return pages.filter((page) => {
@@ -91,12 +34,33 @@ const Header = () => {
     });
   };
 
-  // const pages = isLoggedIn ? allowedPages(privatePages) : publicPages;
-
   const handleLogout = () => {
     window.localStorage.removeItem('user');
     setUser({});
     navigate(HOME);
+  };
+
+  const styles = {
+    navLinksContainer: {
+      display: 'flex',
+      gap: '0.75em',
+    },
+    appBar: {
+      marginBottom: 4,
+      backgroundColor: '#1c5a1c',
+    },
+    toolbar: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    userButtons: {
+      color: 'white',
+      my: 2,
+      borderRadius: '4px',
+      ':hover': {
+        backgroundColor: '#277527',
+      },
+    },
   };
 
   //TODO: Function to get the proper default URL depending on user's permissions
@@ -116,6 +80,7 @@ const Header = () => {
               <NavLinks
                 pages={allowedPages(privatePages)}
                 activePage={pathname}
+                buttonStyles={styles.userButtons}
               />
             ) : (
               <NavLinks pages={publicPages} activePage={pathname} />
@@ -124,6 +89,7 @@ const Header = () => {
               <UserPanel
                 nickname={user.info?.nickname}
                 profileImageUrl={user.info?.profileImageUrl}
+                buttonStyles={styles.userButtons}
                 handleLogout={handleLogout}
               />
             )}
