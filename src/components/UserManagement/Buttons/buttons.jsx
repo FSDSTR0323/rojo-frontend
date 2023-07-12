@@ -1,30 +1,20 @@
-import { useState } from 'react';
 import {
   Button,
-  TextField,
   Box,
-  InputAdornment,
-  IconButton,
   Select,
   MenuItem,
+  IconButton,
 } from '@mui/material';
-import { Add, Search, Sort } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
+import SearchBar from './SearchBar';
 
 const Buttons = ({
   toggleAddUserModalHandler,
   filterValue,
   onSortChange,
-  onFilterChange,
-  onSearchChange,
+  handleFilterChange,
+  handleSearchChange,
 }) => {
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchValue(value);
-    onSearchChange(value);
-  };
-
   return (
     <Box
       sx={{
@@ -49,10 +39,10 @@ const Buttons = ({
             value={filterValue}
             onChange={(event) => {
               const value = event.target.value;
-              onFilterChange(value);
+              handleFilterChange(value);
             }}
             displayEmpty
-            sx={{ textTransform: 'none', mr: 2, maxHeight: '35px' }}
+            sx={{ textTransform: 'none', mr: 2, maxHeight: '40px' }}
           >
             <MenuItem value="">Select a role</MenuItem>
             <MenuItem value="Owner">Owner</MenuItem>
@@ -62,30 +52,8 @@ const Buttons = ({
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <TextField
-          value={searchValue}
-          onChange={handleSearchChange}
-          placeholder="Buscar"
-          variant="outlined"
-          size="small"
-          sx={{ borderRadius: '20px', width: '500px' }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <Search
-                    sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }}
-                  />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <IconButton onClick={onSortChange}>
-          <Sort />
-        </IconButton>
+      <Box sx={{ textTransform: 'none', maxHeight: '40px' }}>
+        <SearchBar onSearch={handleSearchChange} />
       </Box>
     </Box>
   );

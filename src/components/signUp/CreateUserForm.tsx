@@ -4,6 +4,7 @@ import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, 
 import { useUser } from '../../hooks/useUser';
 import ImageUploader from '../Images/ImageUploader';
 
+
 type RegisterType = {
   firstName: string;
   lastName: string;
@@ -11,7 +12,7 @@ type RegisterType = {
   password: string;
   email: string;
   role: 'headchef' | 'chef';
-  profileImage: string;
+  profileImageUrl: string;
 };
 
 type CreateUserFormProps = {
@@ -28,7 +29,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     password: '',
     email: '',
     role: 'headchef',
-    profileImage: '',
+    profileImageUrl: '',
   });
 
   const dataRegister = (
@@ -39,19 +40,28 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
   };
 
   const [formErrors, setFormErrors] = useState<any>({});
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  
 
-  const handleUserImageSelect = (image: File) => { 
-    setImageUrl(URL.createObjectURL(image));
+  const handleUserImageSelect = (imageUrl: string | null) => {
+    setRegisterData({
+      ...registerData,
+      profileImageUrl: imageUrl ?? '', 
+    });
+
+    setSelectedImageUrl(imageUrl);
   };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const token = user.token;
+    
+
       const response = await axios.post(
         'http://localhost:3000/user',
-        { ...registerData, profileImageUrl: imageUrl },
+        { ...registerData },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -59,6 +69,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
         }
       );
       console.log(response.data);
+      console.log('Response Image URL:', response.data.profileImageUrl);
+
       setIsSnackbarOpen(true);
       onUserAdd(response.data);
       handleCloseModal();
@@ -105,9 +117,9 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
         >
           <h2>Create a new user</h2>
 
-          <div>          
-            <ImageUploader onImageSelect={handleUserImageSelect} />          
-          </div>
+          <span>          
+          <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />        
+          </span>
 
           <TextField
             name="firstName"
@@ -188,6 +200,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           >
             Create User
           </Button>
+
         </Box>
       </Grid>
       <Snackbar

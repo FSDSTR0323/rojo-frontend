@@ -1,8 +1,9 @@
-import { Container, Grid, Box, TextField, Avatar, Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
+import { Container, Grid, Box, TextField, Button, Avatar } from '@mui/material';
+
 
 type UserType = {
   id: string;
@@ -17,40 +18,53 @@ type UserType = {
 export const EditUserForm: React.FC<{
   selectedUser: UserType;
   userId: string;
-  onClose: () => void; 
+  onClose: () => void;
 }> = ({ selectedUser, userId, onClose }) => {
   const { user } = useUser();
   console.log('selectedUser', selectedUser);
-  const [userDetails, setUserDetails] = React.useState<UserType>({
+  const [userDetails, setUserDetails] = useState<UserType>({
     ...selectedUser,
   });
 
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  const handleUserImageSelect = (image: File) => {
-    setImageUrl(URL.createObjectURL(image));
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setUserDetails((prevUserDetails) => ({
       ...prevUserDetails,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
-    console.log('userDetails', userDetails);
   };
+
+  useEffect(() => {
+    const updateProfileImage = () => {
+      const profileImage = document.getElementById('profile-image') as HTMLImageElement;
+      if (profileImage) {
+        profileImage.src = userDetails.profileImageUrl || selectedUser.profileImageUrl;
+      }
+    };
+
+    updateProfileImage();
+  }, [userDetails.profileImageUrl, selectedUser.profileImageUrl]);
 
   useEffect(() => {
     setUserDetails({ ...selectedUser });
   }, [selectedUser]);
+
+  const handleUserImageSelect = (image: string) => {
+    setUserDetails((prevUserDetails) => ({
+      ...prevUserDetails,
+      profileImageUrl: image,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const token = user.token;
+      console.log('Updating user:', userDetails);
       const response = await axios.put(
         `http://localhost:3000/user/${userId}`,
-        { ...userDetails, profileImageUrl: imageUrl },
+        { ...userDetails },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,11 +72,11 @@ export const EditUserForm: React.FC<{
         }
       );
 
-      const updatedUserDetails = { ...selectedUser, ...response.data };
+      const updatedUserDetails = { ...selectedUser, ...response.data };      
       setUserDetails(updatedUserDetails);
       console.log('Updated userDetails:', updatedUserDetails);
 
-      onClose(); 
+      onClose();
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         console.log('Form errors:', error.response.data.errors);
@@ -74,25 +88,23 @@ export const EditUserForm: React.FC<{
 
   return (
     <Container maxWidth="sm">
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{}}
-      >
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{}}>
         <Box component="form" onSubmit={handleSubmit}>
           <h2>User details</h2>
 
           <div>
-            <ImageUploader onImageSelect={handleUserImageSelect} />
-          </div>
+            <Avatar
+              id="profile-image"
+              alt="User Avatar"
+              src={userDetails.profileImageUrl || selectedUser.profileImageUrl}
+              sx={{ width: 100, height: 100 }}
+            />
 
-          <Avatar
-            alt="User Avatar"
-            src={userDetails.profileImageUrl}
-            sx={{ width: 100, height: 100 }}
-          />
+            <ImageUploader
+              onImageSelect={handleUserImageSelect}
+              imageUrl={null}
+            />          
+          </div>
 
           <TextField
             name="firstName"

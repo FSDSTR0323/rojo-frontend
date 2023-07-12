@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 
-const Avatar = ({ image, onCropImage }) => {
-  const editorRef = useRef(null);
+const Avatar = ({ image, onCropImage }) => { 
   const [position, setPosition] = useState({ x: 0.5, y: 0.5 });
   const [scale, setScale] = useState(1);
   const [borderRadius, setBorderRadius] = useState(0);
+  const editorRef = useRef(null);
 
   const handlePositionChange = (newPosition) => {
     setPosition(newPosition);
@@ -21,33 +21,34 @@ const Avatar = ({ image, onCropImage }) => {
   };
 
   const handleCropClick = () => {
-    console.log('Crop button clicked');
     const editor = editorRef.current;
     if (editor) {
       const canvas = editor.getImageScaledToCanvas();
       if (canvas) {
-        const croppedImage = canvas.toDataURL(); // Obtén la imagen recortada en formato base64
-        onCropImage(croppedImage);
+        const croppedImage = canvas.toDataURL('image/jpeg', 0.8);
+        onCropImage(croppedImage || image);
       }
     }
   };
 
   return (
     <div>
-      <AvatarEditor
-        ref={editorRef}
-        image={image}
-        width={250}
-        height={250}
-        border={50}
-        color={[255, 255, 255, 0.6]}
-        borderRadius={borderRadius}
-        scale={scale}
-        rotate={0}
-        position={position}
-        onPositionChange={handlePositionChange}        
-        style={{ marginBottom: '20px' }}
-      />
+      {image && (
+        <AvatarEditor
+          ref={editorRef}
+          image={image}
+          width={250}
+          height={250}
+          border={50}
+          color={[255, 255, 255, 0.6]}
+          borderRadius={borderRadius}
+          scale={scale}
+          rotate={0}
+          position={position}
+          onPositionChange={handlePositionChange}
+          style={{ marginBottom: '20px' }}
+        />
+      )}
       <div>
         <label htmlFor="zoom">Zoom:</label>
         <input

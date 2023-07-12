@@ -21,6 +21,7 @@ export const UserAdmin = () => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -87,14 +88,17 @@ export const UserAdmin = () => {
     setFilter(value);
     handleFilterChange(value);
   };
+  
+  const handleSearchChange = (searchText) => {
+    setSearchText(searchText);
+    console.log('Search text:', searchText);
+  };
 
   const handleFilterChange = (value) => {
     if (value === 'all') {
-      setUserList(originalUserList);
+      setUserList(userList);
     } else {
-      const filteredUsers = originalUserList.filter(
-        (user) => user.role === value
-      );
+      const filteredUsers = userList.filter((user) => user.role === value);
       setUserList(filteredUsers);
     }
   };
@@ -118,7 +122,14 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  console.log('selected user', selectedUser);
+  useEffect(() => {
+    const filteredUsers = originalUserList.filter((user) =>
+      `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setUserList(filteredUsers);
+  }, [searchText]);
+
+  //console.log('selected user', selectedUser);
 
   return (
     <>
@@ -130,6 +141,7 @@ export const UserAdmin = () => {
           toggleAddUserModalHandler={toggleAddUserModalHandler}
           filterHandler={filterHandler}
           handleFilterChange={handleFilterChange}
+          handleSearchChange={handleSearchChange} 
           filterValue={filter}
         />
 
@@ -160,6 +172,7 @@ export const UserAdmin = () => {
           onClose={() => setIsUserDetailsModalOpen(false)}
         >
           <UserDetails selectedUser={selectedUser} />
+
         </CustomModal>
       )}
 

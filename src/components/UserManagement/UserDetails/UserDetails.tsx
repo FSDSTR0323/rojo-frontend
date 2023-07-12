@@ -16,6 +16,7 @@ type UserType = {
   customerCif: string;
 };
 
+
 export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
   selectedUser,
 }) => {
@@ -40,7 +41,10 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
       });
 
       const userData = response.data;
-      setUserDetails(userData);
+      setUserDetails({
+        ...userData,
+        profileImageUrl: userData.profileImageUrl
+      });
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         console.log('Form errors:', error.response.data.errors);
@@ -62,9 +66,10 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
 
           <Avatar
             alt="User Avatar"
-            src={userDetails.profileImageUrl}
+            src={selectedUser.profileImageUrl}
             sx={{ width: 100, height: 100 }}
           />
+
 
           {user.role === 'owner' && (
             <>
