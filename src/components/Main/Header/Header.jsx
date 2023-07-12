@@ -23,6 +23,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { PERMISSIONS_CONFIG } from '../../../config/routes';
 import NavLinks from './NavLinks/NavLinks';
+import UserPanel from './UserPanel/UserPanel';
 
 const styles = {
   navLinksContainer: {
@@ -103,23 +104,6 @@ const Header = () => {
     return DASHBOARD;
   };
 
-  const UserPanel = () => (
-    <>
-      <MenuItem sx={{ ...styles.clickless, ...styles.welcome }}>
-        <Typography>Hi, {user?.info?.nickname}</Typography>
-      </MenuItem>
-      <IconButton sx={{ ...styles.avatarButton, ...styles.clickless }}>
-        <Avatar alt="Profile Picture" src={user.info.profileImageUrl} />
-      </IconButton>
-      <MenuItem
-        onClick={handleLogout}
-        sx={{ ...styles.userButtons, ...styles.logoutIcon }}
-      >
-        <LogoutIcon />
-      </MenuItem>
-    </>
-  );
-
   return (
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">
@@ -136,7 +120,13 @@ const Header = () => {
             ) : (
               <NavLinks pages={publicPages} activePage={pathname} />
             )}
-            {user.isLoggedIn && <UserPanel />}
+            {user.isLoggedIn && (
+              <UserPanel
+                nickname={user.info?.nickname}
+                profileImageUrl={user.info?.profileImageUrl}
+                handleLogout={handleLogout}
+              />
+            )}
           </Box>
         </Toolbar>
       </Container>
