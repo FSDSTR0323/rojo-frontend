@@ -14,7 +14,11 @@ import {
 import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
-import { PERMISSIONS_CONFIG } from '../../../config/routes';
+import {
+  PERMISSIONS_CONFIG,
+  PUBLIC_PAGES,
+  PRIVATE_PAGES,
+} from '../../../config/routes';
 import NavLinks from './NavLinks/NavLinks';
 import UserPanel from './UserPanel/UserPanel';
 
@@ -22,9 +26,6 @@ const Header = () => {
   const { user, setUser } = useUser();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
-  const privatePages = [DASHBOARD, RECIPES, USERS];
-  const publicPages = [REGISTER, LOGIN];
 
   const permissions = user.info?.permissions;
 
@@ -63,27 +64,22 @@ const Header = () => {
     },
   };
 
-  //TODO: Function to get the proper default URL depending on user's permissions
-  const getByDefaultLink = () => {
-    return DASHBOARD;
-  };
-
   return (
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={styles.toolbar}>
-          <Link to={user.isLoggedIn ? getByDefaultLink() : HOME}>
+          <Link to={user.isLoggedIn ? allowedPages(PRIVATE_PAGES)[0] : HOME}>
             <Logo />
           </Link>
           <Box sx={styles.navLinksContainer}>
             {user.isLoggedIn ? (
               <NavLinks
-                pages={allowedPages(privatePages)}
+                pages={allowedPages(PRIVATE_PAGES)}
                 activePage={pathname}
                 buttonStyles={styles.userButtons}
               />
             ) : (
-              <NavLinks pages={publicPages} activePage={pathname} />
+              <NavLinks pages={PUBLIC_PAGES} activePage={pathname} />
             )}
             {user.isLoggedIn && (
               <UserPanel

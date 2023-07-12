@@ -21,7 +21,6 @@ import { Dashboard } from './pages/Dashboard';
 import CreateRecipe from './pages/CreateRecipe';
 import Header from './components/Main/Header/Header';
 import Footer from './components/Main/Footer/Footer';
-import { Container } from '@mui/material';
 
 function App() {
   return (
