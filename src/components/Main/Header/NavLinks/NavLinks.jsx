@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const NavLinks = ({ pages, activePage, buttonStyles }) => {
   const navigate = useNavigate();
 
+  console.log(buttonStyles);
+
   const styles = {
-    ...buttonStyles,
+    userButtons: { ...buttonStyles },
     selectedLink: {
       backgroundColor: '#277527',
       fontWeight: 'bolder',
     },
   };
+
+  console.log(styles);
 
   return (
     <>

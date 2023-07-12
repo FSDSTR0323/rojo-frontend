@@ -55,9 +55,8 @@ const Header = () => {
       justifyContent: 'space-between',
     },
     userButtons: {
-      color: 'white',
       my: 2,
-      borderRadius: '4px',
+      borderRadius: '8px',
       ':hover': {
         backgroundColor: '#277527',
       },
@@ -79,7 +78,11 @@ const Header = () => {
                 buttonStyles={styles.userButtons}
               />
             ) : (
-              <NavLinks pages={PUBLIC_PAGES} activePage={pathname} />
+              <NavLinks
+                pages={PUBLIC_PAGES}
+                activePage={pathname}
+                buttonStyles={styles.userButtons}
+              />
             )}
             {user.isLoggedIn && (
               <UserPanel
