@@ -6,7 +6,13 @@ import PrePreparation from './PrePreparation.jsx';
 
 const IndexTextField = () => {
   return (
-    <Container>
+    <Container
+      sx={{
+        width: '650px',
+        height: '366px',
+        backgroundColor: '#aafdaa',
+      }}
+    >
       <PrePreparation />
       <Elabroration />
       <Finishing />

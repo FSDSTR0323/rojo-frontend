@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-export default function Title() {
+export default function Title({ fn, name }) {
   return (
     <Box
       component="form"
@@ -11,7 +11,13 @@ export default function Title() {
       noValidate
       autoComplete="off"
     >
-      <TextField id="outlined-basic" label="Recipe name" variant="outlined" />
+      <TextField
+        onChange={fn}
+        name={name}
+        id="outlined-basic"
+        label="Recipe name"
+        variant="outlined"
+      />
     </Box>
   );
 }
