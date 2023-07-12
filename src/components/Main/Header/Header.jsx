@@ -22,6 +22,7 @@ import { useUser } from '../../../hooks/useUser';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { PERMISSIONS_CONFIG } from '../../../config/routes';
+import NavLinks from './NavLinks/NavLinks';
 
 const styles = {
   navLinksContainer: {
@@ -119,26 +120,6 @@ const Header = () => {
     </>
   );
 
-  const NavLinks = ({ pages }) => {
-    return (
-      <>
-        {pages.map((page, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => navigate(page)}
-            sx={
-              pathname === page
-                ? { ...styles.userButtons, ...styles.selectedLink }
-                : styles.userButtons
-            }
-          >
-            <Typography>{page.slice(1).toUpperCase()}</Typography>
-          </MenuItem>
-        ))}
-      </>
-    );
-  };
-
   return (
     <AppBar position="static" sx={styles.appBar}>
       <Container maxWidth="xl">
@@ -148,11 +129,14 @@ const Header = () => {
           </Link>
           <Box sx={styles.navLinksContainer}>
             {user.isLoggedIn ? (
-              <NavLinks pages={allowedPages(privatePages)} />
+              <NavLinks
+                pages={allowedPages(privatePages)}
+                activePage={pathname}
+              />
             ) : (
-              <NavLinks pages={publicPages} />
+              <NavLinks pages={publicPages} activePage={pathname} />
             )}
-            {user.isLoggedIn && <UserPanel></UserPanel>}
+            {user.isLoggedIn && <UserPanel />}
           </Box>
         </Toolbar>
       </Container>
