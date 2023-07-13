@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppBar, Toolbar, IconButton, InputBase } from '@mui/material';
+import { AppBar, Toolbar, IconButton, InputBase, Box } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 
 const SearchBar = ({ onSearch }) => {
@@ -24,23 +24,33 @@ const SearchBar = ({ onSearch }) => {
             boxShadow: 1,
             borderRadius: 1,
             width: '500px',
-            maxHeight: '40px', 
+            maxHeight: '40px',          
+            
         }}>
-      <Toolbar sx={{ width: '500px', maxHeight: '40px' }}>
-        <form onSubmit={handleSearchSubmit}
+      <Toolbar sx={{ width: '500px', minHeight: '32px!important', padding: '0px!important', paddingTop: '4px', }}>
+        <Box 
+          component='form'
+          sx={{ width: '100vw',
+          display: 'flex',
+          justifyContent: 'space-between',
+          }}
+          onSubmit={handleSearchSubmit}
 
         >
           <InputBase
+            sx={{ paddingLeft: '10px',
+              paddingTop: '4px',
+            }}
             placeholder="Search..."
             value={searchValue}
             onChange={handleSearchChange}
             
             
           />
-          <IconButton type="submit" sx={{ alignItems: 'center', justifyContent: 'flex-end'}}>
+          <IconButton type="submit" sx={{ alignItems: 'center' }}>
             <SearchIcon />
           </IconButton>
-        </form>
+        </Box>
       </Toolbar>
     </AppBar>
   );

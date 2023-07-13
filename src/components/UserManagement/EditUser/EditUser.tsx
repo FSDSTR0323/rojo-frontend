@@ -4,7 +4,6 @@ import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
 import { Container, Grid, Box, TextField, Button, Avatar } from '@mui/material';
 
-
 type UserType = {
   id: string;
   firstName: string;
@@ -25,9 +24,12 @@ export const EditUserForm: React.FC<{
   const [userDetails, setUserDetails] = useState<UserType>({
     ...selectedUser,
   });
+  const [isNewImageSelected, setIsNewImageSelected] = useState(false);
+  const [showAvatar, setShowAvatar] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log('Field changed:', name, value);
     setUserDetails((prevUserDetails) => ({
       ...prevUserDetails,
       [name]: value,
@@ -47,6 +49,7 @@ export const EditUserForm: React.FC<{
 
   useEffect(() => {
     setUserDetails({ ...selectedUser });
+    setIsNewImageSelected(false);
   }, [selectedUser]);
 
   const handleUserImageSelect = (image: string) => {
@@ -54,6 +57,8 @@ export const EditUserForm: React.FC<{
       ...prevUserDetails,
       profileImageUrl: image,
     }));
+    setIsNewImageSelected(true);
+    setShowAvatar(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,9 +77,10 @@ export const EditUserForm: React.FC<{
         }
       );
 
-      const updatedUserDetails = { ...selectedUser, ...response.data };      
-      setUserDetails(updatedUserDetails);
+      const updatedUserDetails = { ...selectedUser, ...response.data };
       console.log('Updated userDetails:', updatedUserDetails);
+      setUserDetails(updatedUserDetails);
+      
 
       onClose();
     } catch (error) {
@@ -92,19 +98,21 @@ export const EditUserForm: React.FC<{
         <Box component="form" onSubmit={handleSubmit}>
           <h2>User details</h2>
 
-          <div>
-            <Avatar
-              id="profile-image"
-              alt="User Avatar"
-              src={userDetails.profileImageUrl || selectedUser.profileImageUrl}
-              sx={{ width: 100, height: 100 }}
-            />
-
-            <ImageUploader
-              onImageSelect={handleUserImageSelect}
-              imageUrl={null}
-            />          
-          </div>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            {showAvatar && !isNewImageSelected && (
+              <Box sx={{ width: '50%', height: 100 }}>
+                <Avatar
+                  id="profile-image"
+                  alt="User Avatar"
+                  src={userDetails.profileImageUrl || selectedUser.profileImageUrl}
+                  sx={{ width: 100, height: 100 }}
+                />
+              </Box>
+            )}
+            <Box sx={{ width: isNewImageSelected ? '50%' : '100%' }}>
+              <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />
+            </Box>
+          </Box>
 
           <TextField
             name="firstName"
@@ -155,7 +163,19 @@ export const EditUserForm: React.FC<{
             onChange={handleChange}
           />
 
-          <Button fullWidth type="submit" sx={{ mt: 1.5, mb: 3 }} variant="contained">
+          <Button
+            fullWidth
+            type="submit"
+            sx={{
+              mt: 1.5,
+              mb: 3,
+              backgroundColor: "#277c27fb",
+              "&:hover": {
+                backgroundColor: "#277c27cf",
+              },
+            }}
+            variant="contained"
+          >
             Confirm
           </Button>
         </Box>

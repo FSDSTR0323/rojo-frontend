@@ -34,7 +34,8 @@ const UserTable = ({
     }
   };
 
-  const sortedUserList = [...userList].sort((a, b) => {    
+  const sortedUserList = [...userList].sort((a, b) => {
+    console.log('sortedUserList:', sortedUserList);    
     const valueA = a[sortColumn];
     const valueB = b[sortColumn];
 

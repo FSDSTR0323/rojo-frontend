@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CloudUpload, CheckCircle } from '@mui/icons-material';
+import { Button } from '@mui/material';
 import Avatar from './avatar';
 
 const ImageUploader = ({ onImageSelect, imageUrl }) => {
@@ -90,7 +91,21 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
             {selectedImage && (
               <Avatar image={selectedImage} onCropImage={handleCropImage} />
             )}
-            <input type="file" accept="image/*" onChange={handleImageSelect} />
+            
+            <Button
+              fullWidth
+              sx={{ mt: 1.5, mb: 3, backgroundColor:"#277c27fb", "&:hover": {backgroundColor: "#277c27cf"}, }}
+              variant="contained"
+              component="label"
+            >
+              Select Image
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleImageSelect}
+              />
+            </Button>
           </div>
 
         </>
@@ -108,21 +123,21 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
 
       {imageUrl && <img src={imageUrl} alt="Selected Image" />}
 
-      <button onClick={handleUpload} disabled={!selectedImage || isUploading}>
+      <Button fullWidth onClick={handleUpload} sx={{ mt: 1.5, mb: 3, backgroundColor:"#277c27fb", "&:hover": {backgroundColor: "#277c27cf"}, }} variant="contained"disabled={!selectedImage || isUploading}>
         {isUploading ? (
           'Uploading...'
         ) : isUploadComplete ? (
           <>
-            <CheckCircle sx={{ mr: 1 }} />
+            <CheckCircle sx={{ marginRight: '8px' }} />
             Successful upload!
           </>
         ) : (
           <>
-            <CloudUpload />
+            <CloudUpload sx={{ marginRight: '8px' }} />
             {buttonText}
           </>
         )}
-      </button>
+      </Button>
     </div>
   );
 };
