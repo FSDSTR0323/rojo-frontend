@@ -23,9 +23,9 @@ export const PrivateRoutes = () => {
     hasPermission(permissions, intentPath) ? (
       <Redirect path={intentPath} />
     ) : (
-      <Redirect to={DEFAULT_LOGGED_IN_URL} />
+      <Redirect path={DEFAULT_LOGGED_IN_URL} />
     )
   ) : (
-    <Redirect to={LOGIN} />
+    <Redirect path={LOGIN} />
   );
 };
