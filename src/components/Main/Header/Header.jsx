@@ -1,7 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Container, { containerClasses } from '@mui/material/Container';
+import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import { HOME } from '../../../config/routes';
 import { useUser } from '../../../hooks/useUser';
