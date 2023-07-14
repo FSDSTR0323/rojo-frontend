@@ -60,22 +60,24 @@ export default function InitialState() {
   const userLocal = JSON.parse(window.localStorage.getItem('user'));
   const { setPrePreparation, setValuePrepreparation } = useHaccp();
   const handleState = async (e) => {
+    console.log('initial state name:', initialStateName);
     const { value } = e.target;
     setValuePrepreparation(value);
     setInitialStateName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value
     );
-    const status = ingredientsStatus[value];
-    console.log('Initial State status', status);
+    const status = initialStateName.map((name) => ingredientsStatus[name]);
+    console.log('Initial State status', status.join(','));
     const data = await axios.get(
-      `http://localhost:3000/haccp?ingredientsStatus=${status}`,
+      `http://localhost:3000/haccp?ingredientsStatus=${status.join(',')}`,
       {
         headers: {
           Authorization: `Bearer ${userLocal.token}`,
         },
       }
     );
+    (',');
     console.log(data.data);
     setPrePreparation(data.data);
   };
@@ -83,14 +85,16 @@ export default function InitialState() {
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">Initial state</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={initialStateName}
           onChange={handleState}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          input={
+            <OutlinedInput id="select-multiple-chip" label="Initial state" />
+          }
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
