@@ -70,7 +70,9 @@ export default function InitialState() {
     const status = initialStateName.map((name) => ingredientsStatus[name]);
     console.log('Initial State status', status.join(','));
     const data = await axios.get(
-      `http://localhost:3000/haccp?ingredientsStatus=${status.join(',')}`,
+      `http://localhost:3000/haccp?ingredientsStatus=${
+        status.lenght == 1 ? status[0] : status.join(',')
+      }`,
       {
         headers: {
           Authorization: `Bearer ${userLocal.token}`,
