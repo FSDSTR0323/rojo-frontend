@@ -9,8 +9,8 @@ const IndexTextField = () => {
     <Container
       sx={{
         width: '650px',
-        height: '366px',
         backgroundColor: '#aafdaa',
+        padding: '10px',
       }}
     >
       <PrePreparation />

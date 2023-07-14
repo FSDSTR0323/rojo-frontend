@@ -1,59 +1,20 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { useHaccp } from '../../hooks/useHaccp';
+import CardRecipe from './CardRecipe';
 
 export default function Elabroration() {
   const { prePreparation, valuePreparation } = useHaccp();
   return (
     <Box>
       <h3>Elaboration</h3>
-      <ul>
+      <ul style={{ padding: 0 }}>
         {prePreparation.length > 0 ? (
           <>
             {prePreparation
               .filter((el) => el.name == valuePreparation)
               .map((haccp, index) => {
-                return (
-                  <li key={index}>
-                    <strong>Name: </strong>
-                    {haccp?.name},
-                    <hr />
-                    <strong>Control: </strong>
-                    <ul>
-                      {haccp?.control.map((element) => (
-                        <li key={element}>{element}</li>
-                      ))}
-                    </ul>
-                    <hr />
-                    <strong>Procedure: </strong>
-                    <ul>
-                      {haccp?.procedure.map((element) => (
-                        <li key={element}>{element}</li>
-                      ))}
-                    </ul>
-                    <hr />
-                    <strong>Frequency: </strong>
-                    <ul>
-                      {haccp?.frequency.map((element) => (
-                        <li key={element}>{element}</li>
-                      ))}
-                    </ul>
-                    <hr />
-                    <strong>Critical limits: </strong>
-                    <ul>
-                      {haccp?.limits.map((element) => (
-                        <li key={element}>{element}</li>
-                      ))}
-                    </ul>
-                    <hr />
-                    <strong>Corrective actions: </strong>
-                    <ul>
-                      {haccp?.correctiveActions.map((element) => (
-                        <li key={element}>{element}</li>
-                      ))}
-                    </ul>
-                  </li>
-                );
+                return <CardRecipe key={index} haccp={haccp} />;
               })}
           </>
         ) : null}

@@ -38,12 +38,13 @@ export default function FinalState() {
         return haccp.action[action].map((option) => option);
       })
       .flat()
-      .filter((element, index, arr) => arr.indexOf(element) === index)
-      .map((element) => {
-        return element
-          .split(' ')
-          .map((word) => word[0].toUpperCase() + word.slice(1));
-      });
+      .filter((element, index, arr) => arr.indexOf(element) === index);
+    // .map((element) => {
+    //   return element
+    //     .split(' ')
+    //     .map((word) => word[0].toUpperCase() + word.slice(1))
+    //     .join(' ');
+    // });
     console.log('Log de filtred names:', filtredNames);
     return filtredNames;
   }

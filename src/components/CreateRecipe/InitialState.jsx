@@ -1,13 +1,16 @@
 import * as React from 'react';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import axios from 'axios';
 import { useHaccp } from '../../hooks/useHaccp';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
 
-const inputNames = [
+const names = [
   'Defrosting',
   'Chilled storage',
   'Frozen storage',
@@ -21,12 +24,48 @@ const ingredientsStatus = {
   'Dry goods storage': 'dry',
 };
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name, initialStateName, theme) {
+  return {
+    fontWeight:
+      initialStateName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 export default function InitialState() {
+  const theme = useTheme();
+  const [initialStateName, setInitialStateName] = React.useState([]);
+
+  // const handleChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  // setPersonName(
+  //   // On autofill we get a stringified value.
+  //   typeof value === 'string' ? value.split(',') : value
+  // );
+  // };
   const userLocal = JSON.parse(window.localStorage.getItem('user'));
   const { setPrePreparation, setValuePrepreparation } = useHaccp();
   const handleState = async (e) => {
     const { value } = e.target;
     setValuePrepreparation(value);
+    setInitialStateName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
     const status = ingredientsStatus[value];
     console.log('Initial State status', status);
     const data = await axios.get(
@@ -42,28 +81,36 @@ export default function InitialState() {
   };
 
   return (
-    <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label">
-        Elaboration initial state
-      </FormLabel>
-      <RadioGroup
-        onChange={handleState}
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="Select elaborations initial state"
-        name="radio-buttons-group"
-      >
-        {inputNames.map((label, index) => {
-          console.log('Initial State label', label);
-          return (
-            <FormControlLabel
-              value={label}
-              key={index}
-              control={<Radio />}
-              label={label}
-            />
-          );
-        })}
-      </RadioGroup>
-    </FormControl>
+    <div>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <Select
+          labelId="demo-multiple-chip-label"
+          id="demo-multiple-chip"
+          multiple
+          value={initialStateName}
+          onChange={handleState}
+          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
+          MenuProps={MenuProps}
+        >
+          {names.map((name) => (
+            <MenuItem
+              key={name}
+              value={name}
+              style={getStyles(name, initialStateName, theme)}
+            >
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </div>
   );
 }
