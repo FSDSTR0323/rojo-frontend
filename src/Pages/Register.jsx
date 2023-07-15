@@ -13,6 +13,7 @@ export const Register = () => {
   };
 
   return (
+
     <>
       <Container maxWidth="xl" sx={styles}>
         <Typography variant="h1">Register</Typography>
@@ -22,5 +23,6 @@ export const Register = () => {
         <OwnerForm />
       </Container>
     </>
+
   );
 };

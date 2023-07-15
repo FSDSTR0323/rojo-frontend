@@ -21,6 +21,7 @@ export const UserAdmin = () => {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
@@ -54,34 +55,50 @@ export const UserAdmin = () => {
 
   const confirmDeleteUserHandler = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/user/${selectedUserToDelete._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      setDeleteConfirmationOpen(false);
-      setSelectedUserToDelete(null);
-      fetchUsers();
+      if (selectedUserToDelete) {
+        console.log('selected user to delete', selectedUserToDelete);
+        await axios.delete(
+          `http://localhost:3000/user/${selectedUserToDelete._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
+        .then(response => {
+          console.log('User deleted:', response);
+          setDeleteConfirmationOpen(false);
+          setSelectedUserToDelete(null);
+          fetchUsers();
+        })
+        .catch(error => {
+          console.error('Error deleting user:', error);
+        });
+      } else {
+        console.error('No user selected for deletion');
+      }
     } catch (error) {
       console.error('Error deleting user:', error);
     }
   };
+  
+  
 
   const filterHandler = (value) => {
     setFilter(value);
     handleFilterChange(value);
+  };
+  
+  const handleSearchChange = (searchText) => {
+    setSearchText(searchText);
+    console.log('Search text:', searchText);
   };
 
   const handleFilterChange = (value) => {
     if (value === 'all') {
       setUserList(originalUserList);
     } else {
-      const filteredUsers = originalUserList.filter(
-        (user) => user.role === value
-      );
+      const filteredUsers = originalUserList.filter((user) => user.role === value);
       setUserList(filteredUsers);
     }
   };
@@ -95,7 +112,7 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      // console.log('Updated user list:', response.data);
+      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -105,18 +122,26 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  // console.log('selected user', selectedUser);
+  useEffect(() => {
+    const filteredUsers = originalUserList.filter((user) =>
+      `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setUserList(filteredUsers);
+  }, [searchText]);
+
+  //console.log('selected user', selectedUser);
 
   return (
     <>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h4" sx={{ mx: 3, mb: 4, textAlign: 'left' }}>
+        <Typography variant="h4" sx={{ mx: 6, mb: 4, textAlign: 'left' }}>
           User management
         </Typography>
         <Buttons
           toggleAddUserModalHandler={toggleAddUserModalHandler}
           filterHandler={filterHandler}
           handleFilterChange={handleFilterChange}
+          handleSearchChange={handleSearchChange} 
           filterValue={filter}
         />
 
@@ -147,16 +172,21 @@ export const UserAdmin = () => {
           onClose={() => setIsUserDetailsModalOpen(false)}
         >
           <UserDetails selectedUser={selectedUser} />
+
         </CustomModal>
       )}
 
       {selectedUser && (
         <CustomModal
-          open={isEditModalOpen}
+        open={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      >
+        <EditUserForm
+          selectedUser={selectedUser}
+          userId={selectedUser._id}
           onClose={() => setIsEditModalOpen(false)}
-        >
-          <EditUserForm selectedUser={selectedUser} userId={selectedUser._id} />
-        </CustomModal>
+        />
+      </CustomModal>
       )}
 
       <DeleteConfirmation

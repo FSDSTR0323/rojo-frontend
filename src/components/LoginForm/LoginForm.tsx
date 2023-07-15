@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography} from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
@@ -13,69 +6,66 @@ import { useNavigate } from 'react-router-dom';
 import { DASHBOARD } from '../../config/routes';
 
 type LoginType = {
-  nickname: String;
-  password: String;
-  token: String;
+  nickname: string;
+  password: string;
+  token: string;
 };
+
 type ApiResponse = {
   data: { token: string };
 };
 
-type ApiResponseUser = {
-  data: {
-    email: String;
-    nikname: String;
-    permissions: [String];
-    role: String;
-  };
+type ErrorResponse = {
+  error: { [key: string]: string };
 };
 
 export const LoginForm = () => {
   const data = useUser();
   const navigate = useNavigate();
-  const { user, setUser } = data;
+  const { setUser } = data;
   const [loginData, setLoginData] = React.useState<LoginType>({
     nickname: '',
     password: '',
     token: '',
   });
 
-  const dataLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
-
-  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log('LoginForm, loginData:', loginData);
     try {
       const response: ApiResponse = await axios.post(
         'http://localhost:3000/user/login',
         loginData
       );
-      // console.log('LoginForm response:', response);
       const token = response.data.token;
 
-      const responseUser: ApiResponseUser = await axios.get(
-        'http://localhost:3000/user',
-        { headers: { Authorization: `Bearer ${response.data.token}` } }
-      );
-      const userLocal = { token, info: responseUser.data, isLoggedIn: true };
+      const responseUser: any = await axios.get('http://localhost:3000/user', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const userLocal = {
+        token,
+        info: responseUser.data,
+        isLoggedIn: true,
+      };
       setUser(userLocal);
-      // console.log('loginform, user', user);
-      // console.log('LoginForm responseUsersList:', responseUser);
-      // console.log('LoginForm response:', response);
       window.localStorage.setItem('user', JSON.stringify(userLocal));
       navigate(DASHBOARD);
     } catch (error) {
-      setFormErrors({});
-      // console.log('login error: ', error);
-      if (error.response && error.response.data && error.response.data.errors) {
-        setFormErrors(error.response.data.errors);
+      if (error.response && error.response.data && error.response.data.error) {
+        const errorResponse: ErrorResponse = error.response.data;
+        setFormErrors(errorResponse.error);
       }
     }
   };
+
+  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
+    {}
+  );
 
   return (
     <Container maxWidth="sm">
@@ -98,7 +88,9 @@ export const LoginForm = () => {
             label="User name"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            onChange={dataLogin}
+            onChange={handleChange}
+            error={!!formErrors.nickname}
+            helperText={formErrors.nickname || ''}
           />
           <TextField
             name="password"
@@ -108,7 +100,9 @@ export const LoginForm = () => {
             label="Password"
             sx={{ mt: 1.5, mb: 1.5 }}
             required
-            onChange={dataLogin}
+            onChange={handleChange}
+            error={!!formErrors.password}
+            helperText={formErrors.password || ''}
           />
           <Button
             fullWidth
