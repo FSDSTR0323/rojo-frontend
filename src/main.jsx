@@ -8,13 +8,16 @@ import '@fontsource/roboto/700.css';
 import { UserProvider } from './context/UserContext.jsx';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
+import RecipeProvider from './context/RecipeContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <UserProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </UserProvider>
+    <BrowserRouter>
+      <UserProvider>
+        <RecipeProvider>
+          <App />
+        </RecipeProvider>
+      </UserProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

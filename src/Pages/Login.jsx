@@ -1,9 +1,13 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { DASHBOARD } from '../config/routes';
+import { Navigate } from 'react-router-dom';
 import { LoginForm } from '../components/LoginForm/LoginForm';
 import { useUser } from '../hooks/useUser';
+import { DASHBOARD } from '../config/routes';
 
 export const Login = () => {
-  return <LoginForm />;
+  const { user } = useUser();
+  const isAuth = user.isLoggedIn;
+
+  return isAuth ? <Navigate to={DASHBOARD} /> : <LoginForm />;
 };
+
+
