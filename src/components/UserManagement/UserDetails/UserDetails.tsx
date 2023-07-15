@@ -1,4 +1,4 @@
-import { Container, Grid, Box, TextField, Avatar } from '@mui/material';
+import { Container, Grid, Box, TextField, Avatar, Typography } from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
@@ -61,8 +61,18 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit}>
-          <h2>User details</h2>
+        <Box component="form" onSubmit={handleSubmit}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            '&.Mui-focused fieldset': {
+              borderColor: '#277c27fb', 
+            },              
+          },
+          '& label.Mui-focused': {
+            color: '#277c27fb',
+          },
+        }}>
+        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>User details</Typography>
 
           <Avatar
             alt="User Avatar"
@@ -157,7 +167,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
           <TextField
             id="role"
             label="Role"
-            sx={{ mt: 2, mb: 1.5, ml: 8, alignItems: 'right' }}
+            sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
             defaultValue={userDetails.role}
             InputProps={{
               readOnly: true,

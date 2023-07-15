@@ -1,17 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
-import { Container, Grid, Box, TextField, Button, Avatar } from '@mui/material';
+import { Container, Grid, Box, TextField, Button, Avatar, InputLabel, Select, MenuItem, SelectChangeEvent, FormControl, FormHelperText, Typography } from '@mui/material';
 
 type UserType = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
+  role: 'headChef' | 'chef';
   nickname: string;
   profileImageUrl: string;
+};
+
+type ApiResponse = {
+  data: { token: string };
+};
+
+type ErrorResponse = {
+  error: { [key: string]: string };
 };
 
 export const EditUserForm: React.FC<{
@@ -67,7 +75,7 @@ export const EditUserForm: React.FC<{
     try {
       const token = user.token;
       console.log('Updating user:', userDetails);
-      const response = await axios.put(
+      const response = await axios.put<ApiResponse>(
         `http://localhost:3000/user/${userId}`,
         { ...userDetails },
         {
@@ -84,21 +92,50 @@ export const EditUserForm: React.FC<{
 
       onClose();
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
-        console.log('Form errors:', error.response.data.errors);
+      console.error(error);
+      setFormErrors({});
+      if (error.response && error.response.data && error.response.data.error) {
+        const errorResponse: ErrorResponse = error.response.data;
+        setFormErrors(errorResponse.error);
       }
     }
   };
+
+  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
+    {}
+  ); 
+  
+  const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
+    const value = event.target.value as 'headChef' | 'chef';
+    setUserDetails((prevUserDetails) => ({
+      ...prevUserDetails,
+      role: value,
+    }));
+  };
+  
 
   console.log('userDetails:', userDetails);
 
   return (
     <Container maxWidth="sm">
-      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{}}>
-        <Box component="form" onSubmit={handleSubmit}>
-          <h2>User details</h2>
-
-          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Grid container direction="column" alignItems="center" justifyContent="center">
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#277c27fb', 
+              },              
+            },
+            '& label.Mui-focused': {
+              color: '#277c27fb',
+            },
+          }}
+        >
+          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>User details</Typography>
+  
+          <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 5 }}>
             {showAvatar && !isNewImageSelected && (
               <Box sx={{ width: '50%', height: 100 }}>
                 <Avatar
@@ -113,7 +150,7 @@ export const EditUserForm: React.FC<{
               <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />
             </Box>
           </Box>
-
+  
           <TextField
             name="firstName"
             margin="normal"
@@ -123,8 +160,10 @@ export const EditUserForm: React.FC<{
             sx={{ mt: 2, mb: 1.5 }}
             value={userDetails.firstName}
             onChange={handleChange}
+            error={!!formErrors.firstName}
+            helperText={formErrors.firstName || ''}
           />
-
+  
           <TextField
             name="lastName"
             margin="normal"
@@ -134,8 +173,10 @@ export const EditUserForm: React.FC<{
             sx={{ mt: 2, mb: 1.5 }}
             value={userDetails.lastName}
             onChange={handleChange}
+            error={!!formErrors.lastName}
+            helperText={formErrors.lastName || ''}
           />
-
+  
           <TextField
             name="email"
             margin="normal"
@@ -145,24 +186,38 @@ export const EditUserForm: React.FC<{
             sx={{ mt: 2, mb: 1.5 }}
             value={userDetails.email}
             onChange={handleChange}
+            error={!!formErrors.email}
+            helperText={formErrors.email || ''}
           />
-
+  
           <TextField
             id="nickname"
             label="User name"
             sx={{ mt: 2, mb: 1.5 }}
             value={userDetails.nickname}
             onChange={handleChange}
+            error={!!formErrors.nickname}
+            helperText={formErrors.nickname || ''}
           />
-
-          <TextField
-            id="role"
-            label="Role"
-            sx={{ mt: 2, mb: 1.5, ml: 8, alignItems: 'right' }}
-            value={userDetails.role}
-            onChange={handleChange}
-          />
-
+  
+          <FormControl
+            error={!!formErrors.role}
+            sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
+          >
+            <InputLabel id="role">Role</InputLabel>
+            <Select
+              labelId="role-label"
+              id="role"
+              value={userDetails.role}
+              label="Role"
+              onChange={handleRoleChange}
+            >
+              <MenuItem value="chef">Chef</MenuItem>
+              <MenuItem value="headChef">Head Chef</MenuItem>
+            </Select>
+            {formErrors.role && <FormHelperText>{formErrors.role}</FormHelperText>}
+          </FormControl>
+  
           <Button
             fullWidth
             type="submit"
@@ -182,4 +237,4 @@ export const EditUserForm: React.FC<{
       </Grid>
     </Container>
   );
-};
+}

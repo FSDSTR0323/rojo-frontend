@@ -8,6 +8,7 @@ const SearchBar = ({ onSearch }) => {
   const handleSearchChange = (event) => {
     const value = event.target.value;
     setSearchValue(value);
+    onSearch(value);
   };
 
   const handleSearchSubmit = (event) => {

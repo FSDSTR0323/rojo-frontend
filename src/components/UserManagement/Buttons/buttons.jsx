@@ -29,7 +29,7 @@ const Buttons = ({
           onClick={toggleAddUserModalHandler}
           variant="outlined"
           startIcon={<Add />}
-          sx={{ textTransform: 'none', mr: 2 }}
+          sx={{ textTransform: 'none', mr: 2, borderColor: '#00000040', fontWeight: 'normal', color: 'black' }}
         >
           Add new user
         </Button>
@@ -45,8 +45,9 @@ const Buttons = ({
             sx={{ textTransform: 'none', mr: 2, maxHeight: '40px' }}
           >
             <MenuItem value="">Select a role</MenuItem>
-            <MenuItem value="Owner">Owner</MenuItem>
-            <MenuItem value="headchef">Head Chef</MenuItem>
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="owner">Owner</MenuItem>
+            <MenuItem value="headChef">Head Chef</MenuItem>
             <MenuItem value="chef">Chef</MenuItem>
           </Select>
         </Box>

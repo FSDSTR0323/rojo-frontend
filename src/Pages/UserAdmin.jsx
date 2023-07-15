@@ -96,9 +96,9 @@ export const UserAdmin = () => {
 
   const handleFilterChange = (value) => {
     if (value === 'all') {
-      setUserList(userList);
+      setUserList(originalUserList);
     } else {
-      const filteredUsers = userList.filter((user) => user.role === value);
+      const filteredUsers = originalUserList.filter((user) => user.role === value);
       setUserList(filteredUsers);
     }
   };
@@ -124,7 +124,7 @@ export const UserAdmin = () => {
 
   useEffect(() => {
     const filteredUsers = originalUserList.filter((user) =>
-      `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchText.toLowerCase())
+      `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
     );
     setUserList(filteredUsers);
   }, [searchText]);

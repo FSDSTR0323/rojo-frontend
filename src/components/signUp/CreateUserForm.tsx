@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Grid, Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Snackbar, Alert } from '@mui/material';
+import { Container, Grid,  Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Snackbar, Alert, Typography } from '@mui/material';
 import { useUser } from '../../hooks/useUser';
 import ImageUploader from '../Images/ImageUploader';
-
 
 type RegisterType = {
   firstName: string;
@@ -11,7 +10,7 @@ type RegisterType = {
   nickname: string;
   password: string;
   email: string;
-  role: 'headchef' | 'chef';
+  role: 'headChef' | 'chef';
   profileImageUrl: string;
 };
 
@@ -19,8 +18,18 @@ type CreateUserFormProps = {
   onUserAdd: (user: any) => void;
 };
 
+type ApiResponse = {
+  data: { token: string };
+};
+
+type ErrorResponse = {
+  error: { [key: string]: string };
+};
+
+
 export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
   const { user } = useUser();
+  
 
   const [registerData, setRegisterData] = useState<RegisterType>({
     firstName: '',
@@ -28,7 +37,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     nickname: '',
     password: '',
     email: '',
-    role: 'headchef',
+    role: 'headChef',
     profileImageUrl: '',
   });
 
@@ -39,27 +48,21 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     setRegisterData({ ...registerData, [name]: value });
   };
 
-  const [formErrors, setFormErrors] = useState<any>({});
-  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   
 
   const handleUserImageSelect = (imageUrl: string | null) => {
     setRegisterData({
       ...registerData,
-      profileImageUrl: imageUrl ?? '', 
+      profileImageUrl: imageUrl ?? '',
     });
-
-    setSelectedImageUrl(imageUrl);
   };
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const token = user.token;
-    
-
-      const response = await axios.post(
+      setFormErrors({});
+      const response = await axios.post<ApiResponse>(
         'http://localhost:3000/user',
         { ...registerData },
         {
@@ -68,24 +71,29 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           },
         }
       );
-      console.log(response.data);
-      console.log('Response Image URL:', response.data.profileImageUrl);
 
+      console.log(response.data);
+      
       setIsSnackbarOpen(true);
       onUserAdd(response.data);
       handleCloseModal();
     } catch (error) {
       console.error(error);
       setFormErrors({});
-      if (error.response && error.response.data && error.response.data.errors) {
-        setFormErrors(error.response.data.errors);
+      if (error.response && error.response.data && error.response.data.error) {
+        const errorResponse: ErrorResponse = error.response.data;
+        setFormErrors(errorResponse.error);
       }
     }
   };
 
-  const handleRoleChange = (event: SelectChangeEvent<'headchef' | 'chef'>) => {
-    const value: 'headchef' | 'chef' = event.target.value as
-      | 'headchef'
+  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
+    {}
+  );  
+
+  const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
+    const value: 'headChef' | 'chef' = event.target.value as
+      | 'headChef'
       | 'chef';
     setRegisterData({ ...registerData, role: value });
   };
@@ -114,11 +122,26 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           component="form"
           onSubmit={handleSubmit}
           display={isModalOpen ? 'block' : 'none'}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#277c27fb', 
+              },              
+            },
+            '& label.Mui-focused': {
+              color: '#277c27fb',
+            },
+          }}
         >
-          <h2>Create a new user</h2>
+          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+            Create a new user
+          </Typography>
 
-          <span>          
-          <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />        
+          <span>
+            <ImageUploader
+              onImageSelect={handleUserImageSelect}
+              imageUrl={null}
+            />
           </span>
 
           <TextField
@@ -130,6 +153,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
+            error={!!formErrors.firstName}
+            helperText={formErrors.firstName || ''}        
           />
 
           <TextField
@@ -141,6 +166,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
+            error={!!formErrors.lastName}
+            helperText={formErrors.lastName || ''}        
           />
 
           <TextField
@@ -151,9 +178,9 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             label="User Name"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            error={!!formErrors.nickname}
-            helperText={formErrors.nickname}
             onChange={dataRegister}
+            error={!!formErrors.nickname}
+            helperText={formErrors.nickname || ''}                      
           />
 
           <TextField
@@ -165,6 +192,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={dataRegister}
+            error={!!formErrors.password}
+            helperText={formErrors.password || ''}        
           />
 
           <TextField
@@ -174,9 +203,9 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             fullWidth
             label="Email"
             sx={{ mt: 2, mb: 1.5 }}
-            error={!!formErrors.email}
-            helperText={formErrors.email}
             onChange={dataRegister}
+            error={!!formErrors.email}
+            helperText={formErrors.email || ''}        
           />
 
           <InputLabel id="role-label">Role</InputLabel>
@@ -187,21 +216,29 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
             fullWidth
             value={registerData.role}
             onChange={handleRoleChange}
+  
           >
             <MenuItem value="chef">Chef</MenuItem>
-            <MenuItem value="headchef">Head Chef</MenuItem>
+            <MenuItem value="headChef">Head Chef</MenuItem>
           </Select>
 
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: 1.5, mb: 3 }}
+            sx={{ 
+              mt: 1.5, 
+              mb: 3,
+              backgroundColor: "#277c27fb",
+              "&:hover": {
+                backgroundColor: "#277c27cf",
+              },
+           }}
             variant="contained"
           >
             Create User
           </Button>
-
         </Box>
+       
       </Grid>
       <Snackbar
         open={isSnackbarOpen}

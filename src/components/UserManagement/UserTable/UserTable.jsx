@@ -25,17 +25,7 @@ const UserTable = ({
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const handleSort = (column) => {
-    if (column === sortColumn) {      
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {      
-      setSortColumn(column);
-      setSortDirection('asc');
-    }
-  };
-
-  const sortedUserList = [...userList].sort((a, b) => {
-    console.log('sortedUserList:', sortedUserList);    
+    const sortedUserList = [...userList].sort((a, b) => {
     const valueA = a[sortColumn];
     const valueB = b[sortColumn];
 
@@ -47,6 +37,15 @@ const UserTable = ({
       return 0;
     }
   });
+
+  const handleSort = (column) => {
+    if (column === sortColumn) {      
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {      
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
 
   return (
     <TableContainer component={Paper} sx={{ marginTop: 2 }}>
