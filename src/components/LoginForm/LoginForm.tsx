@@ -73,8 +73,17 @@ export const LoginForm = () => {
         container
         direction="column"
         alignItems="center"
-        justifyContent="center"
-        sx={{ minHeight: '70vh' }}
+        justifyContent="center"        
+        sx={{ minHeight: '70vh',
+          '& .MuiOutlinedInput-root': {
+            '&.Mui-focused fieldset': {
+              borderColor: '#277c27fb', 
+            },              
+          },
+          '& label.Mui-focused': {
+            color: '#277c27fb',
+          },
+        }}
       >
         <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
           Log in
@@ -107,7 +116,14 @@ export const LoginForm = () => {
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: 1.5, mb: 3 }}
+            sx={{ 
+              mt: 1.5, 
+              mb: 3,
+              backgroundColor: "#277c27fb",
+              "&:hover": {
+                backgroundColor: "#277c27cf",
+              },
+           }}
             variant="contained"
           >
             Login
