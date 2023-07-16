@@ -1,56 +1,79 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-// import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Box,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 export default function CardRecipe({ haccp }) {
   return (
-    <Card sx={{ minWidth: 275, marginBottom: '10px' }}>
+    <Card sx={{ width: '100%', marginBottom: '10px', backgroundColor: '#CCC' }}>
       <CardContent>
-        <Typography variant="h5" component="div">
-          <strong>Name: </strong>
-          {haccp?.name},
-        </Typography>
-
-        <Typography variant="body2">
-          <strong>Control: </strong>
-          <ul>
-            {haccp?.control.map((element) => (
-              <li key={element}>{element}</li>
-            ))}
-          </ul>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Name</b>
+          </Typography>
           <hr />
-          <strong>Procedure: </strong>
-          <ul>
-            {haccp?.procedure.map((element) => (
-              <li key={element}>{element}</li>
-            ))}
-          </ul>
+          <Typography>{haccp?.name}</Typography>
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Control</b>
+          </Typography>
           <hr />
-          <strong>Frequency: </strong>
-          <ul>
-            {haccp?.frequency.map((element) => (
-              <li key={element}>{element}</li>
-            ))}
-          </ul>
+          {haccp?.control.map((element) => (
+            <Typography key={element}>
+              <li>{element}</li>
+            </Typography>
+          ))}
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Procedure</b>
+          </Typography>
           <hr />
-          <strong>Critical limits: </strong>
-          <ul>
-            {haccp?.limits.map((element) => (
-              <li key={element}>{element}</li>
-            ))}
-          </ul>
+          {haccp?.procedure.map((element) => (
+            <Typography key={element}>
+              <li>{element}</li>
+            </Typography>
+          ))}
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Frequency: </b>
+          </Typography>
           <hr />
-          <strong>Corrective actions: </strong>
-          <ul>
-            {haccp?.correctiveActions.map((element) => (
-              <li key={element}>{element}</li>
-            ))}
-          </ul>
-        </Typography>
+          {haccp?.frequency.map((element) => (
+            <Typography key={element}>
+              <li>{element}</li>
+            </Typography>
+          ))}
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Critical limits: </b>
+          </Typography>
+          <hr />
+          {haccp?.limits.map((element) => (
+            <Typography key={element}>
+              <li>{element}</li>
+            </Typography>
+          ))}
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography>
+            <b>Corrective actions: </b>
+          </Typography>
+          <hr />
+          {haccp?.correctiveActions.map((element) => (
+            <Typography key={element}>
+              <li>{element}</li>
+            </Typography>
+          ))}
+        </Box>
       </CardContent>
       {/* <CardActions>
         <Button size="small">Learn More</Button>

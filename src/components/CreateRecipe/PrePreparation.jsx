@@ -2,6 +2,8 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { useHaccp } from '../../hooks/useHaccp';
 import CardRecipe from './CardRecipe';
+import { Typography } from '@mui/material';
+import { useEffect } from 'react';
 
 const ingredientsStatus = {
   Defrosting: 'frozen',
@@ -12,21 +14,25 @@ const ingredientsStatus = {
 
 export default function PrePreparation() {
   const { prePreparation, valuePrepreparation } = useHaccp();
-  console.log('prePreaparation', prePreparation);
+
+  useEffect(() => {
+    console.log('prePreaparation', prePreparation);
+  }, [valuePrepreparation]);
+
   return (
     <Box>
-      <h3 style={{ marginTop: '10px' }}>Pre-Preparation</h3>
-      <ul style={{ padding: 0 }}>
-        {prePreparation.length > 0 ? (
-          <>
-            {prePreparation
-              .filter((el) => el.name == valuePrepreparation)
-              .map((haccp, index) => {
-                return <CardRecipe key={index} haccp={haccp} />;
-              })}
-          </>
-        ) : null}
-      </ul>
+      <Typography>Pre-Preparation</Typography>
+      <hr />
+
+      {prePreparation.length > 0 ? (
+        <>
+          {prePreparation
+            .filter((haccp) => valuePrepreparation.includes(haccp.name))
+            .map((haccp, index) => {
+              return <CardRecipe key={index} haccp={haccp} />;
+            })}
+        </>
+      ) : null}
     </Box>
   );
 }

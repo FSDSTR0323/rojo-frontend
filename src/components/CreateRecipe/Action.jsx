@@ -35,11 +35,6 @@ export default function BasicSelect() {
   return (
     <Box
       sx={{
-        minWidth: 120,
-        backgroundColor: '#03e003',
-        borderBottom: '1px solid blue',
-        width: '350px',
-        padding: '10px',
         color: 'white',
         fontSize: '20px',
       }}

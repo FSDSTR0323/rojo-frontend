@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Elabroration from './Elaboration';
 import Finishing from './Finishing';
@@ -6,17 +6,11 @@ import PrePreparation from './PrePreparation';
 
 const IndexTextField = () => {
   return (
-    <Container
-      sx={{
-        width: '650px',
-        backgroundColor: '#aafdaa',
-        padding: '10px',
-      }}
-    >
+    <Grid item xs={7} paddingLeft="30px !important">
       <PrePreparation />
       <Elabroration />
       <Finishing />
-    </Container>
+    </Grid>
   );
 };
 

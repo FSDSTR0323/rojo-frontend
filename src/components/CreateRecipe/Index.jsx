@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Grid } from '@mui/material';
 import InitialState from './InitialState';
 import Action from './Action';
 import FinalState from './FinalState';
@@ -7,13 +7,13 @@ import PreparationButtons from './PreparationButtons';
 
 const Index = () => {
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <Grid item xs={5}>
       <InitialState />
       <PreparationButtons />
       <Action />
       <FinalState />
       <AddPicture />
-    </Container>
+    </Grid>
   );
 };
 

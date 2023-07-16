@@ -4,7 +4,7 @@ export const RecipeContext = createContext();
 
 const RecipeProvider = ({ children }) => {
   const [action, setAction] = React.useState('use');
-  const [elaboration, setElaboration] = React.useState();
+  const [elaboration, setElaboration] = React.useState([]);
 
   const [prePreparation, setPrePreparation] = useState([]);
   const [preparation, setPreparation] = useState([]);

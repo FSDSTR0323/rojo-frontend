@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import FormControl from '@mui/material/FormControl';
 import axios from 'axios';
 import { useHaccp } from '../../hooks/useHaccp';
@@ -47,16 +47,27 @@ function getStyles(name, initialStateName, theme) {
 export default function InitialState() {
   const theme = useTheme();
   const [initialStateName, setInitialStateName] = React.useState([]);
+  useEffect(() => {
+    const status = initialStateName.map((name) => ingredientsStatus[name]);
+    console.log('Initial State status', status.join(','));
+    async function fetchData() {
+      const data = await axios.get(
+        `http://localhost:3000/haccp?ingredientsStatus=${
+          status.lenght == 1 ? status[0] : status.join(',')
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${userLocal.token}`,
+          },
+        }
+      );
+      (',');
+      console.log('Seleccion:', data.data);
+      setPrePreparation(data.data);
+    }
+    fetchData();
+  }, [initialStateName]);
 
-  // const handleChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-  // setPersonName(
-  //   // On autofill we get a stringified value.
-  //   typeof value === 'string' ? value.split(',') : value
-  // );
-  // };
   const userLocal = JSON.parse(window.localStorage.getItem('user'));
   const { setPrePreparation, setValuePrepreparation } = useHaccp();
   const handleState = async (e) => {
@@ -67,26 +78,11 @@ export default function InitialState() {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value
     );
-    const status = initialStateName.map((name) => ingredientsStatus[name]);
-    console.log('Initial State status', status.join(','));
-    const data = await axios.get(
-      `http://localhost:3000/haccp?ingredientsStatus=${
-        status.lenght == 1 ? status[0] : status.join(',')
-      }`,
-      {
-        headers: {
-          Authorization: `Bearer ${userLocal.token}`,
-        },
-      }
-    );
-    (',');
-    console.log(data.data);
-    setPrePreparation(data.data);
   };
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ mb: 2, width: '100%' }}>
         <InputLabel id="demo-multiple-chip-label">Initial state</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
