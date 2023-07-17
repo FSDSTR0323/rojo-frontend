@@ -48,15 +48,15 @@ type ValidationFormProps = {
     onValidateAdd: (Recipe: any) => void;
 };
 
-export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, radioValue:boolean}> = ({selectedValidation, recipeId, radioValue}) => {
+export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, isValidationMode:boolean}> = ({selectedValidation, recipeId, isValidationMode}) => {
     //console.log(ValidateForm)
 
     const { user } = useUser();
     const params = useParams();
 
-    console.log("radioValue",radioValue)
-
-    //console.log('selectedValidation', selectedValidation)
+    // console.log('selectedValidation', selectedValidation)
+    // console.log('recipeId', recipeId)
+    // console.log('isValidationMode - Form', isValidationMode)
 
     const [ValidateData, setValidateData] = useState<haccpInfo[]>(selectedValidation);
 
@@ -64,20 +64,6 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         setValidateData(selectedValidation)
     }, [selectedValidation])
 
-    //console.log("Info", ValidateData);
-
-    // const [ValidateData, setValidateData] = React.useState<ValidateType>({
-    //     recipe: '',
-    //     name: '',
-    //     steps: [
-    //         haccp: '',
-    //         valid: '',
-    //         correctiveActions?: '',
-    //         comment?: '',
-    //     ]
-    // });
-    
-    const [radioValidate, setRadioValidate] = useState(radioValue);
 
     const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -108,7 +94,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
             {ValidateData?.filter(haccp => haccp.step === "Pre-preparation").map((haccp)=> 
                 <CardRecipe 
                     haccp={haccp}
-                    radioValidate={radioValidate}
+                    isValidationMode={isValidationMode}
                 />
             )}
 
@@ -119,7 +105,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
             {ValidateData?.filter(item => item.step == "Preparation").map((haccp)=> 
                 <CardRecipe 
                     haccp={haccp}
-                    radioValidate={radioValidate}
+                    isValidationMode={isValidationMode}
                 />
             )}
 
@@ -130,7 +116,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
             {ValidateData?.filter(item => item.step == "Finalization").map((haccp)=> 
                 <CardRecipe 
                     haccp={haccp}
-                    radioValidate={radioValidate}
+                    isValidationMode={isValidationMode}
                 />
             )}
         </Box>

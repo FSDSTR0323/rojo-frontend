@@ -1,141 +1,149 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  Box, 
-  Button, 
-  Container, 
-  Grid,  
-  Typography, 
-
-} from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { useUser } from '../hooks/useUser';
 import { ValidateForm } from '../components/Recipe/ValidateForm';
 
 export const Recipe = () => {
   const { user } = useUser();
   const [Recipe, setRecipe] = useState([]);
-  const params = useParams()
+  const params = useParams();
 
   const [selectedValidation, setSelectedValidation] = useState(true);
-  
-  const [radioValidate, setRadioValidate] = useState(false);
+
+  const [isValidationMode, setIsValidationMode] = useState(false); // Enables validation mode
 
   const fetchRecipe = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/recipe/${params.recipeId}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      console.log(response.data)
+      const response = await axios.get(
+        `http://localhost:3000/recipe/${params.recipeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(response.data);
       setRecipe(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
   };
 
+  const enableValidationMode = () => {
+    setIsValidationMode(true);
+  };
+
+  const disableValidationMode = () => {
+    setIsValidationMode(false);
+  };
+
   useEffect(() => {
     fetchRecipe();
-  },[]);
-  
+  }, []);
+
   return (
-      <Container>
-          <Grid
-            container
-            direction="row"
-            alignItems="start"
-            justifyContent="start"
-            spacing={24}
+    <Container>
+      <Grid
+        container
+        direction="row"
+        alignItems="start"
+        justifyContent="start"
+        spacing={24}
+      >
+        <Grid item xs={5}>
+          <Box
+            component="img"
+            src={Recipe?.imageUrl}
+            srcSet={Recipe?.imageUrl}
+            alt="Create New Recipe"
+            loading="lazy"
+            sx={{
+              width: '100%',
+              borderRadius: '5px',
+            }}
+          />
+          <Button
+            sx={{ mt: 1.5, mb: 3, width: '100%', backgroundColor: '#277c27fb' }}
+            variant="contained"
+            name="goValidate"
+            onClick={enableValidationMode}
           >
-            <Grid
-              item
-              xs={5}
-              >
-              <Box 
-                component="img" 
-                src={Recipe?.imageUrl}
-                srcSet={Recipe?.imageUrl}
-                alt="Create New Recipe"
-                loading="lazy"
+            Validate Recipe
+          </Button>
+          {isValidationMode && (
+            <Box>
+              <Box
                 sx={{
-                  width:"100%",
-                  borderRadius: "5px"
-                }}
-              />
-              <Button
-                sx={{ mt: 1.5, mb: 3, width: "100%", backgroundColor: "#277c27fb" }}
-                variant="contained"
-                name='goValidate'
-                onClick={() => setRadioValidate(true)}
-                >Validate Recipe</Button>
-                <Box
-                  style={{ display: radioValidate ? "block" : "none", width: "100%" }}
-                >
-                  <Box
-                      sx={{
-                        mb:3,
-                        width: "100%"
-                      }}
-                    >
-                    <Typography>User who validates</Typography>
-                    <hr/>
-                    <Typography>{user.info.nickname}</Typography>
-                  </Box>
-
-                  <Box
-                      sx={{
-                        mb:3,
-                        width: "100%"
-                      }}
-                    >
-                    <Typography>Date of validation</Typography>
-                    <hr/>
-                    <Typography>{Date()}</Typography>
-                  </Box>
-
-                </Box>
-            </Grid>
-            <Grid
-              item
-              xs={7}
-              paddingLeft="30px !important"
-              >
-              <Typography
-                sx={{
-                  backgroundColor:"green",
-                  color: "white",
-                  fontSize: "24px",
-                  borderRadius: "5px"
+                  mb: 3,
+                  width: '100%',
                 }}
               >
-                {Recipe?.name}
-              </Typography>
+                <Typography>User who validates</Typography>
+                <hr />
+                <Typography>{user.info.nickname}</Typography>
+              </Box>
 
-              {selectedValidation &&
-                <ValidateForm 
-                  selectedValidation={Recipe.haccps}
-                  recipeId={Recipe._id}
-                  radioValue={() => radioValidate()}
-                />
-              }
+              <Box
+                sx={{
+                  mb: 3,
+                  width: '100%',
+                }}
+              >
+                <Typography>Date of validation</Typography>
+                <hr />
+                <Typography>{Date()}</Typography>
+              </Box>
+            </Box>
+          )}
+        </Grid>
+        <Grid item xs={7} paddingLeft="30px !important">
+          <Typography
+            sx={{
+              backgroundColor: 'green',
+              color: 'white',
+              fontSize: '24px',
+              borderRadius: '5px',
+            }}
+          >
+            {Recipe?.name}
+          </Typography>
+
+          {selectedValidation && (
+            <ValidateForm
+              selectedValidation={Recipe.haccps}
+              recipeId={Recipe._id}
+              isValidationMode={isValidationMode}
+            />
+          )}
+
+          {isValidationMode && (
+            <>
               <Button
-                sx={{ mt: 1.5, mb: 1, backgroundColor: "#DC143C", width:"100%" }}
+                sx={{
+                  mt: 1.5,
+                  mb: 1,
+                  backgroundColor: '#DC143C',
+                  width: '100%',
+                }}
                 variant="contained"
                 name="cancel"
-                onClick={() => setRadioValidate(false)}
-                >
+                onClick={disableValidationMode}
+              >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                sx={{ mt: 1.5, mb: 3, width:"100%" }}
+                sx={{ mt: 1.5, mb: 3, width: '100%' }}
                 variant="contained"
               >
                 Validate Recipe
               </Button>
-            </Grid>
-          </Grid>
-      </Container>
+            </>
+          )}
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
