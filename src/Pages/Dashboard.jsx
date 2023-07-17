@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Kpi } from '../components/Widgets/Kpi/Kpi';
 
@@ -9,48 +9,26 @@ import { useUser } from '../hooks/useUser';
 
 export const Dashboard = () => {
   const { user } = useUser();
-  const [kpis, setKpis] = useState({});
+  const [data, setData] = useState({});
 
   const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
-  const kpiMetrics = [
-    { name: 'Recipes', endpoint: 'recipe' },
-    { name: 'Validations', endpoint: 'validation' },
-    { name: 'Users', endpoint: 'user/list' },
-  ];
-
-  const getKpiData = async (endpoint) => {
+  const getData = async () => {
     try {
-      const response = await axios.get(baseUrl + endpoint, {
+      const response = await axios.get(baseUrl + 'analytics', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      return response.data.length || 1;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getAllKpisData = async () => {
-    try {
-      const kpiPromises = kpiMetrics.map(async (metric) => {
-        const kpi = await getKpiData(metric.endpoint);
-        return { [metric.name]: kpi };
-      });
-
-      const resolvedKpis = await Promise.all(kpiPromises);
-      const mergedKpis = Object.assign({}, ...resolvedKpis);
-      setKpis(mergedKpis);
-
-      console.log(kpis);
+      setData(response.data);
+      console.log('data api', data);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getAllKpisData();
+    getData();
   }, []);
 
   const styles = {
@@ -70,9 +48,12 @@ export const Dashboard = () => {
   return (
     <Container maxWidth="2xl" sx={styles.container}>
       <Box sx={styles.kpis}>
-        {Object.entries(kpis).map(([name, value]) => (
+        {Object.entries(data.kpis || {}).map(([name, value]) => (
           <Kpi key={name} title={name} data={value}></Kpi>
         ))}
+        {!data.kpis && (
+          <Typography variant="body1">Loading Data...</Typography>
+        )}
       </Box>
       <Box sx={styles.charts}></Box>
       <Box sx={styles.table}></Box>
