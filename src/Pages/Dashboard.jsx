@@ -10,7 +10,13 @@ import { Loader } from '../components/Main/Loader/Loader';
 
 export const Dashboard = () => {
   const { user } = useUser();
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState();
+  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(() => {
+    const tempDate = new Date();
+    tempDate.setDate(tempDate.getDate() - 30); // Setting a month of data by default
+    return tempDate;
+  });
 
   const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
@@ -19,6 +25,10 @@ export const Dashboard = () => {
       const response = await axios.get(baseUrl + 'analytics', {
         headers: {
           Authorization: `Bearer ${user.token}`,
+        },
+        params: {
+          start: startDate,
+          end: endDate,
         },
       });
       setData(response.data);
@@ -42,7 +52,9 @@ export const Dashboard = () => {
       justifyContent: 'space-between',
       width: '100%',
     },
-    charts: {},
+    charts: {
+      display: 'flex',
+    },
     table: {},
   };
 
