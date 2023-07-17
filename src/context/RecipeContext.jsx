@@ -9,8 +9,8 @@ const RecipeProvider = ({ children }) => {
   const [prePreparation, setPrePreparation] = useState([]);
   const [preparation, setPreparation] = useState([]);
   const [finalization, setFinalization] = useState([]);
-  const [valuePrepreparation, setValuePrepreparation] = useState('');
-  const [valuePreparation, setValuePreparation] = useState('');
+  const [valuePrepreparation, setValuePrepreparation] = useState([]);
+  const [valuePreparation, setValuePreparation] = useState([]);
   return (
     <RecipeContext.Provider
       value={{

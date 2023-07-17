@@ -17,7 +17,7 @@ export default function PrePreparation() {
 
   useEffect(() => {
     console.log('prePreaparation', prePreparation);
-  }, [valuePrepreparation]);
+  }, [valuePrepreparation, prePreparation]);
 
   return (
     <Box>

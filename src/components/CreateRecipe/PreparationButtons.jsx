@@ -20,8 +20,6 @@ export default function PreparationButtons() {
       setElaboration(elaboration.filter((item) => item !== value));
       setValuePreparation(valuePreparation.filter((item) => item !== value));
     }
-    setElaboration(event.target.value);
-    setValuePreparation(event.target.value);
   };
 
   return (

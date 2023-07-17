@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { useHaccp } from '../../hooks/useHaccp';
 import CardRecipe from './CardRecipe';
@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 
 export default function Elabroration() {
   const { prePreparation, valuePreparation } = useHaccp();
+  useEffect(() => {}, [prePreparation]);
   return (
     <Box>
       <Typography>Preparation</Typography>
