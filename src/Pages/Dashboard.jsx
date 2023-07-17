@@ -69,6 +69,7 @@ export const Dashboard = () => {
 
   return (
     <>
+      <Loader data={data} />
       <Container maxWidth="2xl" sx={styles.container}>
         <Box sx={styles.kpis}>
           {Object.entries(data?.kpis || {}).map(([name, value]) => (
@@ -81,7 +82,6 @@ export const Dashboard = () => {
         </Box>
         <Box sx={styles.table}></Box>
       </Container>
-      <Loader data={data} />
     </>
   );
 };
