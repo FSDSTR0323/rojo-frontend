@@ -45,6 +45,14 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    if (name === "nickname"&& formErrors.nickname) {
+      setFormErrors((prevErrors) => {
+        return {
+          ...prevErrors,
+          nickname: "",
+        };
+      });
+    }
     setRegisterData({ ...registerData, [name]: value });
   };
 
@@ -84,6 +92,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
         const errorResponse: ErrorResponse = error.response.data;
         setFormErrors(errorResponse.error);
       }
+
     }
   };
 
