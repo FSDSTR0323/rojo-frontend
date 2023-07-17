@@ -6,10 +6,11 @@ import { Kpi } from '../components/Widgets/Kpi/Kpi';
 
 import axios from 'axios';
 import { useUser } from '../hooks/useUser';
+import { Loader } from '../components/Main/Loader/Loader';
 
 export const Dashboard = () => {
   const { user } = useUser();
-  const [data, setData] = useState({});
+  const [data, setData] = useState(undefined);
 
   const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
@@ -46,17 +47,17 @@ export const Dashboard = () => {
   };
 
   return (
-    <Container maxWidth="2xl" sx={styles.container}>
-      <Box sx={styles.kpis}>
-        {Object.entries(data.kpis || {}).map(([name, value]) => (
-          <Kpi key={name} title={name} data={value}></Kpi>
-        ))}
-        {!data.kpis && (
-          <Typography variant="body1">Loading Data...</Typography>
-        )}
-      </Box>
-      <Box sx={styles.charts}></Box>
-      <Box sx={styles.table}></Box>
-    </Container>
+    <>
+      <Container maxWidth="2xl" sx={styles.container}>
+        <Box sx={styles.kpis}>
+          {Object.entries(data?.kpis || {}).map(([name, value]) => (
+            <Kpi key={name} title={name} data={value}></Kpi>
+          ))}
+        </Box>
+        <Box sx={styles.charts}></Box>
+        <Box sx={styles.table}></Box>
+      </Container>
+      <Loader data={data} />
+    </>
   );
 };
