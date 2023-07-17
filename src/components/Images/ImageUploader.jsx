@@ -18,7 +18,6 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
       setSelectedImage(file);
       setCroppedImage(null);
       setIsUploadComplete(false);      
-      //onImageSelect(imageUrl);
       console.log('Selected Image:', file);
       const imageUrl = URL.createObjectURL(file);
       console.log('Image URL:', imageUrl);
@@ -41,9 +40,9 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
       try {
         const formData = new FormData();
         formData.append('file', selectedImage);
-        formData.append('upload_preset', 'Food_Informer');
+        formData.append('upload_preset', import.meta.env.VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-        const response = await fetch('https://api.cloudinary.com/v1_1/dzfvt7rrp/upload', {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME}/upload`, {
           method: 'POST',
           body: formData,
           onUploadProgress: (progressEvent) => {
