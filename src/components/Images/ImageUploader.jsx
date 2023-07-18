@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CloudUpload, CheckCircle } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Button, LinearProgress } from '@mui/material';
 import Avatar from './avatar';
 
 const ImageUploader = ({ onImageSelect, imageUrl }) => {
@@ -11,6 +11,16 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [error, setError] = useState(null);
   const [buttonText, setButtonText] = useState('Upload Image');
+
+  useEffect(() => {
+    if (isUploading) {
+      setButtonText(`Uploading... ${uploadProgress}%`);
+    } else if (isUploadComplete) {
+      setButtonText('Successful upload!');
+    } else {
+      setButtonText('Upload Image');
+    }
+  }, [isUploading, isUploadComplete, uploadProgress]);
 
   const handleImageSelect = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -31,10 +41,30 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
     setCroppedImage(croppedImage);
   };
 
+  const simulateUploadProgress = () => {
+    if (uploadProgress < 100) {
+      const increment = Math.floor(Math.random() * 5) + 1;
+      setUploadProgress((prevProgress) => Math.min(prevProgress + increment, 100));
+      setTimeout(simulateUploadProgress, 50);
+    } else {
+      const randomError = Math.random() < 0.3;
+      if (randomError) {
+        setError('Error uploading image');
+        setUploadProgress(0);
+      } else {
+        setIsUploadComplete(true);
+        setButtonText('Successful upload!');
+      }
+      setIsUploading(false);
+    }
+  };
+
   const handleUpload = async () => {
     if (selectedImage) {
       setUploadProgress(0);
       setError(null);
+      setIsUploadComplete(false);
+      simulateUploadProgress();
       setIsUploading(true);
       setButtonText('Uploading...');
 
@@ -55,14 +85,11 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
         if (response.ok) {
           const data = await response.json();
           const imageUrl = data.secure_url;
-          console.log('Uploaded Image URL:', imageUrl);
+          simulateUploadProgress(true);
           onImageSelect(croppedImage);
-          setIsUploadComplete(true);
-          setButtonText('Successful upload!');
         } else {
           throw new Error('Error uploading image');          
         }
-        console.log('Uploaded Image URL:', croppedImage);
       } catch (error) {
         console.log('Error uploading image:', error);
         setError('Error uploading image');
@@ -71,6 +98,8 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
         setButtonText('Upload Image');
       } finally {
         setIsUploading(false);
+        setIsUploadComplete(true);
+        setButtonText('Successful upload!');
       }
     }
   };
@@ -115,7 +144,12 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
 
       {uploadProgress > 0 && uploadProgress < 100 && (
         <>
-          <progress max="100" value={uploadProgress} />
+          <LinearProgress
+            max={100}
+            variant="determinate"
+            value={uploadProgress}
+            sx={{ backgroundColor: '#b7b7b7', '& .MuiLinearProgress-bar': { backgroundColor: '#277c27' } }}
+          />
           <span> {uploadProgress} % </span>
         </>
       )}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Alert, AlertTitle, Snackbar } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
@@ -22,16 +22,44 @@ export const UserAdmin = () => {
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false); 
+
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const [isUserCreated, setIsUserCreated] = useState(false);
+
   const addUserHandler = (user) => {
     setUserList((prevUserList) => [...prevUserList, user]);
     setOriginalUserList((prevUserList) => [...prevUserList, user]);
     toggleAddUserModalHandler();
+    setIsUserCreated(true);
+    setSnackbarOpen(true);
   };
+
+  const handleUserCreateSuccess = () => {
+    setIsUserCreated(true);
+    setSnackbarOpen(true);
+  };
+
+  useEffect(() => {
+    let timer;
+    if (isUserCreated) {
+      timer = setTimeout(() => {
+        setIsUserCreated(false);
+      }, 3000); 
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isUserCreated]);
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
 
   const openUserDetailsModalHandler = (user) => {
     setSelectedUser(user);
@@ -163,8 +191,23 @@ export const UserAdmin = () => {
       </Box>
 
       <CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}>
-        <CreateUserForm onUserAdd={addUserHandler} />
+        <CreateUserForm onUserAdd={addUserHandler} onSuccess={handleUserCreateSuccess} />
       </CustomModal>
+
+
+      {isUserCreated && (
+        <Snackbar 
+          open={snackbarOpen} 
+          autoHideDuration={3000} 
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert severity="success" onClose={handleCloseSnackbar}>
+            <AlertTitle>Success</AlertTitle>
+            User successfully created!— <strong>Please, check your mailbox.</strong>
+          </Alert>
+        </Snackbar>
+      )}
 
       {selectedUser && (
         <CustomModal
