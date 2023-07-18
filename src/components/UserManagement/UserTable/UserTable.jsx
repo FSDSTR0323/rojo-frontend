@@ -14,9 +14,8 @@ const styles = {
   tableHead: { backgroundColor: '#f1f3f4' },
   actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
   actionsCell: { textAlign: 'center' },
-  viewIcon: { textTransform: 'none', border: 'none' },
-  deleteIcon: { textTransform: 'none', border: 'none' },
-  editIcon: { textTransform: 'none', border: 'none' },
+  tableRow: { height: '5em' },
+  icon: { textTransform: 'none', border: 'none' },
 };
 
 const UserTable = ({
@@ -26,6 +25,23 @@ const UserTable = ({
   onDeleteClick,
   onEditClick,
 }) => {
+  const isActionableTable = onViewClick || onDeleteClick || onEditClick;
+
+  const actions = [
+    {
+      icon: <Visibility />,
+      onClick: onViewClick,
+    },
+    {
+      icon: <Delete />,
+      onClick: onDeleteClick,
+    },
+    {
+      icon: <Edit />,
+      onClick: onEditClick,
+    },
+  ];
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -36,7 +52,7 @@ const UserTable = ({
                 {column.header}
               </TableCell>
             ))}
-            {(onViewClick || onDeleteClick || onEditClick) && (
+            {isActionableTable && (
               <TableCell sx={styles.actionsHeader}>Actions</TableCell>
             )}
           </TableRow>
@@ -44,7 +60,7 @@ const UserTable = ({
         <TableBody>
           {Array.isArray(data) &&
             data.map((item) => (
-              <TableRow key={item._id} sx={{ height: '5em' }}>
+              <TableRow key={item._id} sx={styles.tableRow}>
                 {columns.map((column) => (
                   <TableCell key={column.key} sx={column.cellStyle}>
                     {column.renderCell
@@ -52,37 +68,22 @@ const UserTable = ({
                       : item[column.key]}
                   </TableCell>
                 ))}
-                {(onViewClick || onDeleteClick || onEditClick) && (
-                  <TableCell sx={styles.actionsCell}>
-                    {onViewClick && (
-                      <Button
-                        variant="outlined"
-                        sx={styles.viewIcon}
-                        onClick={() => onViewClick(item)}
-                      >
-                        <Visibility />
-                      </Button>
+                <TableCell sx={styles.actionsCell}>
+                  {isActionableTable &&
+                    actions.map(
+                      (action, index) =>
+                        action.onClick && (
+                          <Button
+                            key={index}
+                            variant="outlined"
+                            sx={styles.icon}
+                            onClick={() => action.onClick(item)}
+                          >
+                            {action.icon}
+                          </Button>
+                        )
                     )}
-                    {onDeleteClick && (
-                      <Button
-                        variant="outlined"
-                        sx={styles.deleteIcon}
-                        onClick={() => onDeleteClick(item)}
-                      >
-                        <Delete />
-                      </Button>
-                    )}
-                    {onEditClick && (
-                      <Button
-                        variant="outlined"
-                        sx={styles.editIcon}
-                        onClick={() => onEditClick(item)}
-                      >
-                        <Edit />
-                      </Button>
-                    )}
-                  </TableCell>
-                )}
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>
