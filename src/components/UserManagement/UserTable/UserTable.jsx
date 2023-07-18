@@ -15,9 +15,9 @@ const styles = {
   tableHead: { backgroundColor: '#f1f3f4' },
   actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
   actionsCell: { textAlign: 'center' },
-  viewIcon: { textTransform: 'none', border: 'none', mr: 1 },
-  deleteIcon: { textTransform: 'none', mr: 1, border: 'none' },
-  editIcon: { textTransform: 'none', mr: 1, border: 'none' },
+  viewIcon: { textTransform: 'none', border: 'none' },
+  deleteIcon: { textTransform: 'none', border: 'none' },
+  editIcon: { textTransform: 'none', border: 'none' },
 };
 
 const UserTable = ({
