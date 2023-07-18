@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
-import InitialState from './InitialState';
-import Action from './Action';
-import FinalState from './FinalState';
+import InitialState from './InitialState/InitialState';
+import Action from './FinalState/Action';
+import FinalState from './FinalState/FinalState';
 import AddPicture from './AddPicture';
-import PreparationButtons from './PreparationButtons';
+import PreparationButtons from './Elaboration/PreparationButtons';
 
 const Index = () => {
   return (

@@ -2,10 +2,8 @@ import * as React from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { useHaccp } from '../../hooks/useHaccp';
-import axios from 'axios';
+import { useHaccp } from '../../../hooks/useHaccp';
 import Checkbox from '@mui/material/Checkbox';
-import PrePreparation from './PrePreparation';
 
 export default function PreparationButtons() {
   const { elaboration, setElaboration, setValuePreparation, valuePreparation } =

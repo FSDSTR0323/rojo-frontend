@@ -1,8 +1,7 @@
 import { Grid } from '@mui/material';
-
-import Elabroration from './Elaboration';
-import Finishing from './Finishing';
-import PrePreparation from './PrePreparation';
+import Elabroration from './Elaboration/Elaboration';
+import Finishing from './FinalState/Finishing';
+import PrePreparation from './InitialState/PrePreparation';
 
 const IndexTextField = () => {
   return (

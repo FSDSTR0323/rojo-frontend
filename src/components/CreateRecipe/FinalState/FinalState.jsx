@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
-import { useHaccp } from '../../hooks/useHaccp';
+import { useHaccp } from '../../../hooks/useHaccp';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -54,7 +54,7 @@ export default function FinalState() {
     valuePreparation,
     prePreparation,
     action,
-    setPrePreparation,
+    setRecipeHaccp,
     setFinalization,
   } = useHaccp();
   const [previousValues] = useState(haccp);
@@ -69,6 +69,10 @@ export default function FinalState() {
     prePreparation,
     finalStateName,
   ]);
+
+  useEffect(() => {
+    setFinalStateName([]);
+  }, [action]);
 
   function finalStateFilter() {
     const filtredNames = prePreparation
@@ -113,7 +117,7 @@ export default function FinalState() {
       }
     );
     console.log(data.data);
-    setPrePreparation(data.data);
+    setRecipeHaccp(data.data);
   };
 
   console.log('use value final state', previousValues);

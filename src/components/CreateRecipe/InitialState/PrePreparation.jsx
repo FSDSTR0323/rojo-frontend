@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { useHaccp } from '../../hooks/useHaccp';
-import CardRecipe from './CardRecipe';
+import { useHaccp } from '../../../hooks/useHaccp';
+import CardRecipe from '../CardRecipe';
 import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 
