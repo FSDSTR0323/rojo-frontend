@@ -57,7 +57,7 @@ class UserTable extends Component {
           <TableBody>
             {Array.isArray(userList) &&
               userList.map((user) => (
-                <TableRow key={user._id}>
+                <TableRow key={user._id} sx={{height: '5em'}}>
                   <TableCell sx={{ textAlign: 'left' }}>
                     {user.firstName}
                   </TableCell>
