@@ -47,43 +47,6 @@ export const Dashboard = () => {
     getData();
   }, []);
 
-  // const styles = {
-  //   container: {
-  //     display: 'flex',
-  //     flexDirection: 'column',
-  //     width: '100%',
-  //     '> *': {
-  //       marginBottom: '2em',
-  //     },
-  //   },
-  //   kpisContainer: {
-  //     display: 'flex',
-  //     gap: '1.25em',
-  //   },
-  //   kpis: {
-  //     flex: '1',
-  //     display: 'flex',
-  //     flexDirection: 'column',
-  //     gap: '2em',
-  //   },
-  //   chartsContainer: {
-  //     display: 'flex',
-  //     justifyContent: 'flex-start',
-  //     flex: '1',
-  //     gap: '10px',
-  //     width: '20%',
-  //   },
-  //   chart: {
-  //     boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-  //     padding: 4,
-  //     borderRadius: '20px',
-  //     flex: '1',
-  //   },
-  //   table: {
-  //     width: '100%',
-  //   },
-  // };
-
   const styles = {
     container: {
       display: 'flex',
@@ -116,6 +79,7 @@ export const Dashboard = () => {
       },
       '.pie': {
         width: '30%',
+        margin: 0,
       }
     },
     table: {
