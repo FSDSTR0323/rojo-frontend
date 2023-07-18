@@ -47,27 +47,80 @@ export const Dashboard = () => {
     getData();
   }, []);
 
+  // const styles = {
+  //   container: {
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //     width: '100%',
+  //     '> *': {
+  //       marginBottom: '2em',
+  //     },
+  //   },
+  //   kpisContainer: {
+  //     display: 'flex',
+  //     gap: '1.25em',
+  //   },
+  //   kpis: {
+  //     flex: '1',
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //     gap: '2em',
+  //   },
+  //   chartsContainer: {
+  //     display: 'flex',
+  //     justifyContent: 'flex-start',
+  //     flex: '1',
+  //     gap: '10px',
+  //     width: '20%',
+  //   },
+  //   chart: {
+  //     boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+  //     padding: 4,
+  //     borderRadius: '20px',
+  //     flex: '1',
+  //   },
+  //   table: {
+  //     width: '100%',
+  //   },
+  // };
+
   const styles = {
     container: {
       display: 'flex',
       flexDirection: 'column',
-      '> *': {
-        marginBottom: '2em',
-      },
+    },
+    dataContainer: {
+      display: 'flex',
+      gap: '20px',
+      justifyContent: 'space-between',
     },
     kpis: {
       display: 'flex',
-      gap: '10px',
-      justifyContent: 'space-between',
-      width: '100%',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      gap: '30px',
+      width: '15%'
     },
-    charts: {
+    chartsContainer: {
       display: 'flex',
       gap: '10px',
-      width: '50%',
-      maxHeight: '50vh',
+      flex: 1,
+      '.chart': {
+        minWidth: '0',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        padding: 4,
+        borderRadius: '20px',
+      },
+      '.line': {
+        width: '70%'
+      },
+      '.pie': {
+        width: '30%',
+      }
     },
-    table: {},
+    table: {
+      marginBottom: '2em',
+    },
   };
 
   const validationColumns = [
@@ -80,7 +133,7 @@ export const Dashboard = () => {
     {
       key: 'name',
       header: 'RecipeName',
-      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '25%' },
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '30%' },
       cellStyle: { textAlign: 'left' },
     },
     {
@@ -115,14 +168,20 @@ export const Dashboard = () => {
       <Loader data={data} />
       {data && (
         <Container maxWidth="2xl" sx={styles.container}>
-          <Box sx={styles.kpis}>
-            {Object.entries(data?.kpis || {}).map(([name, value]) => (
-              <Kpi key={name} title={name} data={value} />
-            ))}
-          </Box>
-          <Box sx={styles.charts}>
-            <LineChart />
-            <PieChart />
+          <Box sx={styles.dataContainer}>
+            <Box sx={styles.kpis}>
+              {Object.entries(data?.kpis || {}).map(([name, value]) => (
+                <Kpi key={name} title={name} data={value} />
+              ))}
+            </Box>
+            <Box sx={styles.chartsContainer}>
+              <Box className=" chart line">
+                <LineChart />
+              </Box>
+              <Box className="chart pie">
+                <PieChart />
+              </Box>
+            </Box>
           </Box>
           <Box sx={styles.table}>
             <CustomTable

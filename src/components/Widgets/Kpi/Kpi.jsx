@@ -6,7 +6,6 @@ export const Kpi = ({ title, data }) => {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: '#d6d6d6',
-    width: '20%',
     padding: '0.5em 1.5em',
     boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
     borderRadius: '10px',
