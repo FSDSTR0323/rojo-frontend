@@ -11,98 +11,68 @@ import {
 } from '@mui/material';
 import { Visibility, Delete, Edit } from '@mui/icons-material';
 
-// Styles object
 const styles = {
-  tableContainer: {
-    marginTop: 20,
-  },
-  table: {
-    minWidth: 750,
-  },
-  tableHeaderCell: {
-    fontWeight: 'bold',
-    textAlign: 'left',
-  },
-  nameCell: {
-    textAlign: 'left',
-  },
-  actionsCell: {
-    textAlign: 'right',
-  },
-  button: {
-    textTransform: 'none',
-    border: 'none',
-    justifyContent: 'space-around',
-    fontSize: '0.8rem',
-  },
-  deleteButton: {
-    textTransform: 'none',
-    mr: 1,
-    border: 'none',
-  },
+  actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
+  actionsCell: { textAlign: 'center' },
+  viewIcon: { textTransform: 'none', border: 'none', mr: 1 },
+  deleteIcon: { textTransform: 'none', mr: 1, border: 'none' },
+  editIcon: { textTransform: 'none', mr: 1, border: 'none' },
 };
 
 const UserTable = ({
-  userList,
-  openUserDetailsModalHandler,
-  deleteUserHandler,
-  openEditModalHandler,
+  data,
+  columns,
+  onRowClick,
+  onDeleteClick,
+  onEditClick,
 }) => {
+  console.log(columns[columns.length - 1].headerStyle);
+
   return (
-    <TableContainer component={Paper} sx={styles.tableContainer}>
-      <Table sx={styles.table}>
+    <TableContainer component={Paper}>
+      <Table>
         <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
           <TableRow>
-            <TableCell sx={{ ...styles.tableHeaderCell, width: '300px' }}>
-              Name
-            </TableCell>
-            <TableCell sx={{ ...styles.tableHeaderCell, width: '300px' }}>
-              Surname
-            </TableCell>
-            <TableCell sx={{ ...styles.tableHeaderCell, width: '250px' }}>
-              Role
-            </TableCell>
-            <TableCell sx={{ ...styles.tableHeaderCell, width: '220px' }}>
-              Actions
-            </TableCell>
+            {columns.map((column) => (
+              <TableCell key={column.key} sx={column.headerStyle}>
+                {column.header}
+              </TableCell>
+            ))}
+            <TableCell sx={styles.actionsHeader}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.isArray(userList) &&
-            userList.map((user) => (
-              <TableRow key={user._id} sx={{ height: '5em' }}>
-                <TableCell sx={styles.nameCell}>{user.firstName}</TableCell>
-                <TableCell sx={styles.nameCell}>{user.lastName}</TableCell>
-                <TableCell sx={styles.nameCell}>{user.role}</TableCell>
+          {Array.isArray(data) &&
+            data.map((item) => (
+              <TableRow key={item._id} sx={{ height: '5em' }}>
+                {columns.map((column) => (
+                  <TableCell key={column.key} sx={column.cellStyle}>
+                    {column.renderCell
+                      ? column.renderCell(item)
+                      : item[column.key]}
+                  </TableCell>
+                ))}
                 <TableCell sx={styles.actionsCell}>
                   <Button
                     variant="outlined"
-                    sx={styles.button}
-                    onClick={() => openUserDetailsModalHandler(user)}
+                    sx={styles.viewIcon}
+                    onClick={() => onRowClick(item)}
                   >
-                    {user.role === 'owner' && (
-                      <>
-                        <Visibility sx={{ marginRight: '0.5rem' }} />
-                        Your details
-                      </>
-                    )}
-                    {user.role !== 'owner' && <Visibility />}
+                    <Visibility />
                   </Button>
-
-                  {user.role !== 'owner' && (
-                    <Button
-                      variant="outlined"
-                      sx={styles.deleteButton}
-                      onClick={() => deleteUserHandler(user)}
-                    >
-                      <Delete />
-                    </Button>
-                  )}
 
                   <Button
                     variant="outlined"
-                    sx={styles.deleteButton}
-                    onClick={() => openEditModalHandler(user)}
+                    sx={styles.deleteIcon}
+                    onClick={() => onDeleteClick(item)}
+                  >
+                    <Delete />
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    sx={styles.editIcon}
+                    onClick={() => onEditClick(item)}
                   >
                     <Edit />
                   </Button>

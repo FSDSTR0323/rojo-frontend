@@ -95,7 +95,7 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      // console.log('Updated user list:', response.data);
+      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -106,6 +106,27 @@ export const UserAdmin = () => {
   }, [user]);
 
   // console.log('selected user', selectedUser);
+
+  const userColumns = [
+    {
+      key: 'firstName',
+      header: 'First Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+    },
+    {
+      key: 'role',
+      header: 'Role',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '150px' },
+      cellStyle: { textAlign: 'left' },
+    },
+  ];
 
   return (
     <>
@@ -129,10 +150,11 @@ export const UserAdmin = () => {
           }}
         >
           <UserTable
-            userList={userList}
-            openUserDetailsModalHandler={openUserDetailsModalHandler}
-            deleteUserHandler={deleteUserHandler}
-            openEditModalHandler={openEditModalHandler}
+            data={userList}
+            columns={userColumns}
+            onRowClick={openUserDetailsModalHandler}
+            onDeleteClick={deleteUserHandler}
+            onEditClick={openEditModalHandler}
           />
         </Box>
       </Box>
