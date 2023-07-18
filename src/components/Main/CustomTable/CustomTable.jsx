@@ -50,7 +50,7 @@ const CustomTable = ({
       <Table>
         <TableHead sx={styles.tableHead}>
           <TableRow>
-            {columns.map((column) => (
+            {columns?.map((column) => (
               <TableCell key={column.key} sx={column.headerStyle}>
                 {column.header}
               </TableCell>
@@ -62,7 +62,7 @@ const CustomTable = ({
         </TableHead>
         <TableBody>
           {Array.isArray(data) &&
-            data.map((item) => (
+            data?.map((item) => (
               <TableRow key={item._id} sx={styles.tableRow}>
                 {columns.map((column) => (
                   <TableCell key={column.key} sx={column.cellStyle}>
