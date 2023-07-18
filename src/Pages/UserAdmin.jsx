@@ -7,7 +7,7 @@ import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
-import UserTable from '../components/Main/Table/Table';
+import CustomTable from '../components/Main/CustomTable/CustomTable';
 import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
@@ -147,7 +147,7 @@ export const UserAdmin = () => {
             padding: '0px 3%',
           }}
         >
-          <UserTable
+          <CustomTable
             data={userList}
             columns={userColumns}
             onViewClick={openUserDetailsModalHandler}

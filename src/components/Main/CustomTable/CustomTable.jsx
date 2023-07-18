@@ -19,7 +19,7 @@ const styles = {
   icon: { textTransform: 'none', border: 'none' },
 };
 
-const UserTable = ({
+const CustomTable = ({
   data,
   columns,
   onViewClick,
@@ -96,4 +96,4 @@ const UserTable = ({
   );
 };
 
-export default UserTable;
+export default CustomTable;
