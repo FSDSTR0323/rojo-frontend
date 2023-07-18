@@ -152,7 +152,7 @@ export const UserAdmin = () => {
           <UserTable
             data={userList}
             columns={userColumns}
-            onRowClick={openUserDetailsModalHandler}
+            onViewClick={openUserDetailsModalHandler}
             onDeleteClick={deleteUserHandler}
             onEditClick={openEditModalHandler}
           />

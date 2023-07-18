@@ -12,6 +12,7 @@ import {
 import { Visibility, Delete, Edit } from '@mui/icons-material';
 
 const styles = {
+  tableHead: { backgroundColor: '#f1f3f4' },
   actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
   actionsCell: { textAlign: 'center' },
   viewIcon: { textTransform: 'none', border: 'none', mr: 1 },
@@ -22,23 +23,23 @@ const styles = {
 const UserTable = ({
   data,
   columns,
-  onRowClick,
+  onViewClick,
   onDeleteClick,
   onEditClick,
 }) => {
-  console.log(columns[columns.length - 1].headerStyle);
-
   return (
     <TableContainer component={Paper}>
       <Table>
-        <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
+        <TableHead sx={styles.tableHead}>
           <TableRow>
             {columns.map((column) => (
               <TableCell key={column.key} sx={column.headerStyle}>
                 {column.header}
               </TableCell>
             ))}
-            <TableCell sx={styles.actionsHeader}>Actions</TableCell>
+            {(onViewClick || onDeleteClick || onEditClick) && (
+              <TableCell sx={styles.actionsHeader}>Actions</TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -52,31 +53,37 @@ const UserTable = ({
                       : item[column.key]}
                   </TableCell>
                 ))}
-                <TableCell sx={styles.actionsCell}>
-                  <Button
-                    variant="outlined"
-                    sx={styles.viewIcon}
-                    onClick={() => onRowClick(item)}
-                  >
-                    <Visibility />
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    sx={styles.deleteIcon}
-                    onClick={() => onDeleteClick(item)}
-                  >
-                    <Delete />
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    sx={styles.editIcon}
-                    onClick={() => onEditClick(item)}
-                  >
-                    <Edit />
-                  </Button>
-                </TableCell>
+                {(onViewClick || onDeleteClick || onEditClick) && (
+                  <TableCell sx={styles.actionsCell}>
+                    {onViewClick && (
+                      <Button
+                        variant="outlined"
+                        sx={styles.viewIcon}
+                        onClick={() => onViewClick(item)}
+                      >
+                        <Visibility />
+                      </Button>
+                    )}
+                    {onDeleteClick && (
+                      <Button
+                        variant="outlined"
+                        sx={styles.deleteIcon}
+                        onClick={() => onDeleteClick(item)}
+                      >
+                        <Delete />
+                      </Button>
+                    )}
+                    {onEditClick && (
+                      <Button
+                        variant="outlined"
+                        sx={styles.editIcon}
+                        onClick={() => onEditClick(item)}
+                      >
+                        <Edit />
+                      </Button>
+                    )}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
         </TableBody>
