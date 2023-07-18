@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 import { Box } from '@mui/system';
 import { Kpi } from '../components/Widgets/Kpi/Kpi';
@@ -62,7 +62,7 @@ export const Dashboard = () => {
       flexDirection: 'column',
       justifyContent: 'center',
       gap: '30px',
-      width: '15%'
+      width: '15%',
     },
     chartsContainer: {
       display: 'flex',
@@ -75,12 +75,12 @@ export const Dashboard = () => {
         borderRadius: '20px',
       },
       '.line': {
-        width: '70%'
+        width: '70%',
       },
       '.pie': {
         width: '30%',
         margin: 0,
-      }
+      },
     },
     table: {
       marginBottom: '2em',
@@ -140,10 +140,10 @@ export const Dashboard = () => {
             </Box>
             <Box sx={styles.chartsContainer}>
               <Box className=" chart line">
-                <LineChart seriesData={data.lineCharts}/>
+                <LineChart seriesData={data.lineCharts} />
               </Box>
               <Box className="chart pie">
-                <PieChart />
+                <PieChart pieChartData={data.pieChart} />
               </Box>
             </Box>
           </Box>

@@ -20,23 +20,22 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-  },
-  scales: {
-    y: {
-      ticks: {
-        precision: 0,
+export const LineChart = ({ seriesData }) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
       },
     },
-  },
-};
-
-export const LineChart = ({ seriesData }) => {
+    scales: {
+      y: {
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+  };
   const seriesBorderColors = ['rgb(255, 99, 132)', 'rgb(53, 162, 235)'];
   const seriesBackgroundColors = [
     'rgba(255, 99, 132, 0.5)',
