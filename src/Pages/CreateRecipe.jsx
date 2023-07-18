@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
 import IndexTextField from '../components/CreateRecipe/IndexTextField';
 import SaveButton from '../components/CreateRecipe/SaveButton';
-import { useHaccp } from '../hooks/useHaccp';
 const CreateRecipe = () => {
-  const { dataHaccp } = useHaccp();
   const [recipeData, setRecipeData] = useState({
     title: '',
     ingredientStatus: '',
@@ -25,14 +23,21 @@ const CreateRecipe = () => {
 
   return (
     <Container>
-      <h1 style={{ color: 'blue' }}>Add new recipe</h1>
+      <Typography>
+        <h1 style={{ color: '#1c5a1c' }}>Add new recipe</h1>
+      </Typography>
       <Title fn={onChange} name={'title'} />
-      <Box sx={{ display: 'flex' }}>
+      <Grid
+        container
+        direction="row"
+        alignItems="start"
+        justifyContent="start"
+        spacing={24}
+      >
         <Index />
-        <Box>
-          <IndexTextField />
-        </Box>
-      </Box>
+
+        <IndexTextField />
+      </Grid>
       <SaveButton />
     </Container>
   );

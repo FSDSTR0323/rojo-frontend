@@ -6,7 +6,7 @@ export default function Title({ fn, name }) {
     <Box
       component="form"
       sx={{
-        '& > :not(style)': { m: 1, width: '100%' },
+        '& > :not(style)': { mb: 2, width: '100%' },
       }}
       noValidate
       autoComplete="off"

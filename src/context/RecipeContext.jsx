@@ -1,29 +1,16 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useUser } from '../hooks/useUser';
 
 export const RecipeContext = createContext();
 
 const RecipeProvider = ({ children }) => {
-  const [action, setAction] = React.useState('');
-  const [elaboration, setElaboration] = React.useState();
-  // const [recipeContext, setrecipeContext] = useState({
-  //   defrost: '',
-  //   fresh: '',
-  //   coldStorage: '',
-  //   dryStrorage: '',
-  //   reahting: '',
-  //   cooling: '',
-  //   freeze: '',
-  //   cook: '',
-  //   coldDisplay: '',
-  //   hotHolding: '',
-  //   addPicture: '',
-  // });
+  const [action, setAction] = React.useState('use');
+  const [elaboration, setElaboration] = React.useState([]);
   const [prePreparation, setPrePreparation] = useState([]);
   const [preparation, setPreparation] = useState([]);
-  const [finalitzation, setFinalitzation] = useState([]);
-  const [valuePrepreparation, setValuePrepreparation] = useState('');
-  const [valuePreparation, setValuePreparation] = useState('');
+  const [finalization, setFinalization] = useState([]);
+  const [valuePrepreparation, setValuePrepreparation] = useState([]);
+  const [valuePreparation, setValuePreparation] = useState([]);
+  const [recipeHaccp, setRecipeHaccp] = useState([]);
   return (
     <RecipeContext.Provider
       value={{
@@ -31,8 +18,8 @@ const RecipeProvider = ({ children }) => {
         setPrePreparation,
         preparation,
         setPreparation,
-        finalitzation,
-        setFinalitzation,
+        finalization,
+        setFinalization,
         action,
         setAction,
         elaboration,
@@ -41,6 +28,8 @@ const RecipeProvider = ({ children }) => {
         setValuePrepreparation,
         valuePreparation,
         setValuePreparation,
+        recipeHaccp,
+        setRecipeHaccp,
       }}
     >
       {children}
