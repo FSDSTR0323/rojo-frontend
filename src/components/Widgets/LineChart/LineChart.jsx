@@ -27,6 +27,13 @@ const options = {
       position: 'top',
     },
   },
+  scales: {
+    y: {
+      ticks: {
+        precision: 0,
+      },
+    },
+  },
 };
 
 export const LineChart = ({ seriesData }) => {
