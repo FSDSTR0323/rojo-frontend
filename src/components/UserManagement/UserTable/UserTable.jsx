@@ -1,117 +1,118 @@
-import { Component } from 'react';
+import React from 'react';
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
+  Table,
   TableHead,
   TableRow,
+  TableCell,
+  TableBody,
   Paper,
   Button,
 } from '@mui/material';
-import { Edit, Delete, Visibility } from '@mui/icons-material';
+import { Visibility, Delete, Edit } from '@mui/icons-material';
 
-class UserTable extends Component {
-  componentDidUpdate(prevProps) {
-    if (prevProps.userList !== this.props.userList) {
-      console.log('UserTable userList:', this.props.userList);
-    }
-  }
+// Styles object
+const styles = {
+  tableContainer: {
+    marginTop: 20,
+  },
+  table: {
+    minWidth: 750,
+  },
+  tableHeaderCell: {
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  nameCell: {
+    textAlign: 'left',
+  },
+  actionsCell: {
+    textAlign: 'right',
+  },
+  button: {
+    textTransform: 'none',
+    border: 'none',
+    justifyContent: 'space-around',
+    fontSize: '0.8rem',
+  },
+  deleteButton: {
+    textTransform: 'none',
+    mr: 1,
+    border: 'none',
+  },
+};
 
-  render() {
-    const {
-      userList,
-      openUserDetailsModalHandler,
-      deleteUserHandler,
-      openEditModalHandler,
-    } = this.props;
-    console.log('UserTable userList:', userList);
-
-    return (
-      <TableContainer component={Paper} sx={{ marginTop: 20 }}>
-        <Table sx={{ minWidth: 750 }}>
-          <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
-            <TableRow>
-              <TableCell
-                sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}
-              >
-                Name
-              </TableCell>
-              <TableCell
-                sx={{ fontWeight: 'bold', textAlign: 'left', width: '300px' }}
-              >
-                Surname
-              </TableCell>
-              <TableCell
-                sx={{ fontWeight: 'bold', textAlign: 'left', width: '250px' }}
-              >
-                Role
-              </TableCell>
-              <TableCell
-                sx={{ fontWeight: 'bold', textAlign: 'right', width: '220px' }}
-              >
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.isArray(userList) &&
-              userList.map((user) => (
-                <TableRow key={user._id} sx={{height: '5em'}}>
-                  <TableCell sx={{ textAlign: 'left' }}>
-                    {user.firstName}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: 'left' }}>
-                    {user.lastName}
-                  </TableCell>
-                  <TableCell sx={{ textAlign: 'left' }}>{user.role}</TableCell>
-                  <TableCell sx={{ textAlign: 'right' }}>
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        textTransform: 'none',
-                        border: 'none',
-                        justifyContent: 'space-around',
-                        fontSize: '0.8rem',
-                      }}
-                      onClick={() => openUserDetailsModalHandler(user)}
-                    >
-                      {user.role === 'owner' && (
-                        <>
-                          <Visibility sx={{ marginRight: '0.5rem' }} />
-                          Your details
-                        </>
-                      )}
-                      {user.role !== 'owner' && <Visibility />}
-                    </Button>
-
-                    {user.role !== 'owner' && (
-                      <Button
-                        variant="outlined"
-                        sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                        onClick={() => deleteUserHandler(user)}
-                      >
-                        <Delete />
-                      </Button>
+const UserTable = ({
+  userList,
+  openUserDetailsModalHandler,
+  deleteUserHandler,
+  openEditModalHandler,
+}) => {
+  return (
+    <TableContainer component={Paper} sx={styles.tableContainer}>
+      <Table sx={styles.table}>
+        <TableHead sx={{ backgroundColor: '#f1f3f4' }}>
+          <TableRow>
+            <TableCell sx={{ ...styles.tableHeaderCell, width: '300px' }}>
+              Name
+            </TableCell>
+            <TableCell sx={{ ...styles.tableHeaderCell, width: '300px' }}>
+              Surname
+            </TableCell>
+            <TableCell sx={{ ...styles.tableHeaderCell, width: '250px' }}>
+              Role
+            </TableCell>
+            <TableCell sx={{ ...styles.tableHeaderCell, width: '220px' }}>
+              Actions
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Array.isArray(userList) &&
+            userList.map((user) => (
+              <TableRow key={user._id} sx={{ height: '5em' }}>
+                <TableCell sx={styles.nameCell}>{user.firstName}</TableCell>
+                <TableCell sx={styles.nameCell}>{user.lastName}</TableCell>
+                <TableCell sx={styles.nameCell}>{user.role}</TableCell>
+                <TableCell sx={styles.actionsCell}>
+                  <Button
+                    variant="outlined"
+                    sx={styles.button}
+                    onClick={() => openUserDetailsModalHandler(user)}
+                  >
+                    {user.role === 'owner' && (
+                      <>
+                        <Visibility sx={{ marginRight: '0.5rem' }} />
+                        Your details
+                      </>
                     )}
+                    {user.role !== 'owner' && <Visibility />}
+                  </Button>
 
-                  
+                  {user.role !== 'owner' && (
                     <Button
                       variant="outlined"
-                      sx={{ textTransform: 'none', mr: 1, border: 'none' }}
-                      onClick={() => openEditModalHandler(user)}
+                      sx={styles.deleteButton}
+                      onClick={() => deleteUserHandler(user)}
                     >
-                      <Edit />
+                      <Delete />
                     </Button>
-                    
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }
-}
+                  )}
+
+                  <Button
+                    variant="outlined"
+                    sx={styles.deleteButton}
+                    onClick={() => openEditModalHandler(user)}
+                  >
+                    <Edit />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 export default UserTable;
