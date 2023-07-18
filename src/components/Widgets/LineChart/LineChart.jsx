@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-export const LineChart = ({ seriesData }) => {
+export const LineChart = ({ title, seriesData, sx }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -52,5 +53,12 @@ export const LineChart = ({ seriesData }) => {
     })),
   };
 
-  return <Line options={options} data={data} />;
+  return (
+    <>
+      <Typography variant="h3" sx={sx}>
+        {title}
+      </Typography>
+      <Line options={options} data={data} />
+    </>
+  );
 };

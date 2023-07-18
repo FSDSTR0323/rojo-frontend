@@ -85,6 +85,7 @@ export const Dashboard = () => {
     table: {
       marginBottom: '2em',
     },
+    chartTitles: { fontSize: '1.25em', mb: 3 },
   };
 
   const validationColumns = [
@@ -140,10 +141,18 @@ export const Dashboard = () => {
             </Box>
             <Box sx={styles.chartsContainer}>
               <Box className=" chart line">
-                <LineChart seriesData={data.lineCharts} />
+                <LineChart
+                  title="Recipes / Validations"
+                  seriesData={data.lineCharts}
+                  sx={styles.chartTitles}
+                />
               </Box>
               <Box className="chart pie">
-                <PieChart pieChartData={data.pieChart} />
+                <PieChart
+                  title="Validations"
+                  pieChartData={data.pieChart}
+                  sx={styles.chartTitles}
+                />
               </Box>
             </Box>
           </Box>
