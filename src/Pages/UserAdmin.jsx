@@ -105,8 +105,6 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  // console.log('selected user', selectedUser);
-
   const userColumns = [
     {
       key: 'firstName',
