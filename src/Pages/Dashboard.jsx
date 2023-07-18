@@ -14,6 +14,8 @@ import CustomTable from '../components/Main/CustomTable/CustomTable';
 import DoneIcon from '@mui/icons-material/Done';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 export const Dashboard = () => {
   const { user } = useUser();
   const [data, setData] = useState();
@@ -23,8 +25,6 @@ export const Dashboard = () => {
     tempDate.setDate(tempDate.getDate() - 30); // Setting last 30 days by default
     return tempDate;
   });
-
-  const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
   const getData = async () => {
     try {
@@ -140,7 +140,7 @@ export const Dashboard = () => {
             </Box>
             <Box sx={styles.chartsContainer}>
               <Box className=" chart line">
-                <LineChart />
+                <LineChart seriesData={data.lineCharts}/>
               </Box>
               <Box className="chart pie">
                 <PieChart />

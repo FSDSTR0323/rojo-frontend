@@ -26,33 +26,25 @@ const options = {
     legend: {
       position: 'top',
     },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
-    },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+export const LineChart = ({ seriesData }) => {
+  const seriesBorderColors = ['rgb(255, 99, 132)', 'rgb(53, 162, 235)'];
+  const seriesBackgroundColors = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(53, 162, 235, 0.5)',
+  ];
 
-const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Recipes',
-      data: [10,20,30,45,16,39,89],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Validations',
-      data: [84,36,44,47,32,20,34],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+  const data = {
+    labels: seriesData[0].data.xAxis,
+    datasets: seriesData.map((serie, index) => ({
+      label: serie.seriesName,
+      data: serie.data.yAxis,
+      borderColor: seriesBorderColors[index],
+      backgroundColor: seriesBackgroundColors[index],
+    })),
+  };
 
-export const LineChart = () => {
   return <Line options={options} data={data} />;
 };
