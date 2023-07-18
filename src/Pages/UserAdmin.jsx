@@ -7,7 +7,7 @@ import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
-import UserTable from '../components/UserManagement/UserTable/UserTable';
+import UserTable from '../components/Main/Table/Table';
 import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
