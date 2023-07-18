@@ -1,36 +1,25 @@
-import { useState } from 'react';
 import {
   Button,
-  TextField,
   Box,
-  InputAdornment,
-  IconButton,
   Select,
   MenuItem,
+  IconButton,
 } from '@mui/material';
-import { Add, Search, Sort } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
+import SearchBar from './SearchBar';
 
 const Buttons = ({
   toggleAddUserModalHandler,
   filterValue,
   onSortChange,
-  onFilterChange,
-  onSearchChange,
+  handleFilterChange,
+  handleSearchChange,
 }) => {
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchValue(value);
-    onSearchChange(value);
-  };
-
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        mb: 2,
         paddingLeft: '3%',
         paddingRight: '3%',
       }}
@@ -40,7 +29,7 @@ const Buttons = ({
           onClick={toggleAddUserModalHandler}
           variant="outlined"
           startIcon={<Add />}
-          sx={{ textTransform: 'none', mr: 2 }}
+          sx={{ textTransform: 'none', mr: 2, borderColor: '#00000040', fontWeight: 'normal', color: 'black' }}
         >
           Add new user
         </Button>
@@ -50,43 +39,22 @@ const Buttons = ({
             value={filterValue}
             onChange={(event) => {
               const value = event.target.value;
-              onFilterChange(value);
+              handleFilterChange(value);
             }}
             displayEmpty
-            sx={{ textTransform: 'none', mr: 2 }}
+            sx={{ textTransform: 'none', mr: 2, maxHeight: '40px' }}
           >
             <MenuItem value="">Select a role</MenuItem>
-            <MenuItem value="Owner">Owner</MenuItem>
-            <MenuItem value="headchef">Head Chef</MenuItem>
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="owner">Owner</MenuItem>
+            <MenuItem value="headChef">Head Chef</MenuItem>
             <MenuItem value="chef">Chef</MenuItem>
           </Select>
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <TextField
-          value={searchValue}
-          onChange={handleSearchChange}
-          placeholder="Buscar"
-          variant="outlined"
-          size="small"
-          sx={{ borderRadius: '20px', width: '500px' }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <Search
-                    sx={{ color: 'grey.500', textTransform: 'none', ml: 2 }}
-                  />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-
-        <IconButton onClick={onSortChange}>
-          <Sort />
-        </IconButton>
+      <Box sx={{ textTransform: 'none', maxHeight: '40px' }}>
+        <SearchBar onSearch={handleSearchChange} />
       </Box>
     </Box>
   );
