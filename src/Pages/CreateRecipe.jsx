@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Grid, Typography } from '@mui/material';
 import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
 import IndexTextField from '../components/CreateRecipe/IndexTextField';
 import SaveButton from '../components/CreateRecipe/SaveButton';
-const CreateRecipe = () => {
-  const [recipeData, setRecipeData] = useState({
-    title: '',
-    ingredientStatus: '',
-    action: '',
-    step: '',
-  });
 
+const CreateRecipe = () => {
   const onChange = (e) => {
     const { name, value } = e.target;
     setRecipeData({
@@ -26,7 +20,7 @@ const CreateRecipe = () => {
       <Typography>
         <h1 style={{ color: '#1c5a1c' }}>Add new recipe</h1>
       </Typography>
-      <Title fn={onChange} name={'title'} />
+      <Title fn={onChange} name={'name'} />
       <Grid
         container
         direction="row"

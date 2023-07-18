@@ -1,8 +1,14 @@
-import { Box, Container, Typography } from '@mui/material';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { Box, Container, Typography, useScrollTrigger } from '@mui/material';
 import ImageUploader from '../Images/ImageUploader';
 import '../../App.css';
+import { useState } from 'react';
+
 const AddPicture = () => {
+  const [picture, setPicture] = useState('');
+  const handleImageSelect = (imageUrl) => {
+    setPicture(imageUrl);
+  };
+  console.log('Set picture:', picture);
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography sx={{ color: '#1c5a1c' }}>
@@ -17,20 +23,7 @@ const AddPicture = () => {
           mb: 2,
         }}
       >
-        <Box
-          className="recipeImage"
-          sx={{
-            width: '200px',
-            height: '200px',
-            backgroundColor: '#1c5a1c',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <AddAPhotoIcon sx={{ color: 'white' }} />
-        </Box>
-        {/* <ImageUploader /> */}
+        <ImageUploader onImageSelect={handleImageSelect} imageUrl={null} />
       </Box>
     </Container>
   );
