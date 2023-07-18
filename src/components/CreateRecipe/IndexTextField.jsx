@@ -1,22 +1,15 @@
-import { Container } from '@mui/material';
-
-import Elabroration from './Elaboration';
-import Finishing from './Finishing';
-import PrePreparation from './PrePreparation.jsx';
+import { Grid } from '@mui/material';
+import Elabroration from './Elaboration/Elaboration';
+import Finishing from './FinalState/Finishing';
+import PrePreparation from './InitialState/PrePreparation';
 
 const IndexTextField = () => {
   return (
-    <Container
-      sx={{
-        width: '650px',
-        height: '366px',
-        backgroundColor: '#aafdaa',
-      }}
-    >
+    <Grid item xs={7} paddingLeft="30px !important">
       <PrePreparation />
       <Elabroration />
       <Finishing />
-    </Container>
+    </Grid>
   );
 };
 
