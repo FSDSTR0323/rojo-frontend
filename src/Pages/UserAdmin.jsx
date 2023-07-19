@@ -7,7 +7,7 @@ import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
-import UserTable from '../components/UserManagement/UserTable/UserTable';
+import CustomTable from '../components/Main/CustomTable/CustomTable';
 import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
@@ -122,14 +122,26 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  useEffect(() => {
-    const filteredUsers = originalUserList.filter((user) =>
-      `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setUserList(filteredUsers);
-  }, [searchText]);
-
-  //console.log('selected user', selectedUser);
+  const userColumns = [
+    {
+      key: 'firstName',
+      header: 'First Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+    },
+    {
+      key: 'role',
+      header: 'Role',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '150px' },
+      cellStyle: { textAlign: 'left' },
+    },
+  ];
 
   return (
     <>
@@ -153,11 +165,12 @@ export const UserAdmin = () => {
             padding: '0px 3%',
           }}
         >
-          <UserTable
-            userList={userList}
-            openUserDetailsModalHandler={openUserDetailsModalHandler}
-            deleteUserHandler={deleteUserHandler}
-            openEditModalHandler={openEditModalHandler}
+          <CustomTable
+            data={userList}
+            columns={userColumns}
+            onViewClick={openUserDetailsModalHandler}
+            onDeleteClick={deleteUserHandler}
+            onEditClick={openEditModalHandler}
           />
         </Box>
       </Box>
