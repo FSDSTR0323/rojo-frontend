@@ -11,6 +11,7 @@ const RecipeProvider = ({ children }) => {
   const [valuePrepreparation, setValuePrepreparation] = useState([]);
   const [valuePreparation, setValuePreparation] = useState([]);
   const [recipeHaccp, setRecipeHaccp] = useState([]);
+  const [picture, setPicture] = useState('');
   const [recipeData, setRecipeData] = useState({
     name: '',
     haccps: [],
@@ -38,6 +39,8 @@ const RecipeProvider = ({ children }) => {
         setRecipeHaccp,
         recipeData,
         setRecipeData,
+        picture,
+        setPicture,
       }}
     >
       {children}

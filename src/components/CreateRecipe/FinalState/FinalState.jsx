@@ -116,12 +116,9 @@ export default function FinalState() {
         },
       }
     );
-    console.log(data.data);
+    console.log('log de data.data, En Final State', data.data);
     setRecipeHaccp(data.data);
   };
-
-  console.log('use value final state', previousValues);
-  console.log('Final State', finalState);
 
   return (
     <>
@@ -141,7 +138,11 @@ export default function FinalState() {
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    <Chip
+                      key={value}
+                      label={value}
+                      sx={{ color: 'white', backgroundColor: '#277527' }}
+                    />
                   ))}
                 </Box>
               )}

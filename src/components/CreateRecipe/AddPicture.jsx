@@ -1,13 +1,30 @@
-import { Box, Container, Typography, useScrollTrigger } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import ImageUploader from '../Images/ImageUploader';
 import '../../App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useHaccp } from '../../hooks/useHaccp';
 
 const AddPicture = () => {
-  const [picture, setPicture] = useState('');
+  const { setRecipeData, setPicture, picture } = useHaccp();
   const handleImageSelect = (imageUrl) => {
     setPicture(imageUrl);
   };
+
+  // useEffect(() => {
+  //   setRecipeData({
+  //     ...recipeData,
+  //     imageUrl: picture,
+  //   });
+  // }, [picture]);
+
+  useEffect(() => {
+    setRecipeData((prevRecipeData) => ({
+      ...prevRecipeData,
+      imageUrl: picture,
+    }));
+    console.log('picturePocture es:', picture);
+  }, [picture]);
+
   console.log('Set picture:', picture);
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -23,7 +40,7 @@ const AddPicture = () => {
           mb: 2,
         }}
       >
-        <ImageUploader onImageSelect={handleImageSelect} imageUrl={null} />
+        <ImageUploader onImageSelect={handleImageSelect} imageUrl={picture} />
       </Box>
     </Container>
   );

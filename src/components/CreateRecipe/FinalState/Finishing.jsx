@@ -10,7 +10,9 @@ export default function Finishing() {
   console.log('la finalizacion es:', finalization);
   return (
     <Box>
-      <Typography>Finishing</Typography>
+      <Typography sx={{ color: '#277527' }}>
+        <h3>Finishing</h3>
+      </Typography>
       <hr />
       {recipeHaccp.length > 0 ? (
         <>

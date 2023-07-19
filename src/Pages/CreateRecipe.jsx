@@ -4,8 +4,10 @@ import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
 import IndexTextField from '../components/CreateRecipe/IndexTextField';
 import SaveButton from '../components/CreateRecipe/SaveButton';
+import { useHaccp } from '../hooks/useHaccp';
 
 const CreateRecipe = () => {
+  const { recipeData, setRecipeData } = useHaccp();
   const onChange = (e) => {
     const { name, value } = e.target;
     setRecipeData({
