@@ -2,6 +2,8 @@ import { Container, Grid, Box, TextField, Button, Typography } from '@mui/materi
 import React from 'react';
 import axios from 'axios';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type RegisterType = {
   firstName: String;
   lastName: String;
@@ -55,7 +57,7 @@ export const OwnerForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:3000/user/register',
+        baseUrl + 'user/register',
         registerData
       );
       console.log('', response.data);

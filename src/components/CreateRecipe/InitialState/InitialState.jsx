@@ -10,6 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 const names = [
   'Defrosting',
   'Chilled storage',
@@ -52,9 +54,10 @@ export default function InitialState() {
     console.log('Initial State status', status.join(','));
     async function fetchData() {
       const data = await axios.get(
-        `http://localhost:3000/haccp?ingredientsStatus=${
-          status.lenght == 1 ? status[0] : status.join(',')
-        }`,
+        baseUrl +
+          `haccp?ingredientsStatus=${
+            status.lenght == 1 ? status[0] : status.join(',')
+          }`,
         {
           headers: {
             Authorization: `Bearer ${userLocal.token}`,

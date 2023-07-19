@@ -4,6 +4,8 @@ import { Container, Grid,  Box, TextField, Button, MenuItem, InputLabel, Select,
 import { useUser } from '../../hooks/useUser';
 import ImageUploader from '../Images/ImageUploader';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type RegisterType = {
   firstName: string;
   lastName: string;
@@ -70,8 +72,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     try {
       const token = user.token;
       setFormErrors({});
-      const response = await axios.post<ApiResponse>(
-        'http://localhost:3000/user',
+      const response = await axios.post<ApiResponse>( 
+        baseUrl + 'user',
         { ...registerData },
         {
           headers: {

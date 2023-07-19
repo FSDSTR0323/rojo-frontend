@@ -10,6 +10,8 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import axios from 'axios';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -98,18 +100,20 @@ export default function FinalState() {
     setFinalization(finalState);
     const userLocal = JSON.parse(window.localStorage.getItem('user'));
     console.log(
-      `http://localhost:3000/haccp?ingredientsStatus=${
-        ingredientsStatus[valuePrepreparation]
-      }${
-        newFinalStateName !== '' ? '&' + action + '=' + newFinalStateName : null
-      }`
+      baseUrl +
+        `haccp?ingredientsStatus=${ingredientsStatus[valuePrepreparation]}${
+          newFinalStateName !== ''
+            ? '&' + action + '=' + newFinalStateName
+            : null
+        }`
     );
     const data = await axios.get(
-      `http://localhost:3000/haccp?ingredientsStatus=${
-        ingredientsStatus[valuePrepreparation]
-      }${
-        newFinalStateName !== '' ? '&' + action + '=' + newFinalStateName : null
-      }`,
+      baseUrl +
+        `haccp?ingredientsStatus=${ingredientsStatus[valuePrepreparation]}${
+          newFinalStateName !== ''
+            ? '&' + action + '=' + newFinalStateName
+            : null
+        }`,
       {
         headers: {
           Authorization: `Bearer ${userLocal.token}`,
