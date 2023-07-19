@@ -5,7 +5,6 @@ import axios from 'axios';
 type RegisterType = {
   firstName: String;
   lastName: String;
-  customerEmail: String;
   email: String;
   phone: String;
   customerName: String;
@@ -24,8 +23,7 @@ export const OwnerForm = () => {
   const [registerData, setRegisterData] = React.useState<RegisterType>({
     firstName: '',
     lastName: '',
-    customerEmail: '',
-    email: '', // TODO: Borrar duplicado
+    email: '',
     phone: '',
     customerName: '',
     customerAddress: '',
@@ -77,7 +75,7 @@ export const OwnerForm = () => {
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit} sx={styles}>         
+        <Box component="form" onSubmit={handleSubmit} sx={styles }>         
           <Typography variant="h2">Tax data</Typography>
           <TextField
             name="firstName"
@@ -223,8 +221,14 @@ export const OwnerForm = () => {
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: '1.5em', mb: 3 }}
-            variant="contained"
+            sx={{
+              mt: 1.5,
+              mb: 3,
+              backgroundColor: "#277c27fb",
+              "&:hover": {
+                backgroundColor: "#277c27cf",
+              },
+            }}
           >
             Register
           </Button>
