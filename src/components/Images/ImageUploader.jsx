@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CloudUpload, CheckCircle } from '@mui/icons-material';
-import { Button, LinearProgress } from '@mui/material';
+import { Button, LinearProgress, Typography, Box } from '@mui/material';
 import Avatar from './avatar';
 
 const ImageUploader = ({ onImageSelect, imageUrl }) => {
@@ -28,15 +28,12 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
       setSelectedImage(file);
       setCroppedImage(null);
       setIsUploadComplete(false);      
-      console.log('Selected Image:', file);
       const imageUrl = URL.createObjectURL(file);
-      console.log('Image URL:', imageUrl);
     }
   };
 
   const handleCropImage = (croppedImage) => {
     onImageSelect(croppedImage || selectedImage);
-    console.log('Cropped Image:', croppedImage);
     setCroppedImage(croppedImage);
   };
 
@@ -90,7 +87,6 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
           throw new Error('Error uploading image');          
         }
       } catch (error) {
-        console.log('Error uploading image:', error);
         setError('Error uploading image');
         setUploadProgress(0);
         setIsUploadComplete(false);
@@ -103,13 +99,6 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
     }
   };
 
-  console.log('Selected Image:', selectedImage);
-  console.log('Cropped Image:', croppedImage);
-  console.log('Upload Progress:', uploadProgress);
-  console.log('Is Uploading:', isUploading);
-  console.log('Is Upload Complete:', isUploadComplete);
-  console.log('Error:', error);
-  console.log('Button Text:', buttonText);
 
   return (
     <div>
@@ -117,7 +106,7 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
         <>
           <div>
             {selectedImage && (
-              <Avatar image={selectedImage} onCropImage={handleCropImage} />
+              <Avatar image={selectedImage} onCropImage={handleCropImage} sx={{ borderRadius: '50%' }} />
             )}
             
             <Button
@@ -139,7 +128,11 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
         </>
       )}
 
-      {croppedImage && <img src={croppedImage} alt="Cropped Image" />}
+      {croppedImage &&
+      <Box sx={{borderRadius:'50%', width:'200px', height:'200px', overflow:'hidden', mb:2}}>
+        <img src={croppedImage} alt="Cropped Image" />
+      </Box> }
+
 
       {uploadProgress > 0 && uploadProgress < 100 && (
         <>
@@ -147,14 +140,16 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
             max={100}
             variant="determinate"
             value={uploadProgress}
-            sx={{ backgroundColor: '#b7b7b7', '& .MuiLinearProgress-bar': { backgroundColor: '#277c27' } }}
+            sx={{ backgroundColor: '#b7b7b7', '& .MuiLinearProgress-bar': { backgroundColor: '#277c27' }, mt: 2 }}
           />
-          <span> {uploadProgress} % </span>
+          <Typography variant="body1" align="center" sx={{ mt: 1 }}>
+            {uploadProgress} % 
+          </Typography>
         </>
       )}
       {error && <p>Error: {error}</p>}
 
-      {imageUrl && <img src={imageUrl} alt="Selected Image" />}
+      {imageUrl && <img src={imageUrl} alt="Selected Image"  />}
 
       <Button fullWidth onClick={handleUpload} sx={{ mt: 1.5, mb: 3, backgroundColor:"#277c27fb", "&:hover": {backgroundColor: "#277c27cf"}, }} variant="contained"disabled={!selectedImage || isUploading}>
         {isUploading ? (
