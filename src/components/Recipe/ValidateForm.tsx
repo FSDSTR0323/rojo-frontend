@@ -31,32 +31,36 @@ type validateTypeItem = {
     recipe: String,
     name: String,
     step: [
-        {
-            haccp: String;
-            valid: Boolean;
-            correctiveActions?: String;
-            comment?: String;
-        }
+        StepType
     ]
 }
 
-type ValidateType = [
-    validateTypeItem
-];
+type StepType = {
+    haccp: String;
+    valid: Boolean;
+    correctiveActions?: String;
+    comment?: String; 
+}
 
-type ValidationFormProps = {
-    onValidateAdd: (Recipe: any) => void;
-};
+// type ValidateType = [
+//     validateTypeItem
+// ];
 
-export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, isValidationMode:boolean}> = ({selectedValidation, recipeId, isValidationMode}) => {
-    //console.log(ValidateForm)
+// type ValidationFormProps = {
+//     onValidateAdd: (Recipe: any) => void;
+// };
+
+export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, recipeName: String, isValidationMode:boolean}> = ({selectedValidation, recipeId, recipeName, isValidationMode}) => {
 
     const { user } = useUser();
     const params = useParams();
 
-    // console.log('selectedValidation', selectedValidation)
-    // console.log('recipeId', recipeId)
-    // console.log('isValidationMode - Form', isValidationMode)
+    const [stepData, setStepData] = React.useState<StepType>({
+        haccp: '',
+        valid: true,
+        correctiveActions: '',
+        comment: '',
+    });
 
     const [ValidateData, setValidateData] = useState<haccpInfo[]>(selectedValidation);
 
@@ -64,6 +68,16 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         setValidateData(selectedValidation)
     }, [selectedValidation])
 
+    // const [validate, setValidate] = useState<validateTypeItem>({
+    //     recipe: recipeId,
+    //     name: recipeName,
+    //     step: [
+    //         haccp: '',
+    //         valid: true,
+    //         correctiveActions: '',
+    //         comment: '' 
+    //     ]
+    // });
 
     const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -83,10 +97,31 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         }
     };
 
+    const [data, setData] = useState({});
+    const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const name_id = e.target.name.split('_');
+        const id = name_id[1];
+        const name = name_id[0];
+        const value = e.target.value;
+
+        setData((prevData) => ({ ...prevData, [name]: value }));
+        handleChangeValidateTypeItem(data, id)
+    }
+
+    const handleChangeValidateTypeItem = (data, id) => {
+        
+        console.log("data", data)
+        console.log("id", id)
+         //const stepData = steps.filer(step => stem.haccp === id)
+        //  if(stepData) {
+
+        //  } else {
+        //     array_push()
+        //  }
+    }
+
     return (
-        <Box component="form" 
-            onSubmit={handleSubmit}
-            >
+        <Box component="form" onSubmit={handleSubmit}>
             <Typography sx={{ mt: 2 }}>
                 Pre-preparation
             </Typography>
@@ -95,6 +130,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 <CardRecipe 
                     haccp={haccp}
                     isValidationMode={isValidationMode}
+                    handleChangeData={handleChangeData}
                 />
             )}
 
@@ -106,6 +142,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 <CardRecipe 
                     haccp={haccp}
                     isValidationMode={isValidationMode}
+                    handleChangeData={handleChangeData}
                 />
             )}
 
@@ -117,6 +154,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 <CardRecipe 
                     haccp={haccp}
                     isValidationMode={isValidationMode}
+                    handleChangeData={handleChangeData}
                 />
             )}
         </Box>

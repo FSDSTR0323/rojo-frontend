@@ -24,7 +24,7 @@ export const Recipe = () => {
           },
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
       setRecipe(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -114,6 +114,7 @@ export const Recipe = () => {
             <ValidateForm
               selectedValidation={Recipe.haccps}
               recipeId={Recipe._id}
+              recipeName={Recipe.name}
               isValidationMode={isValidationMode}
             />
           )}

@@ -10,20 +10,14 @@ import {
   FormControl,
 } from '@mui/material';
 
-export const CardRecipe = ({ haccp, isValidationMode }) => {
-  //console.log('haccp', haccp)
-  //console.log('haccp?.name', haccp?.name)
+export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
   const [isAccepted, setIsAccepted] = useState();
-
   const handleChange = (e) => {
     setIsAccepted(e.target.value === 'true');
+    handleChangeData(e)
   };
-
   useEffect(() => {
-    console.log('isAccepted', isAccepted);
   }, [isAccepted]);
-
-  // console.log('Card - isValidationMode', isValidationMode)
 
   return (
     <Container
@@ -100,15 +94,13 @@ export const CardRecipe = ({ haccp, isValidationMode }) => {
       </Box>
       {isValidationMode && (
         <FormControl>
-          <RadioGroup sx={{ mb: 2 }} onChange={handleChange}>
+          <RadioGroup name={"valid_"+haccp._id} sx={{ mb: 2 }} onChange={handleChange}>
             <FormControlLabel
-              name="accept"
               value={true}
               control={<Radio />}
               label="Accept"
             />
             <FormControlLabel
-              name="refuse"
               value={false}
               control={<Radio />}
               label="Refuse"
@@ -121,21 +113,27 @@ export const CardRecipe = ({ haccp, isValidationMode }) => {
                   <b>Corrective Actions</b>
                 </Typography>
                 <hr />
-                <RadioGroup sx={{ width: '100%' }}>
-                  {haccp?.correctiveActions.map((ca) => (
-                    <FormControlLabel
-                      sx={{ width: '100%' }}
-                      value={ca}
-                      control={<Radio />}
-                      label={ca}
-                    />
-                  ))}
+                <RadioGroup
+                    name={"correctiveActions_"+haccp._id}
+                    onChange={handleChangeData}
+                    sx={{ width: '100%' }}
+                >
+                    {haccp?.correctiveActions.map((ca) => (
+                        <FormControlLabel
+                        sx={{ width: '100%' }}
+                        value={ca}
+                        control={<Radio />}
+                        label={ca}
+                        />
+                    ))}
                 </RadioGroup>
               </Box>
               <Typography>
                 <b>Comment</b>
               </Typography>
               <TextField
+                name={"comment_"+haccp._id}
+                onChange={handleChangeData}
                 sx={{
                   backgroundColor: '#FFF',
                   borderRadius: '5px',
