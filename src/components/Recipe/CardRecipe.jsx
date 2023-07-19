@@ -14,10 +14,9 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
   const [isAccepted, setIsAccepted] = useState();
   const handleChange = (e) => {
     setIsAccepted(e.target.value === 'true');
-    handleChangeData(e)
+    handleChangeData(e);
   };
-  useEffect(() => {
-  }, [isAccepted]);
+  useEffect(() => {}, [isAccepted]);
 
   return (
     <Container
@@ -41,8 +40,8 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
           <b>Ingredients status</b>
         </Typography>
         <hr />
-        {haccp?.ingredientsStatus.map((item) => (
-          <Typography>
+        {haccp?.ingredientsStatus.map((item, index) => (
+          <Typography key={index}>
             <li>{item}</li>
           </Typography>
         ))}
@@ -52,8 +51,8 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
           <b>Control</b>
         </Typography>
         <hr />
-        {haccp?.control.map((item) => (
-          <Typography>
+        {haccp?.control.map((item, index) => (
+          <Typography key={index}>
             <li>{item}</li>
           </Typography>
         ))}
@@ -70,8 +69,8 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
           <b>Frecuency</b>
         </Typography>
         <hr />
-        {haccp?.frequency.map((item) => (
-          <Typography>{item}</Typography>
+        {haccp?.frequency.map((item, index) => (
+          <Typography key={index}>{item}</Typography>
         ))}
       </Box>
       <Box sx={{ mb: 3, width: '100%' }}>
@@ -86,20 +85,20 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
           <b>Limits</b>
         </Typography>
         <hr />
-        {haccp?.limits.map((item) => (
-          <Typography>
+        {haccp?.limits.map((item, index) => (
+          <Typography key={index}>
             <li>{item}</li>
           </Typography>
         ))}
       </Box>
       {isValidationMode && (
         <FormControl>
-          <RadioGroup name={"valid_"+haccp._id} sx={{ mb: 2 }} onChange={handleChange}>
-            <FormControlLabel
-              value={true}
-              control={<Radio />}
-              label="Accept"
-            />
+          <RadioGroup
+            name={'valid_' + haccp._id}
+            sx={{ mb: 2 }}
+            onChange={handleChange}
+          >
+            <FormControlLabel value={true} control={<Radio />} label="Accept" />
             <FormControlLabel
               value={false}
               control={<Radio />}
@@ -114,25 +113,26 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
                 </Typography>
                 <hr />
                 <RadioGroup
-                    name={"correctiveActions_"+haccp._id}
-                    onChange={handleChangeData}
-                    sx={{ width: '100%' }}
+                  name={'correctiveActions_' + haccp._id}
+                  onChange={handleChangeData}
+                  sx={{ width: '100%' }}
                 >
-                    {haccp?.correctiveActions.map((ca) => (
-                        <FormControlLabel
-                        sx={{ width: '100%' }}
-                        value={ca}
-                        control={<Radio />}
-                        label={ca}
-                        />
-                    ))}
+                  {haccp?.correctiveActions.map((ca, index) => (
+                    <FormControlLabel
+                      key={index}
+                      sx={{ width: '100%' }}
+                      value={ca}
+                      control={<Radio />}
+                      label={ca}
+                    />
+                  ))}
                 </RadioGroup>
               </Box>
               <Typography>
                 <b>Comment</b>
               </Typography>
               <TextField
-                name={"comment_"+haccp._id}
+                name={'comment_' + haccp._id}
                 onChange={handleChangeData}
                 sx={{
                   backgroundColor: '#FFF',

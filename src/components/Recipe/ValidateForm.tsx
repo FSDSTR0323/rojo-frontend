@@ -126,8 +126,9 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 Pre-preparation
             </Typography>
             <hr/>
-            {ValidateData?.filter(haccp => haccp.step === "Pre-preparation").map((haccp)=> 
+            {ValidateData?.filter(haccp => haccp.step === "Pre-preparation").map((haccp, index)=> 
                 <CardRecipe 
+                    key={index}
                     haccp={haccp}
                     isValidationMode={isValidationMode}
                     handleChangeData={handleChangeData}
@@ -138,8 +139,9 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 Preparation
             </Typography>
             <hr/>
-            {ValidateData?.filter(item => item.step == "Preparation").map((haccp)=> 
+            {ValidateData?.filter(item => item.step == "Preparation").map((haccp, index)=> 
                 <CardRecipe 
+                    key={index}
                     haccp={haccp}
                     isValidationMode={isValidationMode}
                     handleChangeData={handleChangeData}
@@ -150,8 +152,9 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 Finalitzation
             </Typography>
             <hr/>
-            {ValidateData?.filter(item => item.step == "Finalization").map((haccp)=> 
+            {ValidateData?.filter(item => item.step == "Finalization").map((haccp, index)=> 
                 <CardRecipe 
+                    key={index}
                     haccp={haccp}
                     isValidationMode={isValidationMode}
                     handleChangeData={handleChangeData}
