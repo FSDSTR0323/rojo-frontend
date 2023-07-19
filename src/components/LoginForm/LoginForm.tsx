@@ -5,6 +5,8 @@ import { useUser } from '../../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import { DASHBOARD } from '../../config/routes';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type LoginType = {
   nickname: string;
   password: string;
@@ -38,12 +40,12 @@ export const LoginForm = () => {
     e.preventDefault();
     try {
       const response: ApiResponse = await axios.post(
-        'http://localhost:3000/user/login',
+        baseUrl + 'user/login',
         loginData
       );
       const token = response.data.token;
 
-      const responseUser: any = await axios.get('http://localhost:3000/user', {
+      const responseUser: any = await axios.get(baseUrl + 'user', {
         headers: { Authorization: `Bearer ${token}` },
       });
 

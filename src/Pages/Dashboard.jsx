@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 
 import { Box } from '@mui/system';
 import { Kpi } from '../components/Widgets/Kpi/Kpi';
