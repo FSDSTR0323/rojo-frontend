@@ -13,7 +13,7 @@ import {
 export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
   const [isAccepted, setIsAccepted] = useState();
   const handleChange = (e) => {
-    setIsAccepted(e.target.value === 'true');
+    setIsAccepted(e.currentTarget.value === 'true');
     handleChangeData(e);
   };
   useEffect(() => {}, [isAccepted]);

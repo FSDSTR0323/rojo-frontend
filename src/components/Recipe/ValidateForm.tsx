@@ -30,14 +30,12 @@ type CardRecipe = {
 type validateTypeItem = {
     recipe: String,
     name: String,
-    step: [
-        StepType
-    ]
+    steps: StepType[]
 }
 
 type StepType = {
     haccp: String;
-    valid: Boolean;
+    valid: String;
     correctiveActions?: String;
     comment?: String; 
 }
@@ -55,12 +53,12 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
     const { user } = useUser();
     const params = useParams();
 
-    const [stepData, setStepData] = React.useState<StepType>({
-        haccp: '',
-        valid: true,
-        correctiveActions: '',
-        comment: '',
-    });
+    // const [stepData, setStepData] = React.useState<StepType>({
+    //     haccp: '',
+    //     valid: true,
+    //     correctiveActions: '',
+    //     comment: '',
+    // });
 
     const [ValidateData, setValidateData] = useState<haccpInfo[]>(selectedValidation);
 
@@ -68,16 +66,11 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         setValidateData(selectedValidation)
     }, [selectedValidation])
 
-    // const [validate, setValidate] = useState<validateTypeItem>({
-    //     recipe: recipeId,
-    //     name: recipeName,
-    //     step: [
-    //         haccp: '',
-    //         valid: true,
-    //         correctiveActions: '',
-    //         comment: '' 
-    //     ]
-    // });
+    const [recipe, setRecipe] = useState<validateTypeItem>({
+        recipe: recipeId,
+        name: recipeName,
+        steps: []
+    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -97,27 +90,86 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         }
     };
 
+
     const [data, setData] = useState({});
+
+    useEffect(() => {
+        console.log('recipe', recipe)
+        // handleChangeValidateTypeItem(recipe)
+        let newSteps = [...recipe.steps]
+        const newStep = {...data}
+
+        console.log('newStep', newStep)
+        // const recipeStep = recipe.steps.filter((step) => step.haccp !== newStep.haccp)
+
+        // for (let step of newSteps) {
+        //     if(step.haccp === newStep.haccp) {
+        //        step = {...newStep}
+        //     }
+        // }
+
+        if(newSteps.length === 0) {
+            newSteps = [...newSteps, newStep]
+        }
+        
+
+        const newRecipeData = {
+            ...recipe,
+            steps: [
+                ...newSteps
+            ]
+        }
+
+        if(newStep.haccp !== undefined) {
+            setRecipe(newRecipeData)
+        }
+        console.log('newSteps use Effect', newSteps)
+    }, [data])
+
     const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name_id = e.target.name.split('_');
         const id = name_id[1];
         const name = name_id[0];
         const value = e.target.value;
 
+        console.log('\n')
+        console.log({
+            haccp: id,
+            valid:value,
+        })
+
         setData((prevData) => ({ ...prevData, [name]: value }));
-        handleChangeValidateTypeItem(data, id)
-    }
-
-    const handleChangeValidateTypeItem = (data, id) => {
         
-        console.log("data", data)
-        console.log("id", id)
-         //const stepData = steps.filer(step => stem.haccp === id)
-        //  if(stepData) {
 
-        //  } else {
-        //     array_push()
-        //  }
+        // const newSteps = [...recipe.steps]
+        // const newStep = {...data}
+
+        // // const recipeStep = recipe.steps.filter((step) => step.haccp !== newStep.haccp)
+
+        // for (let step of newSteps) {
+        //     if(step.haccp === newStep.haccp) {
+        //        step = {...newStep}
+        //     }
+        // }
+
+        // const newRecipeData = {
+        //     ...recipe,
+        //     steps: [
+        //         ...newSteps
+        //     ]
+        // }
+
+        // setRecipe(newRecipeData)
+    }
+    
+
+    const handleChangeValidateTypeItem = (data) => {
+        
+        console.log("data from typeItem", data)
+
+        // const dataToModify= {...data}
+        // dataToModify.step.push(data)
+        // setData(dataToModify)
     }
 
     return (
