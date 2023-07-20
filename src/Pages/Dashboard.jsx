@@ -93,24 +93,28 @@ export const Dashboard = () => {
       header: 'Creation Date',
       headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '15%' },
       cellStyle: { textAlign: 'left' },
+      isSortable: true,
     },
     {
       key: 'name',
       header: 'RecipeName',
       headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '30%' },
       cellStyle: { textAlign: 'left' },
+      isSortable: true,
     },
     {
       key: 'createdBy',
       header: "Chef's Name",
       headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '20%' },
       cellStyle: { textAlign: 'left' },
+      isSortable: true,
     },
     {
       key: 'nickname',
       header: "Chef's Nickname",
       headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '20%' },
       cellStyle: { textAlign: 'left' },
+      isSortable: true,
     },
     {
       key: 'status',
@@ -124,6 +128,7 @@ export const Dashboard = () => {
           <DangerousIcon sx={{ color: '#ff0000', fontSize: '3em' }} />
         );
       },
+      isSortable: false,
     },
   ];
 

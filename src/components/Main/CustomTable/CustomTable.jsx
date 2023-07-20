@@ -5,12 +5,14 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TableSortLabel,
   Paper,
   Button,
 } from '@mui/material';
 import { Visibility, Delete, Edit } from '@mui/icons-material';
 
 const styles = {
+  table: { minWidth: 750 },
   tableContainer: { marginTop: 4 },
   tableHead: { backgroundColor: '#f1f3f4' },
   actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
@@ -47,12 +49,16 @@ const CustomTable = ({
 
   return (
     <TableContainer component={Paper} sx={styles.tableContainer}>
-      <Table>
+      <Table sx={styles.table}>
         <TableHead sx={styles.tableHead}>
           <TableRow>
             {columns?.map((column) => (
               <TableCell key={column.key} sx={column.headerStyle}>
-                {column.header}
+                {column.isSortable ? (
+                  <TableSortLabel>{column.header}</TableSortLabel>
+                ) : (
+                  column.header
+                )}
               </TableCell>
             ))}
             {isActionableTable && (
