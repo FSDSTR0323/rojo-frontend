@@ -20,7 +20,7 @@ type haccpInfo = {
     procedure: string,
     frequency: string[],
     limits: string[],
-    correctiveActions: string[],
+    correctiveAction: string[],
 }
 
 type CardRecipe = {
@@ -34,10 +34,15 @@ type validateTypeItem = {
     steps: StepType[]
 }
 
+type ApiResponse = {
+    formData: validateTypeItem,
+    token: String
+}
+
 type StepType = {
     haccp: String;
     valid: String;
-    correctiveActions?: String;
+    correctiveAction?: String;
     comment?: String;
 }
 
@@ -57,7 +62,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
     // const [stepData, setStepData] = React.useState<StepType>({
     //     haccp: '',
     //     valid: true,
-    //     correctiveActions: '',
+    //     correctiveAction: '',
     //     comment: '',
     // });
 
@@ -89,12 +94,12 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                     if(newStep.valid === 'true') {
                         //console.log("= true")
                         newSteps[i].valid = 'true'
-                        newSteps[i].correctiveActions = ''
+                        newSteps[i].correctiveAction = ''
                         newSteps[i].comment = ''
                     } else {
                         //console.log("= false")
                         newSteps[i].valid = 'false'
-                        if(newStep.correctiveActions != undefined) { newSteps[i].correctiveActions = newStep.correctiveActions }
+                        if(newStep.correctiveAction != undefined) { newSteps[i].correctiveAction = newStep.correctiveAction }
                         if(newStep.comment != undefined) { newSteps[i].comment = newStep.comment }
                     }
                 }
@@ -130,22 +135,32 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
 
     const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
-        console.log(handleSubmit)
         try {
             const formData = recipe
-            console.log("handel submit recibe", recipe)
 
-            console.log("handel submit token", user.token)
+            console.log(formData)
 
             const token = user.token
 
-            const response = await axios.post(
-                `http://localhost:3000/validation/`, {
-                    formData,
+            // const response: ApiResponse = await axios.post(
+            //     `http://localhost:3000/validation/`, {
+            //         formData,
+            //         headers: {
+            //             Authorization: `Bearer ${token}`,
+            //         },
+            //     }
+            // );
+
+            console.log("token", token)
+
+            const response = await axios.post<ApiResponse>(
+                'http://localhost:3000/validation/',{
+                    formData, 
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                       Authorization: `Bearer ${token}`,
+                    }
                 }
+                    
             );
         } catch(error) {
             console.log("Axios error handleSubmid validateForm", error)
@@ -192,27 +207,37 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                     handleChangeData={handleChangeData}
                 />
             )}
-
-            <Button
-                sx={{
-                  mt: 1.5,
-                  mb: 1,
-                  backgroundColor: '#DC143C',
-                  width: '100%',
-                }}
-                variant="contained"
-                name="cancel"
-                onClick={disableValidationMode}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                sx={{ mt: 1.5, mb: 3, width: '100%' }}
-                variant="contained"
-              >
-                Validate Recipe
-              </Button>
+            {isValidationMode && (
+            <>
+                <Button
+                    sx={{
+                    mt: 1.5,
+                    mb: 1,
+                    width: '100%',
+                    backgroundColor: "#DC143C",
+                        "&:hover": {
+                        backgroundColor: "#dc143c96", 
+                        }
+                    }}
+                    variant="contained"
+                    name="cancel"
+                    onClick={disableValidationMode}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    type="submit"
+                    sx={{ mt: 1.5, mb: 3, width: '100%',
+                    backgroundColor: "#277c27fb",
+                        "&:hover": {
+                        backgroundColor: "#277c27cf", 
+                        }
+                    }}
+                    variant="contained"
+                >
+                    Validate Recipe
+                </Button>
+              </>)}
         </Box>
     );
 }

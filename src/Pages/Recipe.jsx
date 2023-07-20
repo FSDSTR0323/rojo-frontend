@@ -65,8 +65,12 @@ export const Recipe = () => {
             }}
           />
           <Button
-            sx={{ mt: 1.5, mb: 3, width: '100%', backgroundColor: '#277c27fb' }}
             variant="contained"
+            sx={{ mt: 1.5, mb: 3, width: '100%',
+            backgroundColor: "#277c27fb",
+              "&:hover": {
+              backgroundColor: "#277c27cf", }
+            }}
             name="goValidate"
             onClick={enableValidationMode}
           >
@@ -116,7 +120,7 @@ export const Recipe = () => {
               recipeId={Recipe._id}
               recipeName={Recipe.name}
               isValidationMode={isValidationMode}
-              setIsValidationMode={disableValidationMode}
+              disableValidationMode={disableValidationMode}
             />
           )}
 
