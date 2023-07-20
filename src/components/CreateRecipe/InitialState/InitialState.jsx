@@ -45,8 +45,8 @@ function getStyles(name, initialStateName, theme) {
 }
 
 export default function InitialState() {
+  const { initialStateName, setInitialStateName } = useHaccp();
   const theme = useTheme();
-  const [initialStateName, setInitialStateName] = React.useState([]);
   useEffect(() => {
     const status = initialStateName.map((name) => ingredientsStatus[name]);
     console.log('Initial State status', status.join(','));
@@ -73,6 +73,7 @@ export default function InitialState() {
   const handleState = async (e) => {
     console.log('initial state name:', initialStateName);
     const { value } = e.target;
+    console.log('value:', value);
     setValuePrepreparation(value);
     setInitialStateName(
       // On autofill we get a stringified value.

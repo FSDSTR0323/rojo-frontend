@@ -7,7 +7,8 @@ import { useHaccp } from '../../hooks/useHaccp';
 const AddPicture = () => {
   const { setRecipeData, setPicture, picture } = useHaccp();
   const handleImageSelect = (imageUrl) => {
-    setPicture(imageUrl);
+    // setPicture(imageUrl);
+    console.log('ImageUrl AddPicture:', imageUrl);
   };
 
   // useEffect(() => {
@@ -22,7 +23,7 @@ const AddPicture = () => {
       ...prevRecipeData,
       imageUrl: picture,
     }));
-    console.log('picturePocture es:', picture);
+    console.log('picture Picture es:', picture);
   }, [picture]);
 
   console.log('Set picture:', picture);
