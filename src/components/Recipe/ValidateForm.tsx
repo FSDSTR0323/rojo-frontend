@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Box,
     Button,
@@ -8,7 +8,10 @@ import {
 import { useUser } from '../../hooks/useUser';
 import axios from "axios";
 import { CardRecipe } from '../Recipe/CardRecipe'
+import { RECIPES } from '../../config/routes'
 
+
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
 type haccpInfo = {
     _id: string,
@@ -59,14 +62,9 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
     const { user } = useUser();
     const params = useParams();
 
-    // const [stepData, setStepData] = React.useState<StepType>({
-    //     haccp: '',
-    //     valid: true,
-    //     correctiveAction: '',
-    //     comment: '',
-    // });
-
     const [ValidateData, setValidateData] = useState<haccpInfo[]>(selectedValidation);
+
+    const navigate = useNavigate()
 
     useEffect( () => {
         setValidateData(selectedValidation)
@@ -137,24 +135,9 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         e.preventDefault();
         try {
             const formData = recipe
-
-            console.log(formData)
-
             const token = user.token
-
-            // const response: ApiResponse = await axios.post(
-            //     `http://localhost:3000/validation/`, {
-            //         formData,
-            //         headers: {
-            //             Authorization: `Bearer ${token}`,
-            //         },
-            //     }
-            // );
-
-            console.log("token", token)
-
             const response = await axios.post<ApiResponse>(
-                'http://localhost:3000/validation/',
+                baseUrl + 'validation',
                 { ...formData },
                 {
                   headers: {
@@ -163,17 +146,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 }
               );
 
-
-            // let response = await axios.post<ApiResponse>(
-            //     'http://localhost:3000/validation/',{
-            //         formData, 
-            //         {
-            //         headers: {
-            //            Authorization: `Bearer ${token}`,
-            //         }
-            //     }
-                    
-            // );
+            navigate(RECIPES)
         } catch(error) {
             console.log("Axios error handleSubmid validateForm", error)
         }
