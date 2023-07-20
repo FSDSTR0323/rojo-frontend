@@ -24,7 +24,6 @@ export const Recipe = () => {
           },
         }
       );
-      //console.log(response.data);
       setRecipe(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -66,10 +65,14 @@ export const Recipe = () => {
           />
           <Button
             variant="contained"
-            sx={{ mt: 1.5, mb: 3, width: '100%',
-            backgroundColor: "#277c27fb",
-              "&:hover": {
-              backgroundColor: "#277c27cf", }
+            sx={{
+              mt: 1.5,
+              mb: 3,
+              width: '100%',
+              backgroundColor: '#277c27fb',
+              '&:hover': {
+                backgroundColor: '#277c27cf',
+              },
             }}
             name="goValidate"
             onClick={enableValidationMode}
@@ -123,31 +126,6 @@ export const Recipe = () => {
               disableValidationMode={disableValidationMode}
             />
           )}
-
-          {/* {isValidationMode && (
-            <>
-              <Button
-                sx={{
-                  mt: 1.5,
-                  mb: 1,
-                  backgroundColor: '#DC143C',
-                  width: '100%',
-                }}
-                variant="contained"
-                name="cancel"
-                onClick={disableValidationMode}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                sx={{ mt: 1.5, mb: 3, width: '100%' }}
-                variant="contained"
-              >
-                Validate Recipe
-              </Button>
-            </>
-          )} */}
         </Grid>
       </Grid>
     </Container>

@@ -75,9 +75,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         name: recipeName,
         steps: []
     });
-    useEffect(() => {
-        console.log("useEffect set recipe", recipe)
-    },[recipe])
+    useEffect(() => {},[recipe])
 
     const [data, setData] = useState({});
     useEffect(() => {
@@ -90,12 +88,10 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                 if(recipe.steps[i].haccp === newStep.haccp) {
                     exist = 1;
                     if(newStep.valid === 'true') {
-                        //console.log("= true")
                         newSteps[i].valid = 'true'
                         newSteps[i].correctiveAction = ''
                         newSteps[i].comment = ''
                     } else {
-                        //console.log("= false")
                         newSteps[i].valid = 'false'
                         if(newStep.correctiveAction != undefined) { newSteps[i].correctiveAction = newStep.correctiveAction }
                         if(newStep.comment != undefined) { newSteps[i].comment = newStep.comment }
