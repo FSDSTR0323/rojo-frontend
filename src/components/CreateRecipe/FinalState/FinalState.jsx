@@ -56,8 +56,11 @@ export default function FinalState() {
     action,
     setRecipeHaccp,
     setFinalization,
+    initialStateName,
   } = useHaccp();
-  const [previousValues] = useState(haccp);
+
+  console.log('valuePrepreparation', valuePrepreparation);
+
   const [finalState, setFinalState] = useState([]);
 
   useEffect(() => {
@@ -97,16 +100,18 @@ export default function FinalState() {
     setFinalStateName(newFinalStateName);
     setFinalization(finalState);
     const userLocal = JSON.parse(window.localStorage.getItem('user'));
+    const status = initialStateName.map((name) => ingredientsStatus[name]);
     console.log(
+      'Url finalState:',
       `http://localhost:3000/haccp?ingredientsStatus=${
-        ingredientsStatus[valuePrepreparation]
+        status.lenght == 1 ? status[0] : status.join(',')
       }${
         newFinalStateName !== '' ? '&' + action + '=' + newFinalStateName : null
       }`
     );
     const data = await axios.get(
       `http://localhost:3000/haccp?ingredientsStatus=${
-        ingredientsStatus[valuePrepreparation]
+        status.lenght == 1 ? status[0] : status.join(',')
       }${
         newFinalStateName !== '' ? '&' + action + '=' + newFinalStateName : null
       }`,
@@ -116,18 +121,15 @@ export default function FinalState() {
         },
       }
     );
-    console.log(data.data);
+    console.log('log de data.data, En Final State', data.data);
     setRecipeHaccp(data.data);
   };
-
-  console.log('use value final state', previousValues);
-  console.log('Final State', finalState);
 
   return (
     <>
       {finalState.length > 0 ? (
         <div>
-          <FormControl sx={{ m: 1, width: 300 }}>
+          <FormControl sx={{ my: 1 }} fullWidth>
             <InputLabel id="demo-multiple-chip-label">Final State</InputLabel>
             <Select
               labelId="demo-multiple-chip-label"
@@ -141,7 +143,11 @@ export default function FinalState() {
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    <Chip
+                      key={value}
+                      label={value}
+                      sx={{ color: 'white', backgroundColor: '#277527' }}
+                    />
                   ))}
                 </Box>
               )}

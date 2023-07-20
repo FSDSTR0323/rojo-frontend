@@ -5,7 +5,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useHaccp } from '../../../hooks/useHaccp';
-import axios from 'axios';
 import { Typography } from '@mui/material';
 
 export default function BasicSelect() {

@@ -1,8 +1,32 @@
 import { Box, Container, Typography } from '@mui/material';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import ImageUploader from '../Images/ImageUploader';
 import '../../App.css';
+import { useEffect, useState } from 'react';
+import { useHaccp } from '../../hooks/useHaccp';
+
 const AddPicture = () => {
+  const { setRecipeData, setPicture, picture } = useHaccp();
+  const handleImageSelect = (imageUrl) => {
+    // setPicture(imageUrl);
+    console.log('ImageUrl AddPicture:', imageUrl);
+  };
+
+  // useEffect(() => {
+  //   setRecipeData({
+  //     ...recipeData,
+  //     imageUrl: picture,
+  //   });
+  // }, [picture]);
+
+  useEffect(() => {
+    setRecipeData((prevRecipeData) => ({
+      ...prevRecipeData,
+      imageUrl: picture,
+    }));
+    console.log('picture Picture es:', picture);
+  }, [picture]);
+
+  console.log('Set picture:', picture);
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography sx={{ color: '#1c5a1c' }}>
@@ -17,20 +41,7 @@ const AddPicture = () => {
           mb: 2,
         }}
       >
-        <Box
-          className="recipeImage"
-          sx={{
-            width: '200px',
-            height: '200px',
-            backgroundColor: '#1c5a1c',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <AddAPhotoIcon sx={{ color: 'white' }} />
-        </Box>
-        {/* <ImageUploader /> */}
+        <ImageUploader onImageSelect={handleImageSelect} imageUrl={picture} />
       </Box>
     </Container>
   );
