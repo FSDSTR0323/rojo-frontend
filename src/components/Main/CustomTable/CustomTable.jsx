@@ -10,6 +10,7 @@ import {
   Button,
 } from '@mui/material';
 import { Visibility, Delete, Edit } from '@mui/icons-material';
+import { useState } from 'react';
 
 const styles = {
   table: { minWidth: 750 },
@@ -28,6 +29,31 @@ const CustomTable = ({
   onDeleteClick,
   onEditClick,
 }) => {
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortDirection, setSortDirection] = useState('asc');
+
+  const sortedData = [...data].sort((a, b) => {
+    const valueA = a[sortColumn];
+    const valueB = b[sortColumn];
+
+    if (valueA < valueB) {
+      return sortDirection === 'asc' ? -1 : 1;
+    } else if (valueA > valueB) {
+      return sortDirection === 'asc' ? 1 : -1;
+    } else {
+      return 0;
+    }
+  });
+
+  const handleSort = (column) => {
+    if (column === sortColumn) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
   const actions = [
     {
       icon: <Visibility />,
@@ -55,7 +81,15 @@ const CustomTable = ({
             {columns?.map((column) => (
               <TableCell key={column.key} sx={column.headerStyle}>
                 {column.isSortable ? (
-                  <TableSortLabel>{column.header}</TableSortLabel>
+                  <TableSortLabel
+                    active={sortColumn === column.key}
+                    direction={
+                      sortColumn === column.key ? sortDirection : 'asc'
+                    }
+                    onClick={() => handleSort(column.key)}
+                  >
+                    {column.header}
+                  </TableSortLabel>
                 ) : (
                   column.header
                 )}
@@ -67,8 +101,8 @@ const CustomTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.isArray(data) &&
-            data?.map((item) => (
+          {Array.isArray(sortedData) &&
+            sortedData?.map((item) => (
               <TableRow key={item._id} sx={styles.tableRow}>
                 {columns.map((column) => (
                   <TableCell key={column.key} sx={column.cellStyle}>

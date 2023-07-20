@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography, Alert, AlertTitle, Snackbar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
-import UserTable from '../components/UserManagement/UserTable/UserTable';
+import CustomTable from '../components/Main/CustomTable/CustomTable';
 import { useUser } from '../hooks/useUser';
 
 export const UserAdmin = () => {
@@ -22,44 +22,16 @@ export const UserAdmin = () => {
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false); 
-
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const [isUserCreated, setIsUserCreated] = useState(false);
-
   const addUserHandler = (user) => {
     setUserList((prevUserList) => [...prevUserList, user]);
     setOriginalUserList((prevUserList) => [...prevUserList, user]);
     toggleAddUserModalHandler();
-    setIsUserCreated(true);
-    setSnackbarOpen(true);
   };
-
-  const handleUserCreateSuccess = () => {
-    setIsUserCreated(true);
-    setSnackbarOpen(true);
-  };
-
-  useEffect(() => {
-    let timer;
-    if (isUserCreated) {
-      timer = setTimeout(() => {
-        setIsUserCreated(false);
-      }, 3000); 
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isUserCreated]);
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
 
   const openUserDetailsModalHandler = (user) => {
     setSelectedUser(user);
@@ -85,23 +57,21 @@ export const UserAdmin = () => {
     try {
       if (selectedUserToDelete) {
         console.log('selected user to delete', selectedUserToDelete);
-        await axios.delete(
-          `http://localhost:3000/user/${selectedUserToDelete._id}`,
-          {
+        await axios
+          .delete(`http://localhost:3000/user/${selectedUserToDelete._id}`, {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
-          }
-        )
-        .then(response => {
-          console.log('User deleted:', response);
-          setDeleteConfirmationOpen(false);
-          setSelectedUserToDelete(null);
-          fetchUsers();
-        })
-        .catch(error => {
-          console.error('Error deleting user:', error);
-        });
+          })
+          .then((response) => {
+            console.log('User deleted:', response);
+            setDeleteConfirmationOpen(false);
+            setSelectedUserToDelete(null);
+            fetchUsers();
+          })
+          .catch((error) => {
+            console.error('Error deleting user:', error);
+          });
       } else {
         console.error('No user selected for deletion');
       }
@@ -109,14 +79,12 @@ export const UserAdmin = () => {
       console.error('Error deleting user:', error);
     }
   };
-  
-  
 
   const filterHandler = (value) => {
     setFilter(value);
     handleFilterChange(value);
   };
-  
+
   const handleSearchChange = (searchText) => {
     setSearchText(searchText);
     console.log('Search text:', searchText);
@@ -126,7 +94,9 @@ export const UserAdmin = () => {
     if (value === 'all') {
       setUserList(originalUserList);
     } else {
-      const filteredUsers = originalUserList.filter((user) => user.role === value);
+      const filteredUsers = originalUserList.filter(
+        (user) => user.role === value
+      );
       setUserList(filteredUsers);
     }
   };
@@ -150,14 +120,29 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
-  useEffect(() => {
-    const filteredUsers = originalUserList.filter((user) =>
-      `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setUserList(filteredUsers);
-  }, [searchText]);
-
-  //console.log('selected user', selectedUser);
+  const userColumns = [
+    {
+      key: 'firstName',
+      header: 'First Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true,
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true,
+    },
+    {
+      key: 'role',
+      header: 'Role',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '150px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true
+    },
+  ];
 
   return (
     <>
@@ -169,7 +154,7 @@ export const UserAdmin = () => {
           toggleAddUserModalHandler={toggleAddUserModalHandler}
           filterHandler={filterHandler}
           handleFilterChange={handleFilterChange}
-          handleSearchChange={handleSearchChange} 
+          handleSearchChange={handleSearchChange}
           filterValue={filter}
         />
 
@@ -181,33 +166,19 @@ export const UserAdmin = () => {
             padding: '0px 3%',
           }}
         >
-          <UserTable
-            userList={userList}
-            openUserDetailsModalHandler={openUserDetailsModalHandler}
-            deleteUserHandler={deleteUserHandler}
-            openEditModalHandler={openEditModalHandler}
+          <CustomTable
+            data={userList}
+            columns={userColumns}
+            onViewClick={openUserDetailsModalHandler}
+            onDeleteClick={deleteUserHandler}
+            onEditClick={openEditModalHandler}
           />
         </Box>
       </Box>
 
       <CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}>
-        <CreateUserForm onUserAdd={addUserHandler} onSuccess={handleUserCreateSuccess} />
+        <CreateUserForm onUserAdd={addUserHandler} />
       </CustomModal>
-
-
-      {isUserCreated && (
-        <Snackbar 
-          open={snackbarOpen} 
-          autoHideDuration={3000} 
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert severity="success" onClose={handleCloseSnackbar}>
-            <AlertTitle>Success</AlertTitle>
-            User successfully created!— <strong>Please, check your mailbox.</strong>
-          </Alert>
-        </Snackbar>
-      )}
 
       {selectedUser && (
         <CustomModal
@@ -215,21 +186,20 @@ export const UserAdmin = () => {
           onClose={() => setIsUserDetailsModalOpen(false)}
         >
           <UserDetails selectedUser={selectedUser} />
-
         </CustomModal>
       )}
 
       {selectedUser && (
         <CustomModal
-        open={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-      >
-        <EditUserForm
-          selectedUser={selectedUser}
-          userId={selectedUser._id}
+          open={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
-        />
-      </CustomModal>
+        >
+          <EditUserForm
+            selectedUser={selectedUser}
+            userId={selectedUser._id}
+            onClose={() => setIsEditModalOpen(false)}
+          />
+        </CustomModal>
       )}
 
       <DeleteConfirmation
