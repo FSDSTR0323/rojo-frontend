@@ -17,7 +17,7 @@ const styles = {
   tableContainer: { marginTop: 4 },
   tableHead: { backgroundColor: '#f1f3f4' },
   actionsHeader: { fontWeight: 'bold', textAlign: 'center', width: '150px' },
-  actionsCell: { textAlign: 'center', '& > *': { color: '#1c5a1c' } },
+  actionsCell: { textAlign: 'center', '> *': { color: '#1c5a1c' } },
   tableRow: { height: '5em' },
   icon: { textTransform: 'none', border: 'none' },
 };
