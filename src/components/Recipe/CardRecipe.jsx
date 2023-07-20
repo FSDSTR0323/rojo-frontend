@@ -92,7 +92,7 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
         ))}
       </Box>
       {isValidationMode && (
-        <FormControl>
+        <FormControl sx={{ width: "100%" }}>
           <RadioGroup
             name={'valid_' + haccp._id}
             sx={{ mb: 2 }}
