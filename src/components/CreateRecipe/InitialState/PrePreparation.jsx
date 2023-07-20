@@ -15,13 +15,15 @@ const ingredientsStatus = {
 export default function PrePreparation() {
   const { prePreparation, valuePrepreparation } = useHaccp();
 
-  useEffect(() => {
-    console.log('prePreaparation', prePreparation);
-  }, [valuePrepreparation, prePreparation]);
+  useEffect(() => {}, [valuePrepreparation, prePreparation]);
 
   return (
     <Box>
-      <Typography>Pre-Preparation</Typography>
+      <Typography sx={{ color: '#277527' }}>
+        <h3>
+          <strong>Pre-Preparation</strong>
+        </h3>
+      </Typography>
       <hr />
 
       {prePreparation.length > 0 ? (

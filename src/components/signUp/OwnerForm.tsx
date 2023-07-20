@@ -60,7 +60,6 @@ export const OwnerForm = () => {
         baseUrl + 'user/register',
         registerData
       );
-      console.log('', response.data);
     } catch (error) {
       console.error(error);
       setFormErrors({});
@@ -71,13 +70,12 @@ export const OwnerForm = () => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ padding: '0px !important' }}>
       <Grid
         container
         direction="column"
         alignItems="center"
         justifyContent="center"
-        sx={{}}
       >
         <Box component="form" onSubmit={handleSubmit} sx={styles}>         
           <Typography variant="h2">Tax data</Typography>

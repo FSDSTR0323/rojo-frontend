@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Grid,  Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Snackbar, Alert, Typography } from '@mui/material';
+import { Container, Grid,  Box, TextField, Button, MenuItem, InputLabel, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { useUser } from '../../hooks/useUser';
 import ImageUploader from '../Images/ImageUploader';
 
@@ -18,6 +18,7 @@ type RegisterType = {
 
 type CreateUserFormProps = {
   onUserAdd: (user: any) => void;
+  onSuccess: () => void;
 };
 
 type ApiResponse = {
@@ -29,9 +30,8 @@ type ErrorResponse = {
 };
 
 
-export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
+export const CreateUserForm = ({ onUserAdd, onSuccess }: CreateUserFormProps) => {
   const { user } = useUser();
-  
 
   const [registerData, setRegisterData] = useState<RegisterType>({
     firstName: '',
@@ -43,22 +43,18 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
     profileImageUrl: '',
   });
 
-  const dataRegister = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const dataRegister = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === "nickname"&& formErrors.nickname) {
+    if (name === 'nickname' && formErrors.nickname) {
       setFormErrors((prevErrors) => {
         return {
           ...prevErrors,
-          nickname: "",
+          nickname: '',
         };
       });
     }
     setRegisterData({ ...registerData, [name]: value });
   };
-
-  
 
   const handleUserImageSelect = (imageUrl: string | null) => {
     setRegisterData({
@@ -82,10 +78,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
         }
       );
 
-      console.log(response.data);
-      
-      setIsSnackbarOpen(true);
       onUserAdd(response.data);
+      onSuccess(); 
       handleCloseModal();
     } catch (error) {
       console.error(error);
@@ -94,27 +88,17 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
         const errorResponse: ErrorResponse = error.response.data;
         setFormErrors(errorResponse.error);
       }
-
     }
   };
 
-  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
-    {}
-  );  
+  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>({});
 
   const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
-    const value: 'headChef' | 'chef' = event.target.value as
-      | 'headChef'
-      | 'chef';
+    const value: 'headChef' | 'chef' = event.target.value as 'headChef' | 'chef';
     setRegisterData({ ...registerData, role: value });
   };
 
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const handleSnackbarClose = () => {
-    setIsSnackbarOpen(false);
-  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -122,13 +106,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
 
   return (
     <Container maxWidth="sm">
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{}}
-      >
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{}}>
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -136,8 +114,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           sx={{
             '& .MuiOutlinedInput-root': {
               '&.Mui-focused fieldset': {
-                borderColor: '#277c27fb', 
-              },              
+                borderColor: '#277c27fb',
+              },
             },
             '& label.Mui-focused': {
               color: '#277c27fb',
@@ -149,10 +127,7 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           </Typography>
 
           <span>
-            <ImageUploader
-              onImageSelect={handleUserImageSelect}
-              imageUrl={null}
-            />
+            <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />
           </span>
 
           <TextField
@@ -248,27 +223,8 @@ export const CreateUserForm = ({ onUserAdd }: CreateUserFormProps) => {
           >
             Create User
           </Button>
-        </Box>
-       
+          </Box>
       </Grid>
-      <Snackbar
-        open={isSnackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        sx={{
-          width: '300px',
-          borderRadius: '8px',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-        }}
-      >
-        <Alert
-          onClose={handleSnackbarClose}
-          severity="success"
-          sx={{ width: '100%' }}
-        >
-          User successfully created
-        </Alert>
-      </Snackbar>
     </Container>
   );
 };

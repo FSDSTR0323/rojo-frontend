@@ -60,8 +60,7 @@ export const Dashboard = () => {
     kpis: {
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      gap: '30px',
+      justifyContent: 'space-between',
       width: '15%',
     },
     chartsContainer: {
@@ -130,7 +129,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      <Loader data={data} />
+      {!data && <Loader />}
       {data && (
         <Container maxWidth="2xl" sx={styles.container}>
           <Box sx={styles.dataContainer}>

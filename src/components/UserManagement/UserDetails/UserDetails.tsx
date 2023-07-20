@@ -23,7 +23,6 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
   selectedUser,
 }) => {
   const { user } = useUser();
-  console.log('selectedUser', selectedUser);
   const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
     customerCif: '',
@@ -53,7 +52,6 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
       }
     }
   };
-  console.log('userDetails:', userDetails);
   return (
     <Container maxWidth="sm">
       <Grid
