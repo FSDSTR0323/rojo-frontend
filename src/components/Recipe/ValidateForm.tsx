@@ -154,14 +154,26 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
             console.log("token", token)
 
             const response = await axios.post<ApiResponse>(
-                'http://localhost:3000/validation/',{
-                    formData, 
-                    headers: {
-                       Authorization: `Bearer ${token}`,
-                    }
+                'http://localhost:3000/validation/',
+                { ...formData },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
                 }
+              );
+
+
+            // let response = await axios.post<ApiResponse>(
+            //     'http://localhost:3000/validation/',{
+            //         formData, 
+            //         {
+            //         headers: {
+            //            Authorization: `Bearer ${token}`,
+            //         }
+            //     }
                     
-            );
+            // );
         } catch(error) {
             console.log("Axios error handleSubmid validateForm", error)
         }
