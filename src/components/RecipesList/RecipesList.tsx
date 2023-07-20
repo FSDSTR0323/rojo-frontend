@@ -14,6 +14,8 @@ import axios from 'axios';
 
 import { useUser } from '../../hooks/useUser';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type RecipeListType = {
   _id: string;
   name: string;
@@ -28,7 +30,7 @@ export const RecipeList = () => {
 
   const fetchRecipe = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/recipe', {
+      const response = await axios.get(baseUrl + 'recipe', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
