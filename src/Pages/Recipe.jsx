@@ -116,10 +116,11 @@ export const Recipe = () => {
               recipeId={Recipe._id}
               recipeName={Recipe.name}
               isValidationMode={isValidationMode}
+              setIsValidationMode={disableValidationMode}
             />
           )}
 
-          {isValidationMode && (
+          {/* {isValidationMode && (
             <>
               <Button
                 sx={{
@@ -142,7 +143,7 @@ export const Recipe = () => {
                 Validate Recipe
               </Button>
             </>
-          )}
+          )} */}
         </Grid>
       </Grid>
     </Container>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import {
     Box,
+    Button,
     Typography,
 } from "@mui/material";
 import { useUser } from '../../hooks/useUser';
@@ -48,7 +49,7 @@ type StepType = {
 //     onValidateAdd: (Recipe: any) => void;
 // };
 
-export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, recipeName: String, isValidationMode:boolean}> = ({selectedValidation, recipeId, recipeName, isValidationMode}) => {
+export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, recipeName: String, isValidationMode:boolean, disableValidationMode}> = ({selectedValidation, recipeId, recipeName, isValidationMode, disableValidationMode}) => {
 
     const { user } = useUser();
     const params = useParams();
@@ -132,12 +133,17 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         console.log(handleSubmit)
         try {
             const formData = recipe
-            //console.log(formData)
+            console.log("handel submit recibe", recipe)
+
+            console.log("handel submit token", user.token)
+
+            const token = user.token
+
             const response = await axios.post(
-                `http://localhost:3000/recipe/validation/`, {
+                `http://localhost:3000/validation/`, {
                     formData,
                     headers: {
-                        Authorization: `Bearer ${user.token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -186,6 +192,27 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
                     handleChangeData={handleChangeData}
                 />
             )}
+
+            <Button
+                sx={{
+                  mt: 1.5,
+                  mb: 1,
+                  backgroundColor: '#DC143C',
+                  width: '100%',
+                }}
+                variant="contained"
+                name="cancel"
+                onClick={disableValidationMode}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                sx={{ mt: 1.5, mb: 3, width: '100%' }}
+                variant="contained"
+              >
+                Validate Recipe
+              </Button>
         </Box>
     );
 }
