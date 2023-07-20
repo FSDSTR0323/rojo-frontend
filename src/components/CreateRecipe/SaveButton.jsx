@@ -23,7 +23,6 @@ export default function SaveButton() {
 
   useEffect(() => {
     const selectedHaccp = recipeHaccp.map((haccp) => haccp._id);
-    console.log('selectedHaccp:', selectedHaccp);
     setRecipeData({
       ...recipeData,
       haccps: selectedHaccp,
@@ -76,7 +75,6 @@ export default function SaveButton() {
     navigate('/recipes');
   };
 
-  console.log('recipe.data es:', recipeData);
   return (
     <>
       {open && (

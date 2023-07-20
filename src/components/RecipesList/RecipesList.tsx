@@ -8,6 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 
 import { Link } from 'react-router-dom';
 import { ADDRECIPE } from '../../config/routes';
+import { PERMISSIONS } from '../../config/routes';
 
 import axios from 'axios';
 
@@ -22,6 +23,8 @@ type RecipeListType = {
 export const RecipeList = () => {
   const { user } = useUser();
   const [RecipeList, setRecipeList] = useState([]);
+
+  const permissions = user.info?.permissions;
 
   const fetchRecipe = async () => {
     try {
@@ -49,37 +52,39 @@ export const RecipeList = () => {
         justifyContent: 'space-between',
       }}
     >
-      <ImageListItem
-        sx={{
-          width: '15%',
-          mb: 1.5,
-        }}
-        key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
-      >
-        <Link to={ADDRECIPE}>
-          <Box
-            component="img"
-            src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
-            srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt="Create New Recipe"
-            loading="lazy"
-            sx={{
-              width: '100%',
-            }}
-          />
-          <ImageListItemBar
-            title="Create New Recipe"
-            actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about Add Recipe`}
-              >
-                <InfoIcon />
-              </IconButton>
-            }
-          />
-        </Link>
-      </ImageListItem>
+      { permissions.includes(PERMISSIONS.RECIPE_CREATE) &&      
+        (<ImageListItem
+          sx={{
+            width: '15%',
+            mb: 1.5,
+          }}
+          key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
+        >
+          <Link to={ADDRECIPE}>
+            <Box
+              component="img"
+              src={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format`}
+              srcSet={`https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt="Create New Recipe"
+              loading="lazy"
+              sx={{
+                width: '100%',
+              }}
+            />
+            <ImageListItemBar
+              title="Create New Recipe"
+              actionIcon={
+                <IconButton
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about Add Recipe`}
+                >
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </Link>
+        </ImageListItem>)
+      }
 
       {RecipeList.map((item: RecipeListType) => (
         <ImageListItem

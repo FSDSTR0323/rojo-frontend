@@ -15,9 +15,7 @@ const ingredientsStatus = {
 export default function PrePreparation() {
   const { prePreparation, valuePrepreparation } = useHaccp();
 
-  useEffect(() => {
-    console.log('prePreaparation', prePreparation);
-  }, [valuePrepreparation, prePreparation]);
+  useEffect(() => {}, [valuePrepreparation, prePreparation]);
 
   return (
     <Box>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Container, Grid, Typography } from '@mui/material';
 import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
@@ -14,7 +13,7 @@ const CreateRecipe = () => {
       ...recipeData,
       [name]: value,
     });
-    console.log(name, value);
+
   };
 
   return (

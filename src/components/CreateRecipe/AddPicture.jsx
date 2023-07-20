@@ -11,22 +11,13 @@ const AddPicture = () => {
     console.log('ImageUrl AddPicture:', imageUrl);
   };
 
-  // useEffect(() => {
-  //   setRecipeData({
-  //     ...recipeData,
-  //     imageUrl: picture,
-  //   });
-  // }, [picture]);
-
   useEffect(() => {
     setRecipeData((prevRecipeData) => ({
       ...prevRecipeData,
       imageUrl: picture,
     }));
-    console.log('picture Picture es:', picture);
   }, [picture]);
 
-  console.log('Set picture:', picture);
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column' }}>
       <Typography sx={{ color: '#1c5a1c' }}>

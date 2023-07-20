@@ -84,7 +84,6 @@ export const UserAdmin = () => {
   const confirmDeleteUserHandler = async () => {
     try {
       if (selectedUserToDelete) {
-        console.log('selected user to delete', selectedUserToDelete);
         await axios.delete(
           `http://localhost:3000/user/${selectedUserToDelete._id}`,
           {
@@ -94,7 +93,6 @@ export const UserAdmin = () => {
           }
         )
         .then(response => {
-          console.log('User deleted:', response);
           setDeleteConfirmationOpen(false);
           setSelectedUserToDelete(null);
           fetchUsers();
@@ -119,7 +117,6 @@ export const UserAdmin = () => {
   
   const handleSearchChange = (searchText) => {
     setSearchText(searchText);
-    console.log('Search text:', searchText);
   };
 
   const handleFilterChange = (value) => {
@@ -140,7 +137,6 @@ export const UserAdmin = () => {
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -156,8 +152,6 @@ export const UserAdmin = () => {
     );
     setUserList(filteredUsers);
   }, [searchText]);
-
-  //console.log('selected user', selectedUser);
 
   return (
     <>

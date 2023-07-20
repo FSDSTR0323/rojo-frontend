@@ -76,10 +76,7 @@ export const CreateUserForm = ({ onUserAdd, onSuccess }: CreateUserFormProps) =>
         }
       );
 
-      console.log(response.data);
-
       onUserAdd(response.data);
-      console.log('user successfully created', onUserAdd);
       onSuccess(); 
       handleCloseModal();
     } catch (error) {
