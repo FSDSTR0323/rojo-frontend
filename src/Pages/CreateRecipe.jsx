@@ -20,7 +20,6 @@ const CreateRecipe = () => {
       ...recipeData,
       [name]: value,
     });
-    console.log(name, value);
   };
 
   useEffect(() => {

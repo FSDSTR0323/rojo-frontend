@@ -3,6 +3,8 @@ import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type UserType = {
   id: string;
   firstName: string;
@@ -21,7 +23,6 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
   selectedUser,
 }) => {
   const { user } = useUser();
-  console.log('selectedUser', selectedUser);
   const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
     customerCif: '',
@@ -34,7 +35,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
 
     try {
       const token = user.token;
-      const response = await axios.get(`http://localhost:3000/user`, {
+      const response = await axios.get(baseUrl + `user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,7 +52,6 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
       }
     }
   };
-  console.log('userDetails:', userDetails);
   return (
     <Container maxWidth="sm">
       <Grid
