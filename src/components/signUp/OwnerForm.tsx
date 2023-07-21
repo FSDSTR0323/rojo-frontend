@@ -7,7 +7,6 @@ const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 type RegisterType = {
   firstName: String;
   lastName: String;
-  customerEmail: String;
   email: String;
   phone: String;
   customerName: String;
@@ -26,8 +25,7 @@ export const OwnerForm = () => {
   const [registerData, setRegisterData] = React.useState<RegisterType>({
     firstName: '',
     lastName: '',
-    customerEmail: '',
-    email: '', // TODO: Borrar duplicado
+    email: '',
     phone: '',
     customerName: '',
     customerAddress: '',
@@ -100,15 +98,15 @@ export const OwnerForm = () => {
             onChange={dataRegister}
           />
           <TextField
-            name="customerEmail"
+            name="email"
             margin="normal"
             type="email"
             fullWidth
             label="Email"
             sx={{ mt: 2, mb: 1.5 }}
             required
-            error={!!formErrors.customerEmail}
-            helperText={formErrors.customerEmail}
+            error={!!formErrors.email}
+            helperText={formErrors.email}
             onChange={dataRegister}
           />
           <TextField
@@ -218,8 +216,6 @@ export const OwnerForm = () => {
             required
             onChange={dataRegister}
           />
-        </Box>
-
           <Button
             fullWidth
             type="submit"
@@ -228,6 +224,7 @@ export const OwnerForm = () => {
           >
             Register
           </Button>
+        </Box>
       </Grid>
     </Container>
   );
