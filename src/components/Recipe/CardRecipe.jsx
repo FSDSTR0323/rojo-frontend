@@ -114,7 +114,7 @@ export const CardRecipe = ({ haccp, isValidationMode, handleChangeData }) => {
                 </Typography>
                 <hr />
                 <RadioGroup
-                  name={'correctiveActions_' + haccp._id}
+                  name={'correctiveAction_' + haccp._id}
                   onChange={handleChangeData}
                   sx={{ width: '100%' }}
                 >
