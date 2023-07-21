@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography, Alert, AlertTitle, Snackbar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CustomModal from '../components/Main/CustomModal';
 import { CreateUserForm } from '../components/signUp/CreateUserForm';
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser';
 import Buttons from '../components/UserManagement/Buttons/buttons';
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation';
 import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails';
-import UserTable from '../components/UserManagement/UserTable/UserTable';
+import CustomTable from '../components/Main/CustomTable/CustomTable';
 import { useUser } from '../hooks/useUser';
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
@@ -24,44 +24,16 @@ export const UserAdmin = () => {
   const [selectedUserToDelete, setSelectedUserToDelete] = useState(null);
   const [originalUserList, setOriginalUserList] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false); 
-
 
   const toggleAddUserModalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const [isUserCreated, setIsUserCreated] = useState(false);
-
   const addUserHandler = (user) => {
     setUserList((prevUserList) => [...prevUserList, user]);
     setOriginalUserList((prevUserList) => [...prevUserList, user]);
     toggleAddUserModalHandler();
-    setIsUserCreated(true);
-    setSnackbarOpen(true);
   };
-
-  const handleUserCreateSuccess = () => {
-    setIsUserCreated(true);
-    setSnackbarOpen(true);
-  };
-
-  useEffect(() => {
-    let timer;
-    if (isUserCreated) {
-      timer = setTimeout(() => {
-        setIsUserCreated(false);
-      }, 3000); 
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isUserCreated]);
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
 
   const openUserDetailsModalHandler = (user) => {
     setSelectedUser(user);
@@ -146,6 +118,30 @@ export const UserAdmin = () => {
     fetchUsers();
   }, [user]);
 
+  const userColumns = [
+    {
+      key: 'firstName',
+      header: 'First Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true,
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '200px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true,
+    },
+    {
+      key: 'role',
+      header: 'Role',
+      headerStyle: { fontWeight: 'bold', textAlign: 'left', width: '150px' },
+      cellStyle: { textAlign: 'left' },
+      isSortable: true
+    },
+  ];
+
   useEffect(() => {
     const filteredUsers = originalUserList.filter((user) =>
       `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
@@ -175,33 +171,19 @@ export const UserAdmin = () => {
             padding: '0px 3%',
           }}
         >
-          <UserTable
-            userList={userList}
-            openUserDetailsModalHandler={openUserDetailsModalHandler}
-            deleteUserHandler={deleteUserHandler}
-            openEditModalHandler={openEditModalHandler}
+          <CustomTable
+            data={userList}
+            columns={userColumns}
+            onViewClick={openUserDetailsModalHandler}
+            onDeleteClick={deleteUserHandler}
+            onEditClick={openEditModalHandler}
           />
         </Box>
       </Box>
 
       <CustomModal open={isModalOpen} onClose={toggleAddUserModalHandler}>
-        <CreateUserForm onUserAdd={addUserHandler} onSuccess={handleUserCreateSuccess} />
+        <CreateUserForm onUserAdd={addUserHandler} />
       </CustomModal>
-
-
-      {isUserCreated && (
-        <Snackbar 
-          open={snackbarOpen} 
-          autoHideDuration={3000} 
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        >
-          <Alert severity="success" onClose={handleCloseSnackbar}>
-            <AlertTitle>Success</AlertTitle>
-            User successfully created!— <strong>Please, check your mailbox.</strong>
-          </Alert>
-        </Snackbar>
-      )}
 
       {selectedUser && (
         <CustomModal
