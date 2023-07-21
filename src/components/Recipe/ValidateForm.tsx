@@ -49,14 +49,6 @@ type StepType = {
     comment?: String;
 }
 
-// type ValidateType = [
-//     validateTypeItem
-// ];
-
-// type ValidationFormProps = {
-//     onValidateAdd: (Recipe: any) => void;
-// };
-
 export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: string, recipeName: String, isValidationMode:boolean, disableValidationMode}> = ({selectedValidation, recipeId, recipeName, isValidationMode, disableValidationMode}) => {
 
     const { user } = useUser();
@@ -81,7 +73,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
     useEffect(() => {
         var newSteps = [...recipe.steps]
         var newStep = data
- 
+
         if(recipe.steps.length != 0) {
             var exist = 0;
             for(var i = 0; i < recipe.steps.length; i++){                
@@ -132,6 +124,7 @@ export const ValidateForm: React.FC<{selectedValidation: haccpInfo[], recipeId: 
         try {
             const formData = recipe
             const token = user.token
+
             const response = await axios.post<ApiResponse>(
                 baseUrl + 'validation',
                 { ...formData },
