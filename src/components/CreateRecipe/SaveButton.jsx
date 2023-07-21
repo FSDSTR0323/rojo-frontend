@@ -19,6 +19,9 @@ export default function SaveButton() {
     action,
     finalization,
     picture,
+    setPrePreparation,
+    setFinalization,
+    setRecipeHaccp,
   } = useHaccp();
 
   useEffect(() => {
@@ -31,6 +34,12 @@ export default function SaveButton() {
       imageUrl: picture,
     });
   }, [recipeHaccp, finalization, picture]);
+
+  // return () => {
+  //   setPrePreparation([]);
+  //   setFinalization([]);
+  //   setRecipeHaccp([]);
+  // };
 
   const handleCreate = async () => {
     handleOpen();

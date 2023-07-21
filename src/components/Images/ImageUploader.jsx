@@ -95,6 +95,7 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
         if (response.ok) {
           const data = await response.json();
           const imageUrl = data.secure_url;
+          setPicture(imageUrl);
           simulateUploadProgress(true);
           onImageSelect(croppedImage);
         } else {

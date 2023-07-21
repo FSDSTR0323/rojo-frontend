@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Grid, Typography } from '@mui/material';
 import Title from '../components/CreateRecipe/Title';
 import Index from '../components/CreateRecipe/Index';
@@ -7,7 +7,13 @@ import SaveButton from '../components/CreateRecipe/SaveButton';
 import { useHaccp } from '../hooks/useHaccp';
 
 const CreateRecipe = () => {
-  const { recipeData, setRecipeData } = useHaccp();
+  const {
+    recipeData,
+    setRecipeData,
+    setPrePreparation,
+    setFinalization,
+    setRecipeHaccp,
+  } = useHaccp();
   const onChange = (e) => {
     const { name, value } = e.target;
     setRecipeData({
@@ -16,6 +22,14 @@ const CreateRecipe = () => {
     });
     console.log(name, value);
   };
+
+  useEffect(() => {
+    return () => {
+      setPrePreparation([]);
+      setFinalization([]);
+      setRecipeHaccp([]);
+    };
+  }, []);
 
   return (
     <Container>
