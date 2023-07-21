@@ -10,6 +10,8 @@ import { UserDetails } from '../components/UserManagement/UserDetails/UserDetail
 import CustomTable from '../components/Main/CustomTable/CustomTable';
 import { useUser } from '../hooks/useUser';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 export const UserAdmin = () => {
   const { user } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,15 +58,13 @@ export const UserAdmin = () => {
   const confirmDeleteUserHandler = async () => {
     try {
       if (selectedUserToDelete) {
-        console.log('selected user to delete', selectedUserToDelete);
         await axios
-          .delete(`http://localhost:3000/user/${selectedUserToDelete._id}`, {
+          .delete(baseUrl + `user/${selectedUserToDelete._id}`, {
             headers: {
               Authorization: `Bearer ${user.token}`,
             },
           })
           .then((response) => {
-            console.log('User deleted:', response);
             setDeleteConfirmationOpen(false);
             setSelectedUserToDelete(null);
             fetchUsers();
@@ -87,7 +87,6 @@ export const UserAdmin = () => {
 
   const handleSearchChange = (searchText) => {
     setSearchText(searchText);
-    console.log('Search text:', searchText);
   };
 
   const handleFilterChange = (value) => {
@@ -103,14 +102,13 @@ export const UserAdmin = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/user/list', {
+      const response = await axios.get(baseUrl + 'user/list', {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
       setUserList(response.data);
       setOriginalUserList(response.data);
-      console.log('Updated user list:', response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
@@ -143,6 +141,13 @@ export const UserAdmin = () => {
       isSortable: true
     },
   ];
+
+  useEffect(() => {
+    const filteredUsers = originalUserList.filter((user) =>
+      `${user.firstName} ${user.lastName}  ${user.role} `.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setUserList(filteredUsers);
+  }, [searchText]);
 
   return (
     <>

@@ -4,6 +4,8 @@ import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
 import { Container, Grid, Box, TextField, Button, Avatar, InputLabel, Select, MenuItem, SelectChangeEvent, FormControl, FormHelperText, Typography } from '@mui/material';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 type UserType = {
   id: string;
   firstName: string;
@@ -76,7 +78,7 @@ export const EditUserForm: React.FC<{
       const token = user.token;
       console.log('Updating user:', userDetails);
       const response = await axios.put<ApiResponse>(
-        `http://localhost:3000/user/${userId}`,
+        baseUrl + `user/${userId}`,
         { ...userDetails },
         {
           headers: {

@@ -10,6 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+
 const names = [
   'Defrosting',
   'Chilled storage',
@@ -45,16 +47,17 @@ function getStyles(name, initialStateName, theme) {
 }
 
 export default function InitialState() {
+  const { initialStateName, setInitialStateName } = useHaccp();
   const theme = useTheme();
-  const [initialStateName, setInitialStateName] = React.useState([]);
   useEffect(() => {
     const status = initialStateName.map((name) => ingredientsStatus[name]);
     console.log('Initial State status', status.join(','));
     async function fetchData() {
       const data = await axios.get(
-        `http://localhost:3000/haccp?ingredientsStatus=${
-          status.lenght == 1 ? status[0] : status.join(',')
-        }`,
+        baseUrl +
+          `haccp?ingredientsStatus=${
+            status.lenght == 1 ? status[0] : status.join(',')
+          }`,
         {
           headers: {
             Authorization: `Bearer ${userLocal.token}`,
@@ -73,6 +76,7 @@ export default function InitialState() {
   const handleState = async (e) => {
     console.log('initial state name:', initialStateName);
     const { value } = e.target;
+    console.log('value:', value);
     setValuePrepreparation(value);
     setInitialStateName(
       // On autofill we get a stringified value.

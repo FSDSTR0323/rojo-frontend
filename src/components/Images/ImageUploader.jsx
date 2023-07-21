@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CloudUpload, CheckCircle } from '@mui/icons-material';
 import { Button, LinearProgress, Typography, Box } from '@mui/material';
 import Avatar from './avatar';
+import { useHaccp } from '../../hooks/useHaccp';
 
 const ImageUploader = ({ onImageSelect, imageUrl }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -11,6 +12,7 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
   const [isUploadComplete, setIsUploadComplete] = useState(false);
   const [error, setError] = useState(null);
   const [buttonText, setButtonText] = useState('Upload Image');
+  const { setPicture } = useHaccp();
 
   useEffect(() => {
     if (isUploading) {
@@ -27,7 +29,7 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
       const file = e.target.files[0];
       setSelectedImage(file);
       setCroppedImage(null);
-      setIsUploadComplete(false);      
+      setIsUploadComplete(false);
       const imageUrl = URL.createObjectURL(file);
     }
   };
@@ -40,7 +42,9 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
   const simulateUploadProgress = () => {
     if (uploadProgress < 100) {
       const increment = Math.floor(Math.random() * 5) + 1;
-      setUploadProgress((prevProgress) => Math.min(prevProgress + increment, 100));
+      setUploadProgress((prevProgress) =>
+        Math.min(prevProgress + increment, 100)
+      );
       setTimeout(simulateUploadProgress, 50);
     } else {
       const randomError = Math.random() < 0.3;
@@ -67,16 +71,26 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
       try {
         const formData = new FormData();
         formData.append('file', selectedImage);
-        formData.append('upload_preset', import.meta.env.VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+        formData.append(
+          'upload_preset',
+          import.meta.env.VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET
+        );
 
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME}/upload`, {
-          method: 'POST',
-          body: formData,
-          onUploadProgress: (progressEvent) => {
-            const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-            setUploadProgress(progress);
-          },
-        });
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME
+          }/upload`,
+          {
+            method: 'POST',
+            body: formData,
+            onUploadProgress: (progressEvent) => {
+              const progress = Math.round(
+                (progressEvent.loaded / progressEvent.total) * 100
+              );
+              setUploadProgress(progress);
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -84,7 +98,7 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
           simulateUploadProgress(true);
           onImageSelect(croppedImage);
         } else {
-          throw new Error('Error uploading image');          
+          throw new Error('Error uploading image');
         }
       } catch (error) {
         setError('Error uploading image');
@@ -99,19 +113,27 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
     }
   };
 
-
   return (
     <div>
       {!croppedImage && !isUploadComplete && (
         <>
           <div>
             {selectedImage && (
-              <Avatar image={selectedImage} onCropImage={handleCropImage} sx={{ borderRadius: '50%' }} />
+              <Avatar
+                image={selectedImage}
+                onCropImage={handleCropImage}
+                sx={{ borderRadius: '50%' }}
+              />
             )}
-            
+
             <Button
               fullWidth
-              sx={{ mt: 1.5, mb: 3, backgroundColor:"#277c27fb", "&:hover": {backgroundColor: "#277c27cf"}, }}
+              sx={{
+                mt: 1.5,
+                mb: 3,
+                backgroundColor: '#277c27fb',
+                '&:hover': { backgroundColor: '#277c27cf' },
+              }}
               variant="contained"
               component="label"
             >
@@ -124,15 +146,22 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
               />
             </Button>
           </div>
-
         </>
       )}
 
-      {croppedImage &&
-      <Box sx={{borderRadius:'50%', width:'200px', height:'200px', overflow:'hidden', mb:2}}>
-        <img src={croppedImage} alt="Cropped Image" />
-      </Box> }
-
+      {croppedImage && (
+        <Box
+          sx={{
+            borderRadius: '50%',
+            width: '200px',
+            height: '200px',
+            overflow: 'hidden',
+            mb: 2,
+          }}
+        >
+          <img src={croppedImage} alt="Cropped Image" />
+        </Box>
+      )}
 
       {uploadProgress > 0 && uploadProgress < 100 && (
         <>
@@ -140,18 +169,33 @@ const ImageUploader = ({ onImageSelect, imageUrl }) => {
             max={100}
             variant="determinate"
             value={uploadProgress}
-            sx={{ backgroundColor: '#b7b7b7', '& .MuiLinearProgress-bar': { backgroundColor: '#277c27' }, mt: 2 }}
+            sx={{
+              backgroundColor: '#b7b7b7',
+              '& .MuiLinearProgress-bar': { backgroundColor: '#277c27' },
+              mt: 2,
+            }}
           />
           <Typography variant="body1" align="center" sx={{ mt: 1 }}>
-            {uploadProgress} % 
+            {uploadProgress} %
           </Typography>
         </>
       )}
       {error && <p>Error: {error}</p>}
 
-      {imageUrl && <img src={imageUrl} alt="Selected Image"  />}
+      {imageUrl && <img src={imageUrl} alt="Selected Image" />}
 
-      <Button fullWidth onClick={handleUpload} sx={{ mt: 1.5, mb: 3, backgroundColor:"#277c27fb", "&:hover": {backgroundColor: "#277c27cf"}, }} variant="contained"disabled={!selectedImage || isUploading}>
+      <Button
+        fullWidth
+        onClick={handleUpload}
+        sx={{
+          mt: 1.5,
+          mb: 3,
+          backgroundColor: '#277c27fb',
+          '&:hover': { backgroundColor: '#277c27cf' },
+        }}
+        variant="contained"
+        disabled={!selectedImage || isUploading}
+      >
         {isUploading ? (
           'Uploading...'
         ) : isUploadComplete ? (

@@ -9,7 +9,9 @@ export default function Elabroration() {
   useEffect(() => {}, [prePreparation]);
   return (
     <Box>
-      <Typography>Preparation</Typography>
+      <Typography sx={{ color: '#277527' }}>
+        <h3>Preparation</h3>
+      </Typography>
       <hr />
       {prePreparation.length > 0 ? (
         <>

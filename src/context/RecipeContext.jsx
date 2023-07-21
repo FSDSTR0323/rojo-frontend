@@ -11,6 +11,14 @@ const RecipeProvider = ({ children }) => {
   const [valuePrepreparation, setValuePrepreparation] = useState([]);
   const [valuePreparation, setValuePreparation] = useState([]);
   const [recipeHaccp, setRecipeHaccp] = useState([]);
+  const [picture, setPicture] = useState('');
+  const [initialStateName, setInitialStateName] = React.useState([]);
+  const [recipeData, setRecipeData] = useState({
+    name: '',
+    haccps: [],
+    action: {},
+    imageUrl: '',
+  });
   return (
     <RecipeContext.Provider
       value={{
@@ -30,6 +38,12 @@ const RecipeProvider = ({ children }) => {
         setValuePreparation,
         recipeHaccp,
         setRecipeHaccp,
+        recipeData,
+        setRecipeData,
+        picture,
+        setPicture,
+        initialStateName,
+        setInitialStateName,
       }}
     >
       {children}
