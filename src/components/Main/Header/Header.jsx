@@ -14,11 +14,15 @@ import {
 } from '../../../config/routes';
 import NavLinks from './NavLinks/NavLinks';
 import UserPanel from './UserPanel/UserPanel';
+import '../../config/i18n';
+
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const { user, setUser } = useUser();
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const permissions = user.info?.permissions;
 
@@ -57,38 +61,38 @@ const Header = () => {
   };
 
   return (
-      <AppBar position="static" sx={styles.appBar}>
-        <Container maxWidth={false}>
-          <Toolbar disableGutters sx={styles.toolbar}>
-            <Link to={user.isLoggedIn ? allowedPages(PRIVATE_PAGES)[0] : HOME}>
-              <Logo />
-            </Link>
-            <Box sx={styles.navLinksContainer}>
-              {user.isLoggedIn ? (
-                <NavLinks
-                  pages={allowedPages(PRIVATE_PAGES)}
-                  activePage={pathname}
-                  buttonStyles={styles.userButtons}
-                />
-              ) : (
-                <NavLinks
-                  pages={PUBLIC_PAGES}
-                  activePage={pathname}
-                  buttonStyles={styles.userButtons}
-                />
-              )}
-              {user.isLoggedIn && (
-                <UserPanel
-                  nickname={user.info?.nickname}
-                  profileImageUrl={user.info?.profileImageUrl}
-                  buttonStyles={styles.userButtons}
-                  handleLogout={handleLogout}
-                />
-              )}
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+    <AppBar position="static" sx={styles.appBar}>
+      <Container maxWidth={false}>
+        <Toolbar disableGutters sx={styles.toolbar}>
+          <Link to={user.isLoggedIn ? allowedPages(PRIVATE_PAGES)[0] : HOME}>
+            <Logo />
+          </Link>
+          <Box sx={styles.navLinksContainer}>
+            {user.isLoggedIn ? (
+              <NavLinks
+                pages={allowedPages(PRIVATE_PAGES)}
+                activePage={pathname}
+                buttonStyles={styles.userButtons}
+              />
+            ) : (
+              <NavLinks
+                pages={PUBLIC_PAGES}
+                activePage={pathname}
+                buttonStyles={styles.userButtons}
+              />
+            )}
+            {user.isLoggedIn && (
+              <UserPanel
+                nickname={user.info?.nickname}
+                profileImageUrl={user.info?.profileImageUrl}
+                buttonStyles={styles.userButtons}
+                handleLogout={handleLogout}
+              />
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

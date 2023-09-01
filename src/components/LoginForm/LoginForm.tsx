@@ -1,9 +1,19 @@
-import { Box, Button, Container, Grid, TextField, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import axios from 'axios';
 import { useUser } from '../../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import { DASHBOARD } from '../../config/routes';
+import '../../config/i18n';
+
+import { useTranslation } from 'react-i18next';
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
@@ -25,6 +35,7 @@ export const LoginForm = () => {
   const data = useUser();
   const navigate = useNavigate();
   const { setUser } = data;
+  const { t, i18n } = useTranslation();
   const [loginData, setLoginData] = React.useState<LoginType>({
     nickname: '',
     password: '',
@@ -75,12 +86,13 @@ export const LoginForm = () => {
         container
         direction="column"
         alignItems="center"
-        justifyContent="center"        
-        sx={{ minHeight: '70vh',
+        justifyContent="center"
+        sx={{
+          minHeight: '70vh',
           '& .MuiOutlinedInput-root': {
             '&.Mui-focused fieldset': {
-              borderColor: '#277c27fb', 
-            },              
+              borderColor: '#277c27fb',
+            },
           },
           '& label.Mui-focused': {
             color: '#277c27fb',
@@ -88,7 +100,7 @@ export const LoginForm = () => {
         }}
       >
         <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
-          Log in
+          {t('sign_in')}
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
@@ -96,7 +108,7 @@ export const LoginForm = () => {
             margin="normal"
             type="text"
             fullWidth
-            label="User name"
+            label={t('user_name')}
             sx={{ mt: 2, mb: 1.5 }}
             required
             onChange={handleChange}
@@ -108,7 +120,7 @@ export const LoginForm = () => {
             margin="normal"
             type="password"
             fullWidth
-            label="Password"
+            label={t('password')}
             sx={{ mt: 1.5, mb: 1.5 }}
             required
             onChange={handleChange}
@@ -118,17 +130,17 @@ export const LoginForm = () => {
           <Button
             fullWidth
             type="submit"
-            sx={{ 
-              mt: 1.5, 
+            sx={{
+              mt: 1.5,
               mb: 3,
-              backgroundColor: "#277c27fb",
-              "&:hover": {
-                backgroundColor: "#277c27cf",
+              backgroundColor: '#277c27fb',
+              '&:hover': {
+                backgroundColor: '#277c27cf',
               },
-           }}
+            }}
             variant="contained"
           >
-            Login
+            {t('sign_in')}
           </Button>
         </Box>
       </Grid>
