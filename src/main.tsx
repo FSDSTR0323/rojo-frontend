@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import App from './App.js';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -22,8 +22,7 @@ const theme = createTheme({
   },
 });
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <UserProvider>
@@ -33,5 +32,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </UserProvider>
       </ThemeProvider>
     </BrowserRouter>
-  </React.StrictMode>
 );
