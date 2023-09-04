@@ -1,158 +1,185 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import axios from 'axios';
-import { useUser } from '../../../hooks/useUser';
-import ImageUploader from '../../Images/ImageUploader';
-import { Container, Grid, Box, TextField, Button, Avatar, InputLabel, Select, MenuItem, SelectChangeEvent, FormControl, FormHelperText, Typography } from '@mui/material';
+import React, { useState, useEffect, ChangeEvent } from 'react'
+import axios from 'axios'
+import { useUser } from '../../../hooks/useUser'
+import ImageUploader from '../../Images/ImageUploader'
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  Button,
+  Avatar,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  FormControl,
+  FormHelperText,
+  Typography
+} from '@mui/material'
 
-const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
 type UserType = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: 'headChef' | 'chef';
-  nickname: string;
-  profileImageUrl: string;
-};
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  role: 'headChef' | 'chef'
+  nickname: string
+  profileImageUrl: string
+}
 
 type ApiResponse = {
-  data: { token: string };
-};
+  data: { token: string }
+}
 
 type ErrorResponse = {
-  error: { [key: string]: string };
-};
+  error: { [key: string]: string }
+}
 
 export const EditUserForm: React.FC<{
-  selectedUser: UserType;
-  userId: string;
-  onClose: () => void;
+  selectedUser: UserType
+  userId: string
+  onClose: () => void
 }> = ({ selectedUser, userId, onClose }) => {
-  const { user } = useUser();
-  console.log('selectedUser', selectedUser);
+  const { user } = useUser()
+  console.log('selectedUser', selectedUser)
   const [userDetails, setUserDetails] = useState<UserType>({
-    ...selectedUser,
-  });
-  const [isNewImageSelected, setIsNewImageSelected] = useState(false);
-  const [showAvatar, setShowAvatar] = useState(true);
+    ...selectedUser
+  })
+  const [isNewImageSelected, setIsNewImageSelected] = useState(false)
+  const [showAvatar, setShowAvatar] = useState(true)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    console.log('Field changed:', name, value);
+    const { name, value } = e.target
+    console.log('Field changed:', name, value)
     setUserDetails((prevUserDetails) => ({
       ...prevUserDetails,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
   useEffect(() => {
     const updateProfileImage = () => {
-      const profileImage = document.getElementById('profile-image') as HTMLImageElement;
+      const profileImage = document.getElementById(
+        'profile-image'
+      ) as HTMLImageElement
       if (profileImage) {
-        profileImage.src = userDetails.profileImageUrl || selectedUser.profileImageUrl;
+        profileImage.src =
+          userDetails.profileImageUrl || selectedUser.profileImageUrl
       }
-    };
+    }
 
-    updateProfileImage();
-  }, [userDetails.profileImageUrl, selectedUser.profileImageUrl]);
+    updateProfileImage()
+  }, [userDetails.profileImageUrl, selectedUser.profileImageUrl])
 
   useEffect(() => {
-    setUserDetails({ ...selectedUser });
-    setIsNewImageSelected(false);
-  }, [selectedUser]);
+    setUserDetails({ ...selectedUser })
+    setIsNewImageSelected(false)
+  }, [selectedUser])
 
   const handleUserImageSelect = (image: string) => {
     setUserDetails((prevUserDetails) => ({
       ...prevUserDetails,
-      profileImageUrl: image,
-    }));
-    setIsNewImageSelected(true);
-    setShowAvatar(false);
-  };
+      profileImageUrl: image
+    }))
+    setIsNewImageSelected(true)
+    setShowAvatar(false)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const token = user.token;
-      console.log('Updating user:', userDetails);
+      const token = user.token
+      console.log('Updating user:', userDetails)
       const response = await axios.put<ApiResponse>(
         baseUrl + `user/${userId}`,
         { ...userDetails },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
-      );
+      )
 
-      const updatedUserDetails = { ...selectedUser, ...response.data };
-      console.log('Updated userDetails:', updatedUserDetails);
-      setUserDetails(updatedUserDetails);
-      
+      const updatedUserDetails = { ...selectedUser, ...response.data }
+      console.log('Updated userDetails:', updatedUserDetails)
+      setUserDetails(updatedUserDetails)
 
-      onClose();
+      onClose()
     } catch (error) {
-      console.error(error);
-      setFormErrors({});
+      console.error(error)
+      setFormErrors({})
       if (error.response && error.response.data && error.response.data.error) {
-        const errorResponse: ErrorResponse = error.response.data;
-        setFormErrors(errorResponse.error);
+        const errorResponse: ErrorResponse = error.response.data
+        setFormErrors(errorResponse.error)
       }
     }
-  };
+  }
 
   const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
     {}
-  ); 
-  
+  )
+
   const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
-    const value = event.target.value as 'headChef' | 'chef';
+    const value = event.target.value as 'headChef' | 'chef'
     setUserDetails((prevUserDetails) => ({
       ...prevUserDetails,
-      role: value,
-    }));
-  };
-  
+      role: value
+    }))
+  }
 
-  console.log('userDetails:', userDetails);
+  console.log('userDetails:', userDetails)
 
   return (
     <Container maxWidth="sm">
-      <Grid container direction="column" alignItems="center" justifyContent="center">
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Box
           component="form"
           onSubmit={handleSubmit}
           sx={{
             '& .MuiOutlinedInput-root': {
               '&.Mui-focused fieldset': {
-                borderColor: '#277c27fb', 
-              },              
+                borderColor: '#277c27fb'
+              }
             },
             '& label.Mui-focused': {
-              color: '#277c27fb',
-            },
+              color: '#277c27fb'
+            }
           }}
         >
-          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>User details</Typography>
-  
+          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+            User details
+          </Typography>
+
           <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 5 }}>
             {showAvatar && !isNewImageSelected && (
               <Box sx={{ width: '50%', height: 100 }}>
                 <Avatar
                   id="profile-image"
                   alt="User Avatar"
-                  src={userDetails.profileImageUrl || selectedUser.profileImageUrl}
+                  src={
+                    userDetails.profileImageUrl || selectedUser.profileImageUrl
+                  }
                   sx={{ width: 100, height: 100 }}
                 />
               </Box>
             )}
             <Box sx={{ width: isNewImageSelected ? '50%' : '100%' }}>
-              <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />
+              <ImageUploader
+                onImageSelect={handleUserImageSelect}
+                imageUrl={null}
+              />
             </Box>
           </Box>
-  
+
           <TextField
             name="firstName"
             margin="normal"
@@ -165,7 +192,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.firstName}
             helperText={formErrors.firstName || ''}
           />
-  
+
           <TextField
             name="lastName"
             margin="normal"
@@ -178,7 +205,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.lastName}
             helperText={formErrors.lastName || ''}
           />
-  
+
           <TextField
             name="email"
             margin="normal"
@@ -191,7 +218,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.email}
             helperText={formErrors.email || ''}
           />
-  
+
           <TextField
             id="nickname"
             label="User name"
@@ -201,7 +228,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.nickname}
             helperText={formErrors.nickname || ''}
           />
-  
+
           <FormControl
             error={!!formErrors.role}
             sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
@@ -217,19 +244,21 @@ export const EditUserForm: React.FC<{
               <MenuItem value="chef">Chef</MenuItem>
               <MenuItem value="headChef">Head Chef</MenuItem>
             </Select>
-            {formErrors.role && <FormHelperText>{formErrors.role}</FormHelperText>}
+            {formErrors.role && (
+              <FormHelperText>{formErrors.role}</FormHelperText>
+            )}
           </FormControl>
-  
+
           <Button
             fullWidth
             type="submit"
             sx={{
               mt: 1.5,
               mb: 3,
-              backgroundColor: "#277c27fb",
-              "&:hover": {
-                backgroundColor: "#277c27cf",
-              },
+              backgroundColor: '#277c27fb',
+              '&:hover': {
+                backgroundColor: '#277c27cf'
+              }
             }}
             variant="contained"
           >
@@ -238,5 +267,5 @@ export const EditUserForm: React.FC<{
         </Box>
       </Grid>
     </Container>
-  );
+  )
 }

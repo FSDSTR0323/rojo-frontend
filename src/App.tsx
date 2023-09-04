@@ -1,10 +1,10 @@
-import { Route, Routes } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import { Recipes } from './pages/Recipes';
-import { Recipe } from './pages/Recipe';
-import { NotFound } from './pages/NotFound';
+import { Route, Routes } from 'react-router-dom'
+import { Home } from './pages/Home'
+import { Login } from './pages/Login'
+import { Register } from './pages/Register'
+import { Recipes } from './pages/Recipes'
+import { Recipe } from './pages/Recipe'
+import { NotFound } from './pages/NotFound'
 import {
   HOME,
   LOGIN,
@@ -13,14 +13,14 @@ import {
   DASHBOARD,
   RECIPES,
   RECIPE,
-  ADDRECIPE,
-} from './config/routes';
-import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes';
-import { UserAdmin } from './pages/UserAdmin';
-import { Dashboard } from './pages/Dashboard';
-import CreateRecipe from './pages/CreateRecipe';
-import Header from './components/Main/Header/Header';
-import Footer from './components/Main/Footer/Footer';
+  ADDRECIPE
+} from './config/routes'
+import { PrivateRoutes } from './components/Main/Routing/PrivateRoutes'
+import { UserAdmin } from './pages/UserAdmin'
+import { Dashboard } from './pages/Dashboard'
+import CreateRecipe from './pages/CreateRecipe'
+import Header from './components/Main/Header/Header'
+import Footer from './components/Main/Footer/Footer'
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
       </Routes>
       <Footer />
     </>
-  );
+  )
 }
 
-export default App;
+export default App

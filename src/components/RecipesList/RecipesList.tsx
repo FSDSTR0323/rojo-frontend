@@ -1,49 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
+import React, { useState, useEffect } from 'react'
+import { Box } from '@mui/material'
+import ImageList from '@mui/material/ImageList'
+import ImageListItem from '@mui/material/ImageListItem'
+import ImageListItemBar from '@mui/material/ImageListItemBar'
+import IconButton from '@mui/material/IconButton'
+import InfoIcon from '@mui/icons-material/Info'
 
-import { Link } from 'react-router-dom';
-import { ADDRECIPE } from '../../config/routes';
-import { PERMISSIONS } from '../../config/routes';
+import { Link } from 'react-router-dom'
+import { ADDRECIPE } from '../../config/routes'
+import { PERMISSIONS } from '../../config/routes'
 
-import axios from 'axios';
+import axios from 'axios'
 
-import { useUser } from '../../hooks/useUser';
+import { useUser } from '../../hooks/useUser'
 
-const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
 type RecipeListType = {
-  _id: string;
-  name: string;
-  imageUrl: string;
-};
+  _id: string
+  name: string
+  imageUrl: string
+}
 
 export const RecipeList = () => {
-  const { user } = useUser();
-  const [RecipeList, setRecipeList] = useState([]);
+  const { user } = useUser()
+  const [RecipeList, setRecipeList] = useState([])
 
-  const permissions = user.info?.permissions;
+  const permissions = user.info?.permissions
 
   const fetchRecipe = async () => {
     try {
       const response = await axios.get(baseUrl + 'recipe', {
         headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      setRecipeList(response.data);
+          Authorization: `Bearer ${user.token}`
+        }
+      })
+      setRecipeList(response.data)
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching users:', error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchRecipe();
-  }, [user]);
+    fetchRecipe()
+  }, [user])
 
   return (
     <ImageList
@@ -51,14 +51,14 @@ export const RecipeList = () => {
         display: 'flex',
         flexWrap: 'wrap',
         width: '100%',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
       }}
     >
-      { permissions.includes(PERMISSIONS.RECIPE_CREATE) &&      
-        (<ImageListItem
+      {permissions.includes(PERMISSIONS.RECIPE_CREATE) && (
+        <ImageListItem
           sx={{
             width: '15%',
-            mb: 1.5,
+            mb: 1.5
           }}
           key="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=248&fit=crop&auto=format"
         >
@@ -70,7 +70,7 @@ export const RecipeList = () => {
               alt="Create New Recipe"
               loading="lazy"
               sx={{
-                width: '100%',
+                width: '100%'
               }}
             />
             <ImageListItemBar
@@ -85,14 +85,14 @@ export const RecipeList = () => {
               }
             />
           </Link>
-        </ImageListItem>)
-      }
+        </ImageListItem>
+      )}
 
       {RecipeList.map((item: RecipeListType) => (
         <ImageListItem
           sx={{
             width: '15%',
-            mb: 1.5,
+            mb: 1.5
           }}
           key={item._id}
         >
@@ -104,7 +104,7 @@ export const RecipeList = () => {
               alt={item.name}
               loading="lazy"
               sx={{
-                width: '100%',
+                width: '100%'
               }}
             />
             <ImageListItemBar
@@ -122,5 +122,5 @@ export const RecipeList = () => {
         </ImageListItem>
       ))}
     </ImageList>
-  );
-};
+  )
+}

@@ -1,25 +1,32 @@
-import { Container, Grid, Box, TextField, Button, Typography } from '@mui/material';
-import React from 'react';
-import axios from 'axios';
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  Button,
+  Typography
+} from '@mui/material'
+import React from 'react'
+import axios from 'axios'
 
-const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
 type RegisterType = {
-  firstName: String;
-  lastName: String;
-  email: String;
-  phone: String;
-  customerName: String;
-  customerAddress: String;
-  cp: String;
-  city: String;
-  province: String;
-  customerCif: String;
-  iban: String;
-  nickname: String;
-  password: String;
-  role: String;
-};
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  customerName: String
+  customerAddress: String
+  cp: String
+  city: String
+  province: String
+  customerCif: String
+  iban: String
+  nickname: String
+  password: String
+  role: String
+}
 
 export const OwnerForm = () => {
   const [registerData, setRegisterData] = React.useState<RegisterType>({
@@ -36,36 +43,33 @@ export const OwnerForm = () => {
     iban: '',
     nickname: '',
     password: '',
-    role: 'owner',
-  });
+    role: 'owner'
+  })
 
   const styles = {
-    '> h2':{ 
+    '> h2': {
       fontSize: '2em'
     }
   }
 
   const dataRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
-  };
+    setRegisterData({ ...registerData, [e.target.name]: e.target.value })
+  }
 
-  const [formErrors, setFormErrors] = React.useState<any>({});
+  const [formErrors, setFormErrors] = React.useState<any>({})
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const response = await axios.post(
-        baseUrl + 'user/register',
-        registerData
-      );
+      const response = await axios.post(baseUrl + 'user/register', registerData)
     } catch (error) {
-      console.error(error);
-      setFormErrors({});
+      console.error(error)
+      setFormErrors({})
       if (error.response && error.response.data && error.response.data.errors) {
-        setFormErrors(error.response.data.errors);
+        setFormErrors(error.response.data.errors)
       }
     }
-  };
+  }
 
   return (
     <Container maxWidth="xl" sx={{ padding: '0px !important' }}>
@@ -75,7 +79,7 @@ export const OwnerForm = () => {
         alignItems="center"
         justifyContent="center"
       >
-        <Box component="form" onSubmit={handleSubmit} sx={styles}>         
+        <Box component="form" onSubmit={handleSubmit} sx={styles}>
           <Typography variant="h2">Tax data</Typography>
           <TextField
             name="firstName"
@@ -193,7 +197,9 @@ export const OwnerForm = () => {
             required
             onChange={dataRegister}
           />
-          <Typography variant="h2" sx={{ mt: '1em'}}>User Data</Typography>
+          <Typography variant="h2" sx={{ mt: '1em' }}>
+            User Data
+          </Typography>
           <TextField
             name="nickname"
             margin="normal"
@@ -227,5 +233,5 @@ export const OwnerForm = () => {
         </Box>
       </Grid>
     </Container>
-  );
-};
+  )
+}
