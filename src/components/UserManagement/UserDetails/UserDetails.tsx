@@ -1,57 +1,63 @@
-import { Container, Grid, Box, TextField, Avatar, Typography } from '@mui/material';
-import React from 'react';
-import axios from 'axios';
-import { useUser } from '../../../hooks/useUser';
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  Avatar,
+  Typography
+} from '@mui/material'
+import React from 'react'
+import axios from 'axios'
+import { useUser } from '../../../hooks/useUser'
 
-const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
+const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
 type UserType = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-  nickname: string;
-  profileImageUrl: string;
-  customerName: string;
-  customerEmail: string;
-  customerCif: string;
-};
-
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+  nickname: string
+  profileImageUrl: string
+  customerName: string
+  customerEmail: string
+  customerCif: string
+}
 
 export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
-  selectedUser,
+  selectedUser
 }) => {
-  const { user } = useUser();
+  const { user } = useUser()
   const [userDetails, setUserDetails] = React.useState<UserType>({
     ...selectedUser,
     customerCif: '',
     customerName: '',
-    customerEmail: '',
-  });
+    customerEmail: ''
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const token = user.token;
+      const token = user.token
       const response = await axios.get(baseUrl + `user`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+          Authorization: `Bearer ${token}`
+        }
+      })
 
-      const userData = response.data;
+      const userData = response.data
       setUserDetails({
         ...userData,
         profileImageUrl: userData.profileImageUrl
-      });
+      })
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
-        console.log('Form errors:', error.response.data.errors);
+        console.log('Form errors:', error.response.data.errors)
       }
     }
-  };
+  }
   return (
     <Container maxWidth="sm">
       <Grid
@@ -61,25 +67,29 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
         justifyContent="center"
         sx={{}}
       >
-        <Box component="form" onSubmit={handleSubmit}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#277c27fb', 
-            },              
-          },
-          '& label.Mui-focused': {
-            color: '#277c27fb',
-          },
-        }}>
-        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>User details</Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#277c27fb'
+              }
+            },
+            '& label.Mui-focused': {
+              color: '#277c27fb'
+            }
+          }}
+        >
+          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+            User details
+          </Typography>
 
           <Avatar
             alt="User Avatar"
             src={selectedUser.profileImageUrl}
             sx={{ width: 100, height: 100 }}
           />
-
 
           {user.role === 'owner' && (
             <>
@@ -89,7 +99,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
                 sx={{ mt: 2, mb: 1.5 }}
                 defaultValue={userDetails.customerCif}
                 InputProps={{
-                  readOnly: true,
+                  readOnly: true
                 }}
               />
 
@@ -99,7 +109,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
                 sx={{ mt: 2, mb: 1.5 }}
                 defaultValue={userDetails.customerName}
                 InputProps={{
-                  readOnly: true,
+                  readOnly: true
                 }}
               />
 
@@ -109,7 +119,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
                 sx={{ mt: 2, mb: 1.5 }}
                 defaultValue={userDetails.customerEmail}
                 InputProps={{
-                  readOnly: true,
+                  readOnly: true
                 }}
               />
             </>
@@ -124,7 +134,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             sx={{ mt: 2, mb: 1.5 }}
             defaultValue={userDetails.firstName}
             InputProps={{
-              readOnly: true,
+              readOnly: true
             }}
           />
 
@@ -137,7 +147,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             sx={{ mt: 2, mb: 1.5 }}
             defaultValue={userDetails.lastName}
             InputProps={{
-              readOnly: true,
+              readOnly: true
             }}
           />
 
@@ -150,7 +160,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             sx={{ mt: 2, mb: 1.5 }}
             defaultValue={userDetails.email}
             InputProps={{
-              readOnly: true,
+              readOnly: true
             }}
           />
 
@@ -160,7 +170,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             sx={{ mt: 2, mb: 1.5 }}
             defaultValue={userDetails.nickname}
             InputProps={{
-              readOnly: true,
+              readOnly: true
             }}
           />
 
@@ -170,11 +180,11 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
             defaultValue={userDetails.role}
             InputProps={{
-              readOnly: true,
+              readOnly: true
             }}
           />
         </Box>
       </Grid>
     </Container>
-  );
-};
+  )
+}
