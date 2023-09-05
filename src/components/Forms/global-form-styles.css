@@ -1,0 +1,110 @@
+.formContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.formBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* modal */
+.formBox form {
+  display: block;
+}
+
+.formBox form[style*="display: none"] {
+  display: none;
+}
+
+.formBox .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #277c27fb;
+}
+
+.formBox label.Mui-focused {
+  color: #277c27fb;
+}
+
+.formBox h1 {
+  font-size: 28px;
+  margin-bottom: 3px;
+}
+
+/* textfield */
+.formBox .textField {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+/* inputs */
+.inputField {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+/* selects */
+.selectField {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+/* buttons */
+.button {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #277c27fb;
+}
+
+.button:hover {
+  background-color: #277c27cf;
+}
+
+/* image uploader for all components */
+.imageUploaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageUploaderButton {
+  width: 100%;
+  margin-top: 20px;
+  background-color: #277c27fb;
+}
+
+.imageUploaderButton:hover {
+  background-color: #277c27cf;
+}
+
+/* avatar, only for users */
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatarEditor {
+  width: 200px;
+  height: 200px;
+  border: 50px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.avatarSlider {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Error tags */
+.errorLabel {
+  color: red;
+  font-size: 14px;
+}
