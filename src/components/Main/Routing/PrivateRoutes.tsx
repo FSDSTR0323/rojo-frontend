@@ -21,17 +21,13 @@ export const PrivateRoutes = () => {
     return permission ? permissions.includes(permission) : false
   }
 
-  return isAuth
-    ? (
-        hasPermission(permissions, intentPath)
-          ? (
-              <Redirect path={intentPath} />
-            )
-          : (
-              <Redirect path={DEFAULT_LOGGED_IN_URL} />
-            )
-      )
-    : (
-        <Redirect path={LOGIN} />
-      )
+  return isAuth ? (
+    hasPermission(permissions, intentPath) ? (
+      <Redirect path={intentPath} />
+    ) : (
+      <Redirect path={DEFAULT_LOGGED_IN_URL} />
+    )
+  ) : (
+    <Redirect path={LOGIN} />
+  )
 }

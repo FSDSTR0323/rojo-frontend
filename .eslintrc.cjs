@@ -13,13 +13,14 @@ module.exports = {
   },
   settings: {
     react: {
-      version: '16.8' // Replace with your React version (e.g., "17")
+      version: '16.8'
     }
   },
   plugins: ['react'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/triple-slash-reference': 'off'
+    '@typescript-eslint/triple-slash-reference': 'off',
+    'multiline-ternary': 'off'
   }
 }
