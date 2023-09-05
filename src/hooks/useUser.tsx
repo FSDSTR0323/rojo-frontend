@@ -1,5 +1,11 @@
-import { useContext } from 'react'
-import { UserContext } from '../context/UserContext'
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
+import { UserContextType } from '../context/types';
 
-// Creamos el hook use user para evitar importar el contexto en los componentes que se necesite
-export const useUser = () => useContext(UserContext)
+export const useUser = (): UserContextType => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUser should be used in a UserProvider');
+  }
+  return context;
+};
