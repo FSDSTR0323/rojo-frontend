@@ -24,7 +24,7 @@ import Footer from './components/Main/Footer/Footer'
 
 function App() {
   return (
-    <>
+    <><UserContext
       <Header />
       <Routes>
         <Route element={<PrivateRoutes />}>
