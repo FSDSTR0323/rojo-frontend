@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Box, Typography } from '@mui/material'
 import CustomModal from '../components/Main/CustomModal'
-import { CreateUserForm } from '../components/signUp/CreateUserForm'
-import { EditUserForm } from '../components/UserManagement/EditUser/EditUser'
 import Buttons from '../components/UserManagement/Buttons/buttons'
 import DeleteConfirmation from '../components/UserManagement/Buttons/DeleteConfirmation'
-import { UserDetails } from '../components/UserManagement/UserDetails/UserDetails'
 import CustomTable from '../components/Main/CustomTable/CustomTable'
 import { useUser } from '../hooks/useUser'
+import { CreateUserForm } from '../components/Forms/CreateUserForm'
+import { UserDetails } from '../components/Forms/UserDetails'
+import { EditUserForm } from '../components/Forms/EditUser'
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 

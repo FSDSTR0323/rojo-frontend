@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import axios from 'axios'
-import { useUser } from '../../../hooks/useUser'
+import { useUser } from '../../hooks/useUser'
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 

@@ -1,5 +1,6 @@
 import { Container, Typography } from '@mui/material'
-import { OwnerForm } from '../components/SignUp/OwnerForm'
+import { OwnerForm } from '../components/Forms/OwnerForm'
+
 
 export const Register = () => {
   const styles = {

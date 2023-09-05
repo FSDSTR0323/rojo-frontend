@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import axios from 'axios'
-import { useUser } from '../../../hooks/useUser'
-import ImageUploader from '../../Images/ImageUploader'
+import { useUser } from '../../hooks/useUser'
+import ImageUploader from '../Images/ImageUploader'
 import {
   Container,
   Grid,
