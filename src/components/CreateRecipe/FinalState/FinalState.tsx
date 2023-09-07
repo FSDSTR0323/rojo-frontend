@@ -23,7 +23,7 @@ const MenuProps = {
   }
 }
 
-function getStyles(name, finalStateName, theme) {
+function getStyles (name, finalStateName, theme) {
   return {
     fontWeight:
       finalStateName.indexOf(name) === -1
@@ -48,7 +48,7 @@ const haccp = [
   'Cooking'
 ]
 
-export default function FinalState() {
+export default function FinalState () {
   const theme = useTheme()
   const [finalStateName, setFinalStateName] = React.useState([])
   const {
@@ -79,7 +79,7 @@ export default function FinalState() {
     setFinalStateName([])
   }, [action])
 
-  function finalStateFilter() {
+  function finalStateFilter () {
     const filtredNames = prePreparation
       .filter((haccp) => haccp.step === 'Finalization')
       .map((haccp) => {

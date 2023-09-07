@@ -12,7 +12,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   FormControl,
   FormHelperText,
   Typography
@@ -35,7 +35,7 @@ type ApiResponse = {
 }
 
 type ErrorResponse = {
-  error: { [key: string]: string }
+  error: Record<string, string>
 }
 
 export const EditUserForm: React.FC<{
@@ -112,16 +112,14 @@ export const EditUserForm: React.FC<{
     } catch (error) {
       console.error(error)
       setFormErrors({})
-      if (error.response && error.response.data && error.response.data.error) {
+      if (error.response?.data?.error) {
         const errorResponse: ErrorResponse = error.response.data
         setFormErrors(errorResponse.error)
       }
     }
   }
 
-  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
-    {}
-  )
+  const [formErrors, setFormErrors] = React.useState<Record<string, string>>({})
 
   const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
     const value = event.target.value as 'headChef' | 'chef'

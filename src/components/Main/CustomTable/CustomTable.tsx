@@ -86,7 +86,7 @@ const CustomTable = ({
                     direction={
                       sortColumn === column.key ? sortDirection : 'asc'
                     }
-                    onClick={() => handleSort(column.key)}
+                    onClick={() => { handleSort(column.key) }}
                   >
                     {column.header}
                   </TableSortLabel>

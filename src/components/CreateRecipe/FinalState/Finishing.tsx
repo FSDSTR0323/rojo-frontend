@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react'
 import Box from '@mui/material/Box'
 import { useHaccp } from '../../../hooks/useHaccp'
 import CardRecipe from '../CardRecipe'
 import { Typography } from '@mui/material'
 
-export default function Finishing() {
+export default function Finishing () {
   const { recipeHaccp, finalization, action } = useHaccp()
-  // useEffect(() => {}, [recipeHaccp]);
   console.log('la finalizacion es:', finalization)
   return (
     <Box>

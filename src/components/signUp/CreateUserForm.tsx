@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { React, useState } from 'react'
 import axios from 'axios'
 import {
   Container,
@@ -9,8 +9,8 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  SelectChangeEvent,
   Typography
+  type SelectChangeEvent,
 } from '@mui/material'
 import { useUser } from '../../hooks/useUser'
 import ImageUploader from '../Images/ImageUploader'
@@ -99,16 +99,14 @@ export const CreateUserForm = ({
     } catch (error) {
       console.error(error)
       setFormErrors({})
-      if (error.response && error.response.data && error.response.data.error) {
+      if (error.response?.data?.error) {
         const errorResponse: ErrorResponse = error.response.data
         setFormErrors(errorResponse.error)
       }
     }
   }
 
-  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
-    {}
-  )
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
 
   const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
     const value: 'headChef' | 'chef' = event.target.value as 'headChef' | 'chef'

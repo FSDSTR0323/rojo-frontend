@@ -1,14 +1,11 @@
-import * as React from 'react'
 import {
   Card,
-  CardActions,
   CardContent,
   Box,
-  Grid,
   Typography
 } from '@mui/material'
 
-export default function CardRecipe({ haccp }) {
+export default function CardRecipe ({ haccp }) {
   return (
     <Card sx={{ width: '100%', marginBottom: '10px', backgroundColor: '#CCC' }}>
       <CardContent>
@@ -75,9 +72,6 @@ export default function CardRecipe({ haccp }) {
           ))}
         </Box>
       </CardContent>
-      {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
     </Card>
   )
 }

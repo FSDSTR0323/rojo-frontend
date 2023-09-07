@@ -2,16 +2,15 @@ import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
-import { Link } from 'react-router-dom'
-import { HOME } from '../../../config/routes'
-import { useUser } from '../../../hooks/useUser'
-import { useNavigate, useLocation } from 'react-router-dom'
-import Logo from '../Logo/Logo'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {
+  HOME,
   PERMISSIONS_CONFIG,
   PUBLIC_PAGES,
   PRIVATE_PAGES
 } from '../../../config/routes'
+import { useUser } from '../../../hooks/useUser'
+import Logo from '../Logo/Logo'
 import NavLinks from './NavLinks/NavLinks'
 import UserPanel from './UserPanel/UserPanel'
 

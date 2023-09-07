@@ -78,12 +78,12 @@ export const ValidateForm: React.FC<{
 
   const [data, setData] = useState({})
   useEffect(() => {
-    var newSteps = [...recipe.steps]
-    var newStep = data
+    let newSteps = [...recipe.steps]
+    let newStep = data
 
     if (recipe.steps.length != 0) {
-      var exist = 0
-      for (var i = 0; i < recipe.steps.length; i++) {
+      let exist = 0
+      for (let i = 0; i < recipe.steps.length; i++) {
         if (recipe.steps[i].haccp === newStep.haccp) {
           exist = 1
           if (newStep.valid === 'true') {

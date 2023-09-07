@@ -37,7 +37,7 @@ const MenuProps = {
   }
 }
 
-function getStyles(name, initialStateName, theme) {
+function getStyles (name, initialStateName, theme) {
   return {
     fontWeight:
       initialStateName.indexOf(name) === -1
@@ -46,13 +46,13 @@ function getStyles(name, initialStateName, theme) {
   }
 }
 
-export default function InitialState() {
+export default function InitialState () {
   const { initialStateName, setInitialStateName } = useHaccp()
   const theme = useTheme()
   useEffect(() => {
     const status = initialStateName.map((name) => ingredientsStatus[name])
     console.log('Initial State status', status.join(','))
-    async function fetchData() {
+    async function fetchData () {
       const data = await axios.get(
         baseUrl +
           `haccp?ingredientsStatus=${

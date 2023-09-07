@@ -6,22 +6,19 @@ import axios from 'axios'
 import TransitionsModal from './Modal'
 import { useNavigate } from 'react-router-dom'
 
-export default function SaveButton() {
+export default function SaveButton () {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState('')
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => { setOpen(true) }
+  const handleClose = () => { setOpen(false) }
   const {
     recipeData,
     recipeHaccp,
     setRecipeData,
     action,
     finalization,
-    picture,
-    setPrePreparation,
-    setFinalization,
-    setRecipeHaccp
+    picture
   } = useHaccp()
 
   useEffect(() => {
@@ -34,11 +31,6 @@ export default function SaveButton() {
     })
   }, [recipeHaccp, finalization, picture])
 
-  // return () => {
-  //   setPrePreparation([]);
-  //   setFinalization([]);
-  //   setRecipeHaccp([]);
-  // };
 
   const handleCreate = async () => {
     handleOpen()

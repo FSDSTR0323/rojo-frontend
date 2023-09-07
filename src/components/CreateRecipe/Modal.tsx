@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -18,7 +17,7 @@ const style = {
   p: 4
 }
 
-export default function TransitionsModal({ handleClose, open, children }) {
+export default function TransitionsModal ({ handleClose, open, children }) {
   return (
     <div>
       <Modal

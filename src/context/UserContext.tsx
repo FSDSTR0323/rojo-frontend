@@ -10,7 +10,7 @@ interface UserProviderProps {
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(() => {
     const storedUserData = localStorage.getItem('user')
-    return storedUserData !== null
+    return storedUserData
       ? JSON.parse(storedUserData)
       : { isLoggedIn: false, info: { role: 'guest' } }
   })
