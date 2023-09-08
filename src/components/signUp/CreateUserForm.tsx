@@ -9,8 +9,8 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  Typography
-  type SelectChangeEvent,
+  Typography,
+  type SelectChangeEvent
 } from '@mui/material'
 import { useUser } from '../../hooks/useUser'
 import ImageUploader from '../Images/ImageUploader'
@@ -37,7 +37,7 @@ type ApiResponse = {
 }
 
 type ErrorResponse = {
-  error: { [key: string]: string }
+  error: Record<string, string>
 }
 
 export const CreateUserForm = ({

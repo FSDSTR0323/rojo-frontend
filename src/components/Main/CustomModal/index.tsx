@@ -1,6 +1,12 @@
 import { Modal, Box } from '@mui/material'
 
-const CustomModal = ({ children, open, onClose }) => {
+interface ModalProps {
+  children: React.ReactNode
+  open: boolean
+  onClose: (value: React.SetStateAction<boolean>) => void
+}
+
+export const CustomModal = ({ children, open, onClose }: ModalProps) => {
   return (
     <>
       <Modal
@@ -29,5 +35,3 @@ const CustomModal = ({ children, open, onClose }) => {
     </>
   )
 }
-
-export default CustomModal
