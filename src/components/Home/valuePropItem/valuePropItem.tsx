@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
+import { type ContentProps } from '../../../types'
 
-export const ValuePropItem = ({ content }) => {
+export const ValuePropItem = ({ content }: ContentProps) => {
   const styles = {
     width: '33%',
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',

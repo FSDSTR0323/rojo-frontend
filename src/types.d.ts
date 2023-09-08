@@ -1,3 +1,5 @@
+// User
+
 export interface User {
   id: number
   firstName: string
@@ -13,4 +15,18 @@ export interface User {
 export interface UserContextType {
   user: User | null
   setUser: (user: User | null) => void
+}
+
+// Home and Content
+
+export interface ContentProps {
+  content: {
+    title: string
+    description?: string
+    subtitle?: string
+    image?: {
+      alt: string
+      src: string
+    }
+  }
 }

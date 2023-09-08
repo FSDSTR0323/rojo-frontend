@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { CloudUpload, CheckCircle } from '@mui/icons-material'
 import { Button, LinearProgress, Typography, Box } from '@mui/material'
 import Avatar from './avatar'
