@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Box, Typography } from '@mui/material'
-import CustomModal from '../components/Main/CustomModal'
+import { CustomModal } from '../components/Main/CustomModal'
 import { CreateUserForm } from '../components/signUp/CreateUserForm'
 import { EditUserForm } from '../components/UserManagement/EditUser/EditUser'
 import Buttons from '../components/UserManagement/Buttons/buttons'

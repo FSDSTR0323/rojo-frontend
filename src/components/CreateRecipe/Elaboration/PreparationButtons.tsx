@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import { useHaccp } from '../../../hooks/useHaccp'
 import Checkbox from '@mui/material/Checkbox'
-import PrePreparation from '../InitialState/PrePreparation'
 
-export default function PreparationButtons() {
+export default function PreparationButtons () {
   const {
     elaboration,
     setElaboration,

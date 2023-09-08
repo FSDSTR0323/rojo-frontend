@@ -1,6 +1,7 @@
 import { Box, Container, Typography } from '@mui/material'
+import { type ContentProps } from '../../../types'
 
-export const CarouselItem = ({ content }) => {
+export const CarouselItem = ({ content }: ContentProps) => {
   const styles = {
     backgroundColor: 'white',
     display: 'flex',

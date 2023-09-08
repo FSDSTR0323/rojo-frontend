@@ -41,7 +41,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
 
     try {
       const token = user.token
-      const response = await axios.get(baseUrl + `user`, {
+      const response = await axios.get(baseUrl + 'user', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -53,7 +53,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
         profileImageUrl: userData.profileImageUrl
       })
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         console.log('Form errors:', error.response.data.errors)
       }
     }

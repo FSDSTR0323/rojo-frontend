@@ -1,8 +1,14 @@
-import { createContext, useState } from 'react'
-export const UserContext = createContext()
+import { createContext, useState, type ReactNode } from 'react'
+import { type User, type UserContextType } from '../types'
 
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
+export const UserContext = createContext<UserContextType | undefined>(undefined)
+
+interface UserProviderProps {
+  children: ReactNode
+}
+
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [user, setUser] = useState<User | null>(() => {
     const storedUserData = localStorage.getItem('user')
     return storedUserData
       ? JSON.parse(storedUserData)

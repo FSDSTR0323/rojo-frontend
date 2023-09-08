@@ -12,20 +12,20 @@ import axios from 'axios'
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
 type RegisterType = {
-  firstName: String
-  lastName: String
-  email: String
-  phone: String
-  customerName: String
-  customerAddress: String
-  cp: String
-  city: String
-  province: String
-  customerCif: String
-  iban: String
-  nickname: String
-  password: String
-  role: String
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  customerName: string
+  customerAddress: string
+  cp: string
+  city: string
+  province: string
+  customerCif: string
+  iban: string
+  nickname: string
+  password: string
+  role: string
 }
 
 export const OwnerForm = () => {
@@ -65,7 +65,7 @@ export const OwnerForm = () => {
     } catch (error) {
       console.error(error)
       setFormErrors({})
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         setFormErrors(error.response.data.errors)
       }
     }

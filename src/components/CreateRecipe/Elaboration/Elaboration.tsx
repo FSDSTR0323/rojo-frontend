@@ -4,7 +4,7 @@ import { useHaccp } from '../../../hooks/useHaccp'
 import CardRecipe from '../CardRecipe'
 import { Typography } from '@mui/material'
 
-export default function Elabroration() {
+export default function Elabroration () {
   const { prePreparation, valuePreparation } = useHaccp()
   useEffect(() => {}, [prePreparation])
   return (

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 
-export default function Title({ fn, name }) {
+export default function Title ({ fn, name }) {
   return (
     <Box
       component="form"

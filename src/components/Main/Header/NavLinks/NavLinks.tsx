@@ -17,7 +17,7 @@ const NavLinks = ({ pages, activePage, buttonStyles }) => {
       {pages.map((page, index) => (
         <MenuItem
           key={index}
-          onClick={() => navigate(page)}
+          onClick={() => { navigate(page) }}
           sx={
             activePage === page
               ? { ...styles.userButtons, ...styles.selectedLink }

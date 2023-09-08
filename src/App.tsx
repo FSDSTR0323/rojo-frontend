@@ -22,7 +22,7 @@ import CreateRecipe from './pages/CreateRecipe'
 import Header from './components/Main/Header/Header'
 import Footer from './components/Main/Footer/Footer'
 
-function App() {
+function App () {
   return (
     <>
       <Header />
