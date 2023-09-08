@@ -21,7 +21,7 @@ const Footer = () => {
 
   return (
     <footer style={styles.footer}>
-      <Container maxWidth="2xl" sx={styles.container}>
+      <Container maxWidth={false} sx={styles.container}>
         <Typography variant="body2" sx={styles.typography}>
           &copy; {currentYear} FoodInformer. All rights reserved
         </Typography>

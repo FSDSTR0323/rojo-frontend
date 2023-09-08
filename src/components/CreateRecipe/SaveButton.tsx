@@ -31,7 +31,6 @@ export default function SaveButton () {
     })
   }, [recipeHaccp, finalization, picture])
 
-
   const handleCreate = async () => {
     handleOpen()
     if (recipeData.name === '') {

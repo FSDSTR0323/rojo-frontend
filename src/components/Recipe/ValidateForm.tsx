@@ -27,27 +27,27 @@ type CardRecipe = {
 }
 
 type validateTypeItem = {
-  recipe: String
-  name: String
+  recipe: string
+  name: string
   steps: StepType[]
 }
 
 type ApiResponse = {
   formData: validateTypeItem
-  token: String
+  token: string
 }
 
 type StepType = {
-  haccp: String
-  valid: String
-  correctiveAction?: String
-  comment?: String
+  haccp: string
+  valid: string
+  correctiveAction?: string
+  comment?: string
 }
 
 export const ValidateForm: React.FC<{
   selectedValidation: haccpInfo[]
   recipeId: string
-  recipeName: String
+  recipeName: string
   isValidationMode: boolean
   disableValidationMode
 }> = ({
@@ -79,7 +79,7 @@ export const ValidateForm: React.FC<{
   const [data, setData] = useState({})
   useEffect(() => {
     let newSteps = [...recipe.steps]
-    let newStep = data
+    const newStep = data
 
     if (recipe.steps.length != 0) {
       let exist = 0
