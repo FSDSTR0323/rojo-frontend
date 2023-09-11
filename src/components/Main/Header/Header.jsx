@@ -14,9 +14,11 @@ import {
 } from '../../../config/routes';
 import NavLinks from './NavLinks/NavLinks';
 import UserPanel from './UserPanel/UserPanel';
-import '../../config/i18n';
+import '../../../config/i18n';
 
 import { useTranslation } from 'react-i18next';
+import LangSelect from '../../LangSelect/LangSelect';
+import { center } from '@cloudinary/url-gen/qualifiers/textAlignment';
 
 const Header = () => {
   const { user, setUser } = useUser();
@@ -42,6 +44,7 @@ const Header = () => {
     navLinksContainer: {
       display: 'flex',
       gap: '0.75em',
+      alignItems: 'center',
     },
     appBar: {
       marginBottom: 4,
@@ -89,6 +92,7 @@ const Header = () => {
                 handleLogout={handleLogout}
               />
             )}
+            <LangSelect sx={{ display: 'flex', gap: '5px' }} />
           </Box>
         </Toolbar>
       </Container>

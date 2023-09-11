@@ -1,0 +1,17 @@
+#idLangEnglish, #idLangCatalan {
+  display: none;
+}
+
+label img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+#flags {
+  display: flex;
+  gap: 10px;
+}
+

@@ -1,13 +1,15 @@
 import Carousel from 'react-material-ui-carousel';
 import { CarouselItem } from '../components/Home/CarouselItem/CarouselItem';
 import { ValuePropItem } from '../components/Home/valuePropItem/valuePropItem';
-import {
-  carouselContent,
-  valuePropositionContent,
-} from '../config/homePageContent';
 import { Container } from '@mui/material';
+import '../config/i18n';
+import { useTranslation } from 'react-i18next';
 
 export const Home = () => {
+  const { t, i18n } = useTranslation();
+  const carouselContent = t('carouselContent');
+  console.log('carousel content:', carouselContent);
+  const valuePropositionContent = t('valuePropositionContent');
   const styles = {
     carousel: {
       marginBottom: '2em',

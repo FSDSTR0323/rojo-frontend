@@ -2,7 +2,24 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useUser } from '../../../hooks/useUser';
 import ImageUploader from '../../Images/ImageUploader';
-import { Container, Grid, Box, TextField, Button, Avatar, InputLabel, Select, MenuItem, SelectChangeEvent, FormControl, FormHelperText, Typography } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Box,
+  TextField,
+  Button,
+  Avatar,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  FormControl,
+  FormHelperText,
+  Typography,
+} from '@mui/material';
+import '../../../config/i18n';
+
+import { useTranslation } from 'react-i18next';
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL;
 
@@ -36,7 +53,7 @@ export const EditUserForm: React.FC<{
   });
   const [isNewImageSelected, setIsNewImageSelected] = useState(false);
   const [showAvatar, setShowAvatar] = useState(true);
-
+  const { t, i18n } = useTranslation();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log('Field changed:', name, value);
@@ -48,9 +65,12 @@ export const EditUserForm: React.FC<{
 
   useEffect(() => {
     const updateProfileImage = () => {
-      const profileImage = document.getElementById('profile-image') as HTMLImageElement;
+      const profileImage = document.getElementById(
+        'profile-image'
+      ) as HTMLImageElement;
       if (profileImage) {
-        profileImage.src = userDetails.profileImageUrl || selectedUser.profileImageUrl;
+        profileImage.src =
+          userDetails.profileImageUrl || selectedUser.profileImageUrl;
       }
     };
 
@@ -90,7 +110,6 @@ export const EditUserForm: React.FC<{
       const updatedUserDetails = { ...selectedUser, ...response.data };
       console.log('Updated userDetails:', updatedUserDetails);
       setUserDetails(updatedUserDetails);
-      
 
       onClose();
     } catch (error) {
@@ -105,8 +124,8 @@ export const EditUserForm: React.FC<{
 
   const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
     {}
-  ); 
-  
+  );
+
   const handleRoleChange = (event: SelectChangeEvent<'headChef' | 'chef'>) => {
     const value = event.target.value as 'headChef' | 'chef';
     setUserDetails((prevUserDetails) => ({
@@ -114,45 +133,56 @@ export const EditUserForm: React.FC<{
       role: value,
     }));
   };
-  
 
   console.log('userDetails:', userDetails);
 
   return (
     <Container maxWidth="sm">
-      <Grid container direction="column" alignItems="center" justifyContent="center">
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Box
           component="form"
           onSubmit={handleSubmit}
           sx={{
             '& .MuiOutlinedInput-root': {
               '&.Mui-focused fieldset': {
-                borderColor: '#277c27fb', 
-              },              
+                borderColor: '#277c27fb',
+              },
             },
             '& label.Mui-focused': {
               color: '#277c27fb',
             },
           }}
         >
-          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>User details</Typography>
-  
+          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+            {t('user_details')}
+          </Typography>
+
           <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 5 }}>
             {showAvatar && !isNewImageSelected && (
               <Box sx={{ width: '50%', height: 100 }}>
                 <Avatar
                   id="profile-image"
                   alt="User Avatar"
-                  src={userDetails.profileImageUrl || selectedUser.profileImageUrl}
+                  src={
+                    userDetails.profileImageUrl || selectedUser.profileImageUrl
+                  }
                   sx={{ width: 100, height: 100 }}
                 />
               </Box>
             )}
             <Box sx={{ width: isNewImageSelected ? '50%' : '100%' }}>
-              <ImageUploader onImageSelect={handleUserImageSelect} imageUrl={null} />
+              <ImageUploader
+                onImageSelect={handleUserImageSelect}
+                imageUrl={null}
+              />
             </Box>
           </Box>
-  
+
           <TextField
             name="firstName"
             margin="normal"
@@ -165,7 +195,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.firstName}
             helperText={formErrors.firstName || ''}
           />
-  
+
           <TextField
             name="lastName"
             margin="normal"
@@ -178,7 +208,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.lastName}
             helperText={formErrors.lastName || ''}
           />
-  
+
           <TextField
             name="email"
             margin="normal"
@@ -191,7 +221,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.email}
             helperText={formErrors.email || ''}
           />
-  
+
           <TextField
             id="nickname"
             label="User name"
@@ -201,7 +231,7 @@ export const EditUserForm: React.FC<{
             error={!!formErrors.nickname}
             helperText={formErrors.nickname || ''}
           />
-  
+
           <FormControl
             error={!!formErrors.role}
             sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
@@ -217,18 +247,20 @@ export const EditUserForm: React.FC<{
               <MenuItem value="chef">Chef</MenuItem>
               <MenuItem value="headChef">Head Chef</MenuItem>
             </Select>
-            {formErrors.role && <FormHelperText>{formErrors.role}</FormHelperText>}
+            {formErrors.role && (
+              <FormHelperText>{formErrors.role}</FormHelperText>
+            )}
           </FormControl>
-  
+
           <Button
             fullWidth
             type="submit"
             sx={{
               mt: 1.5,
               mb: 3,
-              backgroundColor: "#277c27fb",
-              "&:hover": {
-                backgroundColor: "#277c27cf",
+              backgroundColor: '#277c27fb',
+              '&:hover': {
+                backgroundColor: '#277c27cf',
               },
             }}
             variant="contained"
@@ -239,4 +271,4 @@ export const EditUserForm: React.FC<{
       </Grid>
     </Container>
   );
-}
+};
