@@ -1,6 +1,24 @@
 .formContainer {
   max-width: 500px;
   margin: 0 auto;
+  padding: 0px;
+}
+.formContainerXL {
+  max-width: 100vh;
+  min-width: 70vh;
+  margin: auto;
+  margin-top: 15vh;
+  padding: 0px;
+}
+
+
+.formContainerDetails {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .formBox {
@@ -9,6 +27,42 @@
   align-items: center;
   justify-content: center;
 }
+
+/* special styles for user-details */
+
+.formBoxDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  width: 100%;
+}
+
+.formBoxInput {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  position: relative;
+  width: 100%;
+}
+
+.inputContainer {
+  float: left;
+  width: 48%;
+  margin-right: 25px; 
+
+}
+
+.inputContainer:last-child {
+  margin-right: 0;
+}
+
+.inputContainer .MuiTextField-root {
+  width: 100%;  
+
+}
+
+
 
 /* modal */
 .formBox form {
@@ -23,7 +77,7 @@
   border-color: #277c27fb;
 }
 
-.formBox label.Mui-focused {
+textField.formBox label.Mui-focused {
   color: #277c27fb;
 }
 
@@ -38,6 +92,13 @@
   margin-top: 20px;
   margin-bottom: 15px;
 }
+.formBox .textFieldXL {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  min-width: 70vh;
+}
+
 
 /* inputs */
 .inputField {
@@ -52,6 +113,15 @@
   margin-top: 20px;
   margin-bottom: 30px;
 }
+
+/* input role */
+.inputFieldRole {
+  width: 20%;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
 
 /* buttons */
 .button {
@@ -87,6 +157,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
+}
+
+.avatarUser{
+  position: relative;
+  width: 100%;
 }
 
 .avatarEditor {
@@ -108,3 +184,4 @@
   color: red;
   font-size: 14px;
 }
+

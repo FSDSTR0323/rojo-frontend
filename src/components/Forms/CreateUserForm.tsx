@@ -9,18 +9,16 @@ import {
   MenuItem,
   InputLabel,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   Typography
 } from '@mui/material'
 import { useUser } from '../../hooks/useUser'
 import ImageUploader from '../Images/ImageUploader'
 import './global-form-styles.css'
 
-
-
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
-type RegisterType = {
+interface RegisterType {
   firstName: string
   lastName: string
   nickname: string
@@ -30,17 +28,17 @@ type RegisterType = {
   profileImageUrl: string
 }
 
-type CreateUserFormProps = {
+interface CreateUserFormProps {
   onUserAdd: (user: any) => void
   onSuccess: () => void
 }
 
-type ApiResponse = {
+interface ApiResponse {
   data: { token: string }
 }
 
-type ErrorResponse = {
-  error: { [key: string]: string }
+interface ErrorResponse {
+  error: Record<string, string>
 }
 
 export const CreateUserForm = ({
@@ -63,7 +61,7 @@ export const CreateUserForm = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target
-    if (name === 'nickname' && formErrors.nickname) {
+    if (name === 'nickname' && (formErrors.nickname.length > 0)) {
       setFormErrors((prevErrors) => {
         return {
           ...prevErrors,
@@ -81,11 +79,10 @@ export const CreateUserForm = ({
     })
   }
 
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const token = user ? user.token : '';
+      const token = (user != null) ? user.token : ''
       setFormErrors({})
       const response = await axios.post<ApiResponse>(
         baseUrl + 'user',
@@ -103,15 +100,14 @@ export const CreateUserForm = ({
     } catch (error) {
       console.error(error)
       setFormErrors({})
-      if (error.response && error.response.data && error.response.data.error) {
-        const errorResponse = error.response.data as ErrorResponse;
-        setFormErrors(errorResponse.error);
+      if (error.response?.data?.error) {
+        const errorResponse = error.response.data as ErrorResponse
+        setFormErrors(errorResponse.error)
       }
-
     }
   }
 
-  const [formErrors, setFormErrors] = React.useState<{ [key: string]: string }>(
+  const [formErrors, setFormErrors] = React.useState<Record<string, string>>(
     {}
   )
 
@@ -133,19 +129,19 @@ export const CreateUserForm = ({
         direction="column"
         alignItems="center"
         justifyContent="center"
-        className="formContainer" 
+        className="formContainer"
       >
         <Box
           component="form"
           onSubmit={handleSubmit}
           display={isModalOpen ? 'block' : 'none'}
-          className="formBox" 
+          className="formBox"
         >
-          <Typography variant="h1" mb={3} className="h1"> 
+          <Typography className="h1">
             Create a new user
           </Typography>
 
-          <span className="imageUploaderContainer"> 
+          <span className="imageUploaderContainer">
             <ImageUploader
               onImageSelect={handleUserImageSelect}
               imageUrl={null}
@@ -156,64 +152,59 @@ export const CreateUserForm = ({
             name="firstName"
             margin="normal"
             type="text"
-            fullWidth
             label="Name"
-            className="textField" 
+            className="textField"
             required
             onChange={dataRegister}
-            error={!!formErrors.firstName}
-            helperText={formErrors.firstName || ''}
+            error={!(formErrors.firstName.length === 0)}
+            helperText={(formErrors.firstName.length > 0) || ''}
           />
 
           <TextField
             name="lastName"
             margin="normal"
             type="text"
-            fullWidth
             label="Surname"
-            className="textField" 
+            className="textField"
             required
             onChange={dataRegister}
-            error={!!formErrors.lastName}
-            helperText={formErrors.lastName || ''}
+            error={!(formErrors.lastName.length === 0)}
+            helperText={(formErrors.lastName.length > 0) || ''}
           />
 
           <TextField
             name="nickname"
             margin="normal"
             type="text"
-            fullWidth
             label="User Name"
-            className="textField" 
+            className="textField"
             required
             onChange={dataRegister}
-            error={!!formErrors.nickname}
-            helperText={formErrors.nickname || ''}
+            error={!(formErrors.nickname.length === 0)}
+            helperText={(formErrors.nickname.length > 0) || ''}
           />
 
           <TextField
             name="password"
             margin="normal"
             type="password"
-            fullWidth
             label="Password"
-            className="textField" 
+            className="textField"
             required
             onChange={dataRegister}
-            error={!!formErrors.password}
-            helperText={formErrors.password || ''}
+            error={!(formErrors.password.length === 0)}
+            helperText={(formErrors.password.length > 0) || ''}
           />
 
           <TextField
             name="email"
             margin="normal"
             type="email"
-            fullWidth
             label="Email"
-            className="textField" 
+            className="textField"
             onChange={dataRegister}
-            error={!!formErrors.email}
-            helperText={formErrors.email || ''}
+            error={!(formErrors.email.length === 0)}
+            helperText={(formErrors.email.length > 0) || ''}
           />
 
           <InputLabel id="role-label">Role</InputLabel>
@@ -221,7 +212,7 @@ export const CreateUserForm = ({
             labelId="role-label"
             name="role"
             margin="dense"
-            fullWidth
+            className='selectField'
             value={registerData.role}
             onChange={handleRoleChange}
           >

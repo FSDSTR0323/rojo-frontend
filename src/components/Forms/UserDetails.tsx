@@ -1,6 +1,5 @@
 import {
   Container,
-  Grid,
   Box,
   TextField,
   Avatar,
@@ -12,7 +11,7 @@ import { useUser } from '../../hooks/useUser'
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
-type UserType = {
+interface UserType {
   id: string
   firstName: string
   lastName: string
@@ -40,8 +39,8 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
     e.preventDefault()
 
     try {
-      const token = user.token
-      const response = await axios.get(baseUrl + `user`, {
+      const token = user ? user.token : ''
+      const response = await axios.get(baseUrl + 'user', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -53,50 +52,34 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
         profileImageUrl: userData.profileImageUrl
       })
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         console.log('Form errors:', error.response.data.errors)
       }
     }
   }
   return (
-    <Container maxWidth="sm">
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={{}}
-      >
+    <Container className="formContainerDetails">
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '&.Mui-focused fieldset': {
-                borderColor: '#277c27fb'
-              }
-            },
-            '& label.Mui-focused': {
-              color: '#277c27fb'
-            }
-          }}
+          className="formBoxDetails"
         >
-          <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+          <Typography className="h1">
             User details
           </Typography>
 
           <Avatar
             alt="User Avatar"
             src={selectedUser.profileImageUrl}
-            sx={{ width: 100, height: 100 }}
+            className="avatarUser"
           />
 
-          {user.role === 'owner' && (
+          {user && user.role === 'owner' && (
             <>
               <TextField
                 id="customerCif"
                 label="Customer CIF"
-                sx={{ mt: 2, mb: 1.5 }}
+                className="textField"
                 defaultValue={userDetails.customerCif}
                 InputProps={{
                   readOnly: true
@@ -106,7 +89,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
               <TextField
                 id="customerName"
                 label="Customer Name"
-                sx={{ mt: 2, mb: 1.5 }}
+                className="textField"
                 defaultValue={userDetails.customerName}
                 InputProps={{
                   readOnly: true
@@ -116,7 +99,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
               <TextField
                 id="customerEmail"
                 label="Customer email"
-                sx={{ mt: 2, mb: 1.5 }}
+                className="textField"
                 defaultValue={userDetails.customerEmail}
                 InputProps={{
                   readOnly: true
@@ -131,7 +114,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             type="text"
             fullWidth
             label="Name"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textField"
             defaultValue={userDetails.firstName}
             InputProps={{
               readOnly: true
@@ -144,7 +127,7 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             type="text"
             fullWidth
             label="Surname"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textField"
             defaultValue={userDetails.lastName}
             InputProps={{
               readOnly: true
@@ -157,34 +140,37 @@ export const UserDetails: React.FC<{ selectedUser: UserType }> = ({
             type="email"
             fullWidth
             label="Email"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textField"
             defaultValue={userDetails.email}
             InputProps={{
               readOnly: true
             }}
           />
 
-          <TextField
-            id="nickname"
-            label="User name"
-            sx={{ mt: 2, mb: 1.5 }}
-            defaultValue={userDetails.nickname}
-            InputProps={{
-              readOnly: true
-            }}
-          />
-
-          <TextField
-            id="role"
-            label="Role"
-            sx={{ mt: 2, mb: 1.5, ml: 8, width: '50%', alignItems: 'left' }}
-            defaultValue={userDetails.role}
-            InputProps={{
-              readOnly: true
-            }}
-          />
+          <Box className='formBoxInput'>
+            <div className='inputContainer'>
+              <TextField
+                id="nickname"
+                label="User name"
+                defaultValue={userDetails.nickname}
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+            </div>
+            <div className='inputContainer'>
+              <TextField
+                id="role"
+                label="Role"
+                defaultValue={userDetails.role}
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+            </div>
+          </Box>
         </Box>
-      </Grid>
+
     </Container>
   )
 }

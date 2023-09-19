@@ -8,24 +8,25 @@ import {
 } from '@mui/material'
 import React from 'react'
 import axios from 'axios'
+import './global-form-styles.css'
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BACKEND_HOST_URL
 
-type RegisterType = {
-  firstName: String
-  lastName: String
-  email: String
-  phone: String
-  customerName: String
-  customerAddress: String
-  cp: String
-  city: String
-  province: String
-  customerCif: String
-  iban: String
-  nickname: String
-  password: String
-  role: String
+interface RegisterType {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  customerName: string
+  customerAddress: string
+  cp: string
+  city: string
+  province: string
+  customerCif: string
+  iban: string
+  nickname: string
+  password: string
+  role: string
 }
 
 export const OwnerForm = () => {
@@ -46,12 +47,6 @@ export const OwnerForm = () => {
     role: 'owner'
   })
 
-  const styles = {
-    '> h2': {
-      fontSize: '2em'
-    }
-  }
-
   const dataRegister = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value })
   }
@@ -65,29 +60,36 @@ export const OwnerForm = () => {
     } catch (error) {
       console.error(error)
       setFormErrors({})
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         setFormErrors(error.response.data.errors)
       }
     }
   }
 
   return (
-    <Container maxWidth="xl" sx={{ padding: '0px !important' }}>
+    <Container maxWidth="xl" sx={{ padding: '0px !important', marginBottom: 10 }}>
       <Grid
         container
         direction="column"
         alignItems="center"
         justifyContent="center"
+        className="formContainer"
       >
-        <Box component="form" onSubmit={handleSubmit} sx={styles}>
-          <Typography variant="h2">Tax data</Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          className="formBox"
+        >
+          <Typography className="h1">
+            Tax data
+          </Typography>
+
           <TextField
             name="firstName"
-            margin="normal"
-            type="text"
             fullWidth
+            type="text"
             label="Name"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -95,9 +97,8 @@ export const OwnerForm = () => {
             name="lastName"
             margin="normal"
             type="text"
-            fullWidth
             label="Last Name"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -105,9 +106,8 @@ export const OwnerForm = () => {
             name="email"
             margin="normal"
             type="email"
-            fullWidth
             label="Email"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             error={!!formErrors.email}
             helperText={formErrors.email}
@@ -117,9 +117,8 @@ export const OwnerForm = () => {
             name="phone"
             margin="normal"
             type="text"
-            fullWidth
             label="Phone Number"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -127,9 +126,8 @@ export const OwnerForm = () => {
             name="customerName"
             margin="normal"
             type="text"
-            fullWidth
             label="Restaurant Name"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             error={!!formErrors.customerName}
             helperText={formErrors.customerName}
@@ -139,9 +137,8 @@ export const OwnerForm = () => {
             name="customerAddress"
             margin="normal"
             type="text"
-            fullWidth
             label="Complete Address"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -149,9 +146,8 @@ export const OwnerForm = () => {
             name="cp"
             margin="normal"
             type="text"
-            fullWidth
             label="Postal Code"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -159,9 +155,8 @@ export const OwnerForm = () => {
             name="city"
             margin="normal"
             type="text"
-            fullWidth
             label="City"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -169,9 +164,8 @@ export const OwnerForm = () => {
             name="province"
             margin="normal"
             type="text"
-            fullWidth
             label="Province"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
@@ -179,10 +173,10 @@ export const OwnerForm = () => {
             name="customerCif"
             margin="normal"
             type="text"
-            fullWidth
             label="CIF"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
+            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
             error={!!formErrors.customerCif}
             helperText={formErrors.customerCif}
             onChange={dataRegister}
@@ -191,22 +185,20 @@ export const OwnerForm = () => {
             name="iban"
             margin="normal"
             type="text"
-            fullWidth
             label="IBAN"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
-          <Typography variant="h2" sx={{ mt: '1em' }}>
+          <Typography className="h1">
             User Data
           </Typography>
           <TextField
             name="nickname"
             margin="normal"
             type="text"
-            fullWidth
             label="Username"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             error={!!formErrors.nickname}
             helperText={formErrors.nickname}
@@ -216,16 +208,15 @@ export const OwnerForm = () => {
             name="password"
             margin="normal"
             type="password"
-            fullWidth
             label="Password"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={dataRegister}
           />
           <Button
             fullWidth
             type="submit"
-            sx={{ mt: '1.5em', mb: 3 }}
+            className="button"
             variant="contained"
           >
             Register

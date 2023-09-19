@@ -81,29 +81,22 @@ export const LoginForm = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        sx={{
-          minHeight: '70vh',
-          '& .MuiOutlinedInput-root': {
-            '&.Mui-focused fieldset': {
-              borderColor: '#277c27fb'
-            }
-          },
-          '& label.Mui-focused': {
-            color: '#277c27fb'
-          }
-        }}
+        className="formContainerXL"
       >
-        <Typography variant="h1" mb={3} sx={{ fontSize: 28 }}>
+        <Typography className="h1">
           Log in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          className="formBox"
+        >
           <TextField
             name="nickname"
             margin="normal"
             type="text"
-            fullWidth
             label="User name"
-            sx={{ mt: 2, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={handleChange}
             error={!!formErrors.nickname}
@@ -113,9 +106,8 @@ export const LoginForm = () => {
             name="password"
             margin="normal"
             type="password"
-            fullWidth
             label="Password"
-            sx={{ mt: 1.5, mb: 1.5 }}
+            className="textFieldXL"
             required
             onChange={handleChange}
             error={!!formErrors.password}
@@ -124,14 +116,7 @@ export const LoginForm = () => {
           <Button
             fullWidth
             type="submit"
-            sx={{
-              mt: 1.5,
-              mb: 3,
-              backgroundColor: '#277c27fb',
-              '&:hover': {
-                backgroundColor: '#277c27cf'
-              }
-            }}
+            className="button"
             variant="contained"
           >
             Login
